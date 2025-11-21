@@ -1,0 +1,47 @@
+[
+  {
+    "id": "proj-1",
+    "created_at": "2024-02-01T10:00:00Z",
+    "updated_at": "2024-02-01T10:00:00Z",
+    "name": "Skyline Tower",
+    "description": "A 50-story residential complex in downtown.",
+    "milestone_count": 20,
+    "closed_at": null
+  },
+  {
+    "id": "proj-2",
+    "created_at": "2024-03-15T09:00:00Z",
+    "updated_at": "2024-03-15T09:00:00Z",
+    "name": "Green Valley Mall",
+    "description": "Sustainable shopping center with solar roofing.",
+    "milestone_count": 20,
+    "closed_at": null
+  },
+  {
+    "id": "proj-3",
+    "created_at": "2023-11-10T08:00:00Z",
+    "updated_at": "2023-11-10T08:00:00Z",
+    "name": "Harbor Bridge Renovation",
+    "description": "Structural reinforcement of the old harbor bridge.",
+    "milestone_count": 20,
+    "closed_at": null
+  },
+  {
+    "id": "proj-4",
+    "created_at": "2023-05-20T11:00:00Z",
+    "updated_at": "2024-01-20T14:00:00Z",
+    "name": "City Hospital Wing B",
+    "description": "Expansion of the emergency department.",
+    "milestone_count": 20,
+    "closed_at": "2024-02-01T00:00:00Z"
+  },
+  {
+    "id": "proj-5",
+    "created_at": "2024-04-01T10:00:00Z",
+    "updated_at": "2024-04-01T10:00:00Z",
+    "name": "Tech Park Phase 1",
+    "description": "Office spaces for technology startups.",
+    "milestone_count": 20,
+    "closed_at": null
+  }
+]
