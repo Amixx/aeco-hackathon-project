@@ -1,35 +1,28 @@
 import js from "@eslint/js";
-import svelte from "eslint-plugin-svelte";
 import globals from "globals";
-import ts from "typescript-eslint";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
 
-export default ts.config(
-  js.configs.recommended,
-  ...ts.configs.recommended,
-  ...svelte.configs.recommended,
+export default tseslint.config(
+  { ignores: ["dist"] },
   {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
-  },
-  {
-    files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
-    // See more details at: https://typescript-eslint.io/packages/parser/
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        extraFileExtensions: [".svelte"], // Add support for additional file extensions, such as .svelte
-        parser: ts.parser,
-      },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
     },
-  },
-  {
     rules: {
-      // Override or add rule settings here, such as:
-      // 'svelte/rule-name': 'error'
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
     },
   }
 );
