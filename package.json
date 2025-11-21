@@ -12,6 +12,7 @@
     "format": "eslint . --fix"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.139.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
@@ -31,6 +32,7 @@
     "@google/genai": "^1.30.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-router": "^1.139.0",
     "@vitejs/plugin-react": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
