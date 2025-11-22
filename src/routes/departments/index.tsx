@@ -26,7 +26,7 @@ function DepartmentsComponent() {
 	}));
 
 	return (
-		<div className="p-8">
+		<div className="p-8 w-full min-w-0">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Departments</h1>
 				<div className="flex gap-2">
@@ -35,7 +35,7 @@ function DepartmentsComponent() {
 				</div>
 			</div>
 
-			<div className="rounded-md border">
+			<div className="rounded-md border grid grid-cols-1">
 				<Table>
 					<TableCaption>List of organization departments.</TableCaption>
 					<TableHeader>

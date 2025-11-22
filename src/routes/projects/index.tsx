@@ -226,7 +226,7 @@ function ProjectsComponent() {
 	);
 
 	return (
-		<div className="p-8">
+		<div className="p-8 w-full min-w-0">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
 				<div className="flex gap-2">
@@ -239,10 +239,14 @@ function ProjectsComponent() {
 			<div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 				<div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
 					<div>
-						<label className="block text-sm font-medium mb-1">
+						<label
+							htmlFor="milestone-filter"
+							className="block text-sm font-medium mb-1"
+						>
 							Filter projects by last checked quality gate
 						</label>
 						<select
+							id="milestone-filter"
 							className="mt-1 block w-full md:w-72 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
 							value={selectedQualityGateId}
 							onChange={(e) => setSelectedQualityGateId(e.target.value)}
@@ -352,7 +356,7 @@ function ProjectsComponent() {
 			</div>
 
 			{/* Projects Table */}
-			<div className="rounded-md border">
+			<div className="rounded-md border grid grid-cols-1">
 				<Table>
 					<TableCaption>A list of your recent projects.</TableCaption>
 					<TableHeader>
