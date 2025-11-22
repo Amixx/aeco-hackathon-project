@@ -8,6 +8,7 @@ export type ProjectMilestone = {
 	milestone_id: string;
 	completed_at: string | null; // timestamp, null = not completed
 	responsible_person_id: string;
+	is_disabled?: boolean;
 };
 
 export type QualityGateStatus = "pending" | "in_progress" | "done";
@@ -19,4 +20,5 @@ export type QualityGateMilestone = {
 	quality_gate_id: string;
 	milestone_id: string;
 	completed_at: string | null; // timestamp, null = not completed
+	is_disabled: boolean | null;
 };

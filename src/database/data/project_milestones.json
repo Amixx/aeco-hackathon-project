@@ -24,7 +24,8 @@
 		"project_id": "proj-1",
 		"milestone_id": "ms-3",
 		"completed_at": null,
-		"responsible_person_id": "user-2"
+		"responsible_person_id": "user-2",
+		"is_disabled": true
 	},
 	{
 		"id": "pm-proj-1-ms-4",
@@ -87,7 +88,8 @@
 		"project_id": "proj-1",
 		"milestone_id": "ms-10",
 		"completed_at": null,
-		"responsible_person_id": "user-2"
+		"responsible_person_id": "user-2",
+		"is_disabled": true
 	},
 	{
 		"id": "pm-proj-1-ms-11",
@@ -96,7 +98,8 @@
 		"project_id": "proj-1",
 		"milestone_id": "ms-11",
 		"completed_at": null,
-		"responsible_person_id": "user-3"
+		"responsible_person_id": "user-3",
+		"is_disabled": true
 	},
 	{
 		"id": "pm-proj-1-ms-12",
@@ -222,7 +225,8 @@
 		"project_id": "proj-2",
 		"milestone_id": "ms-5",
 		"completed_at": "2024-02-01T12:00:00Z",
-		"responsible_person_id": "user-4"
+		"responsible_person_id": "user-4",
+		"is_disabled": true
 	},
 	{
 		"id": "pm-proj-2-ms-6",
@@ -249,7 +253,8 @@
 		"project_id": "proj-2",
 		"milestone_id": "ms-8",
 		"completed_at": null,
-		"responsible_person_id": "user-4"
+		"responsible_person_id": "user-4",
+		"is_disabled": true
 	},
 	{
 		"id": "pm-proj-2-ms-9",

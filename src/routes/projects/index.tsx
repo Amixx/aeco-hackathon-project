@@ -1,77 +1,75 @@
-import {createFileRoute, Link} from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from "@/components/ui/table";
-import {api} from "@/database/api.ts";
+import { api } from "@/database/api.ts";
 
 export const Route = createFileRoute("/projects/")({
-    component: ProjectsComponent,
+	component: ProjectsComponent,
 });
 
 function ProjectsComponent() {
-    const projects = api.getAllProjects();
+	const projects = api.getAllProjects();
 
-    return (
-        <div className="p-8">
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-            </div>
+	return (
+		<div className="p-8">
+			<div className="flex items-center justify-between mb-6">
+				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+			</div>
 
-            <div className="rounded-md border">
-                <Table>
-                    <TableCaption>A list of your recent projects.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead className="w-[300px]">Description</TableHead>
-                            <TableHead>Milestone Count</TableHead>
-                            <TableHead>Current Milestone</TableHead>
-                            <TableHead className="text-right">Status</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {projects.map((project) => (
-                            <TableRow key={project.id}>
-                                <TableCell className="font-medium">
-                                    <Link
-                                        to="/projects/$projectId"
-                                        params={{projectId: project.id}}
-                                        className="hover:underline text-blue-600"
-                                    >
-                                        {project.name}
-                                    </Link>
-                                </TableCell>
-                                <TableCell>{project.description}</TableCell>
-                                <TableCell>{project.milestone_count}</TableCell>
-                                <TableCell>
-                                    {/*{project.current_milestone*/}
-                                    {/*    ? `${project.current_milestone.execution_number}. ${project.current_milestone.name}`*/}
-                                    {/*    : "Completed"}*/}
-                                </TableCell>
-                                <TableCell className="text-right">
-                                    {project.closed_at ? (
-                                        <span
-                                            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80">
+			<div className="rounded-md border">
+				<Table>
+					<TableCaption>A list of your recent projects.</TableCaption>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Name</TableHead>
+							<TableHead className="w-[300px]">Description</TableHead>
+							<TableHead>Milestone Count</TableHead>
+							<TableHead>Current Milestone</TableHead>
+							<TableHead className="text-right">Status</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{projects.map((project) => (
+							<TableRow key={project.id}>
+								<TableCell className="font-medium">
+									<Link
+										to="/projects/$projectId"
+										params={{ projectId: project.id }}
+										className="hover:underline text-blue-600"
+									>
+										{project.name}
+									</Link>
+								</TableCell>
+								<TableCell>{project.description}</TableCell>
+								<TableCell>{project.milestone_count}</TableCell>
+								<TableCell>
+									{/*{project.current_milestone*/}
+									{/*    ? `${project.current_milestone.execution_number}. ${project.current_milestone.name}`*/}
+									{/*    : "Completed"}*/}
+								</TableCell>
+								<TableCell className="text-right">
+									{project.closed_at ? (
+										<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80">
 											Closed
 										</span>
-                                    ) : (
-                                        <span
-                                            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-500 text-white hover:bg-green-600">
+									) : (
+										<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-500 text-white hover:bg-green-600">
 											Active
 										</span>
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-        </div>
-    );
+									)}
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</div>
+		</div>
+	);
 }

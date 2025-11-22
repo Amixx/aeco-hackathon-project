@@ -109,9 +109,27 @@ export const api = {
 
 		const milestones = db.projectMilestones
 			.filter((pm) => pm.project_id === projectId)
-			.map((pm) => db.milestones.find((m) => m.id === pm.milestone_id))
-			.filter((m): m is MilestoneDTO => Boolean(m))
-			.sort((a, b) => a.execution_number - b.execution_number);
+			.map((pm) => {
+				const milestoneDef = db.milestones.find(
+					(m) => m.id === pm.milestone_id,
+				);
+				const responsibleUser = db.users.find(
+					(u) => u.id === pm.responsible_person_id,
+				);
+				if (!milestoneDef) return null;
+
+				return {
+					...pm,
+					definition: milestoneDef,
+					responsible_person: responsibleUser,
+				};
+			})
+			.filter((m) => m !== null)
+			.sort(
+				(a, b) =>
+					(a.definition?.execution_number || 0) -
+					(b.definition?.execution_number || 0),
+			);
 
 		return { ...project, milestones };
 	},
@@ -333,6 +351,7 @@ export const api = {
 				quality_gate_id: newGate.id,
 				milestone_id: m.id,
 				completed_at: null,
+				is_disabled: false,
 			}));
 			db.qualityGateMilestones.push(...links);
 		}
@@ -378,6 +397,7 @@ export const api = {
 				quality_gate_id: updated.id,
 				milestone_id: m.id,
 				completed_at: null,
+				is_disabled: false,
 			}));
 			db.qualityGateMilestones.push(...newLinks);
 		}
