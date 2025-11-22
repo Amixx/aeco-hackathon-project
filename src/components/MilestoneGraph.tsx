@@ -6,18 +6,23 @@ import {
 	Position,
 	ReactFlow,
 	type ReactFlowInstance,
+	type ReactFlowInstance,
 	useEdgesState,
 	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useState, useState } from "react";
+import { Button, Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
+	DropdownMenu,
+	DropdownMenuContent,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -57,16 +62,20 @@ const nodeTypes = {
 	simple: SimpleNode,
 };
 
-
 export function MilestoneGraph({
 	projectId,
 	milestones,
 	qualityGates = [],
 }: MilestoneGraphProps) {
+	const [selectedDepartmentId, setSelectedDepartmentId] = useState<
+		string | null
+	>(null);
+	const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+
 	// At the top of your component, create a color map from your labels
 	const labelColorMap = useMemo(() => {
 		const map = new Map<string, string>();
-		db.labels.forEach(label => {
+		db.labels.forEach((label) => {
 			map.set(label.id, label.color);
 		});
 		return map;
@@ -245,9 +254,10 @@ export function MilestoneGraph({
 		// });
 		// 2. Create Label Lines (Full Width)
 		labelInfo.forEach((info, labelId) => {
-			const deptIndex = allDepartments.findIndex((d) => d.id === info.deptId);
-			if (deptIndex === -1) return;
+			// Only create line if allDepartment is visible
+			if (!deptIndexMap.has(info.deptId)) return;
 
+			const deptIndex = deptIndexMap.get(info.deptId) ?? 0;
 			const yOffset = labelYOffsets.get(labelId) || DEPARTMENT_HEIGHT / 2;
 			const absoluteY = deptIndex * DEPARTMENT_HEIGHT + yOffset;
 
@@ -287,7 +297,7 @@ export function MilestoneGraph({
 								className="mb-1 ml-2 px-1 rounded"
 								style={{
 									backgroundColor: `${labelColor}20`, // 20 = ~12% opacity
-									color: labelColor
+									color: labelColor,
 								}}
 							>
 								{info.name}
@@ -521,7 +531,14 @@ export function MilestoneGraph({
 		});
 
 		return { initialNodes: nodes, initialEdges: edges };
-	}, [milestones, qualityGates, projectId, selectedDepartmentId, labelColorMap.get]);
+	}, [
+		milestones,
+		qualityGates,
+		projectId,
+		selectedDepartmentId,
+		selectedDepartmentId,
+		labelColorMap.get,
+	]);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
