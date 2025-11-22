@@ -22,8 +22,13 @@ type ProjectMilestoneWithDetails = NonNullable<
 	ReturnType<typeof api.getProjectById>
 >["milestones"][0];
 
+type ProjectQualityGateWithDetails = NonNullable<
+	ReturnType<typeof api.getProjectById>
+>["quality_gates"][0];
+
 interface MilestoneGraphProps {
 	milestones: ProjectMilestoneWithDetails[];
+	qualityGates?: ProjectQualityGateWithDetails[];
 }
 
 const DEPARTMENT_HEIGHT = 150;
@@ -41,7 +46,10 @@ const nodeTypes = {
 	simple: SimpleNode,
 };
 
-export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
+export function MilestoneGraph({
+	milestones,
+	qualityGates = [],
+}: MilestoneGraphProps) {
 	// Memoize the graph data generation to avoid re-randomizing on every render
 	const { initialNodes, initialEdges } = useMemo(() => {
 		const nodes: Node[] = [];
@@ -303,8 +311,104 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 			}
 		});
 
+		// 4. Process Quality Gates
+		qualityGates.forEach((gate, i) => {
+			const linkedMilestones = gate.milestones || [];
+			let maxGateExec = 0;
+
+			linkedMilestones.forEach((m) => {
+				if (m.execution_number > maxGateExec) maxGateExec = m.execution_number;
+			});
+
+			if (maxGateExec === 0) return;
+
+			// Position gate after the last milestone
+			const xPos = 200 + (maxGateExec + 0.5) * MILESTONE_WIDTH;
+			const totalHeight = departments.length * DEPARTMENT_HEIGHT;
+
+			const status = gate.status;
+			const isDone = status === "done";
+			const inProgress = status === "in_progress";
+
+			const gateColor = isDone ? "#ef4444" : inProgress ? "#3b82f6" : "#22c55e";
+
+			nodes.push({
+				id: `gate-${gate.id}`,
+				type: "simple",
+				position: {
+					x: xPos,
+					y: 0,
+				},
+				style: {
+					width: 40, // wider to house the vertical bar
+					height: totalHeight,
+					zIndex: 5,
+					display: "flex",
+					justifyContent: "center",
+					pointerEvents: "all",
+				},
+				data: {
+					label: (
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<div className="w-full h-full flex justify-center group cursor-help relative">
+									{/* The visible vertical line */}
+									<div
+										style={{
+											width: "4px",
+											height: "100%",
+											backgroundColor: gateColor,
+											borderRadius: "4px",
+										}}
+									/>
+									{/* Optional: Gate Label / Icon at top */}
+									<div
+										className="absolute top-2 px-2 py-1 rounded text-xs font-bold text-white shadow-sm"
+										style={{ backgroundColor: gateColor }}
+									>
+										QG{i}
+									</div>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent>
+								<div className="font-bold text-sm mb-1">
+									Quality Gate: {gate.id}
+								</div>
+								<div className="text-xs mb-2">
+									Status:{" "}
+									<span
+										className={cn(
+											"font-bold uppercase",
+											isDone
+												? "text-green-500"
+												: inProgress
+													? "text-blue-500"
+													: "text-red-500",
+										)}
+									>
+										{status.replace("_", " ")}
+									</span>
+								</div>
+								<div className="text-xs text-muted-foreground">
+									Linked Milestones: {linkedMilestones.length}
+								</div>
+								{!isDone && (
+									<div className="text-xs text-red-500 mt-2 font-medium">
+										Complete all {linkedMilestones.length} linked milestones to
+										unlock.
+									</div>
+								)}
+							</TooltipContent>
+						</Tooltip>
+					),
+				},
+				draggable: false,
+				selectable: false,
+			});
+		});
+
 		return { initialNodes: nodes, initialEdges: edges };
-	}, [milestones]);
+	}, [milestones, qualityGates]);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);

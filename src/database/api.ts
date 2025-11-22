@@ -146,7 +146,20 @@ export const api = {
 					(b.definition?.execution_number || 0),
 			);
 
-		return { ...project, milestones };
+		// Find relevant quality gates
+		const milestoneIds = new Set(milestones.map((m) => m.milestone_id));
+		const relevantQGM = db.qualityGateMilestones.filter((qgm) =>
+			milestoneIds.has(qgm.milestone_id),
+		);
+		const gateIds = new Set(relevantQGM.map((qgm) => qgm.quality_gate_id));
+
+		const quality_gates = Array.from(gateIds)
+			.map((gateId) => {
+				return this.getQualityGateById(gateId);
+			})
+			.filter((g) => g !== null);
+
+		return { ...project, milestones, quality_gates };
 	},
 	addProject(project: ProjectDTO) {
 		// receives Project DTO and adds it to db.projects

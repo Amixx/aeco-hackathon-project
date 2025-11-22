@@ -43,7 +43,10 @@ function ProjectDetailComponent() {
 			{/* Milestone Graph */}
 			<div className="space-y-2">
 				<h2 className="text-xl font-semibold">Milestone Flow</h2>
-				<MilestoneGraph milestones={project.milestones} />
+				<MilestoneGraph
+					milestones={project.milestones}
+					qualityGates={project.quality_gates}
+				/>
 			</div>
 
 			{/* Filter */}
