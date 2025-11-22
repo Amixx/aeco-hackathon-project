@@ -33,7 +33,7 @@ function ProjectDetailComponent() {
 	).length;
 
 	const departments = new Set(
-		project.milestones.map((m) => m?.department_id).filter(Boolean),
+		project.milestones.map((m) => m?.definition?.department_id).filter(Boolean),
 	).size;
 
 	const lastActivity = project.milestones

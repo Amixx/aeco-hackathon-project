@@ -56,8 +56,9 @@ function ProjectsComponent() {
 	const [selectedQualityGateId, setSelectedQualityGateId] =
 		React.useState<string>("all");
 	// NEW: filter by risk level
-	const [selectedRisk, setSelectedRisk] =
-		React.useState<"all" | "high" | "medium" | "low">("all");
+	const [selectedRisk, setSelectedRisk] = React.useState<
+		"all" | "high" | "medium" | "low"
+	>("all");
 
 	const projects = api.getAllProjects();
 	const projectMilestones = api.getAllProjectMilestones();
@@ -269,7 +270,9 @@ function ProjectsComponent() {
 							className="mt-1 block w-full md:w-48 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
 							value={selectedRisk}
 							onChange={(e) =>
-								setSelectedRisk(e.target.value as "all" | "high" | "medium" | "low")
+								setSelectedRisk(
+									e.target.value as "all" | "high" | "medium" | "low",
+								)
 							}
 						>
 							<option value="all">All risks</option>

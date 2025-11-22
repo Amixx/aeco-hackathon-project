@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
-import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
+import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
+import type { UserDTO } from "@/database/dto/UserDTO.ts";
+
+export type EnrichedProjectMilestone = ProjectMilestone & {
+	definition: MilestoneDTO;
+	responsible_person?: UserDTO;
+};
 
 export default function Timeline({
 	setCheckedList,
 	milestones,
-	gates,
 	departmentId,
 	projectId,
 }: {
 	setCheckedList: (items: string[]) => void;
-	milestones?: MilestoneDTO[];
-	gates?: QualityGateDTO[];
+	milestones?: EnrichedProjectMilestone[];
 	departmentId: string;
 	projectId: string;
 }) {
@@ -33,14 +37,14 @@ export default function Timeline({
 		};
 	});
 	const [milestonesChecked, setMilestonesChecked] = useState<
-		Record<string, boolean>[]
+		{ id: string; checked: boolean }[]
 	>(checkedStuff ?? []);
 
 	const saveMilestones = () => {
 		console.log("Saving milestones...");
-		const checkedList = Object.entries(milestonesChecked)
-			.filter(([_, value]) => value.checked)
-			.map(([_, value]) => value.id);
+		const checkedList = milestonesChecked
+			.filter((value) => value.checked)
+			.map((value) => value.id);
 
 		if (!projectId) return;
 		api.setProjectDepartmentMilestonesCompletion(
@@ -73,7 +77,7 @@ export default function Timeline({
 		// Check if all required milestones are done
 		const allPreviousChecked = milestonesChecked
 			?.slice(0, requiredMilestones)
-			.every((x) => x === true);
+			.every((x) => x.checked);
 
 		if (!allPreviousChecked) {
 			console.log("Cannot check QG yet — earlier milestones missing");

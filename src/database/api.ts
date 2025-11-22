@@ -525,7 +525,7 @@ export const api = {
 
 				return { ...definition, status };
 			})
-			.filter((g): g => Boolean(g));
+			.filter((g): g is NonNullable<typeof g> => Boolean(g));
 
 		return gates;
 	},

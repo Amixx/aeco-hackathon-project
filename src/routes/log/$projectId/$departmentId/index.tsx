@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import CheckedMilestones from "@/components/generic/CheckedMilestones.tsx";
 import Timeline from "@/components/generic/Timeline.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 
 export const Route = createFileRoute("/log/$projectId/$departmentId/")({
@@ -10,6 +9,7 @@ export const Route = createFileRoute("/log/$projectId/$departmentId/")({
 });
 
 function RouteComponent() {
+	const { projectId, departmentId } = Route.useParams();
 	const [checkedList, setCheckedList] = useState<string[]>([]);
 
 	const project = api.getProjectById(projectId);
