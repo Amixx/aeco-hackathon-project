@@ -328,7 +328,7 @@ export default function Timeline({
 						>
 							<div className={`milestone circle ${checked ? "checked" : ""}`}>
 								{checked ? "✔" : m.milestone_id.split("-")[1]}
-								{{
+								style ={{
 									borderColor: labelColor,
 									borderWidth: "3px",
 									borderStyle: "solid",
