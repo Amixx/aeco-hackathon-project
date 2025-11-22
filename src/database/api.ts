@@ -414,4 +414,11 @@ export const api = {
 
 		return this.getQualityGateById(qualityGateId);
 	},
+	getAllMilestones() {
+		return db.milestones;
+	},
+
+	getAllProjectMilestones() {
+		return db.projectMilestones;
+	},
 };
