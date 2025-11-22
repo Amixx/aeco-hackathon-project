@@ -1,0 +1,24 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.7/schema.json",
+  "formatter": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true
+  },
+  "assist": {
+    "enabled": true
+  },
+  "files": {
+    "includes": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "pages/**/*.{ts,tsx,js,jsx}",
+      "scripts/**/*.{ts,js}",
+      "!src/components/ui",
+      "!src/routeTree.gen.ts",
+      "!src/main.tsx",
+      "!src/data/generate_data.ts",
+      "!src/GeminiTest.tsx"
+    ]
+  }
+}
