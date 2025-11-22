@@ -86,12 +86,16 @@ function ProjectsComponent() {
 									: "-";
 
 							// latest completed_at row for this project
-							const lastCompletedPm = completedPms.reduce<ProjectMilestone | null>((latest, current) => {
-								if (!latest) return current;
-								const latestDate = new Date(latest.completed_at!);
-								const currentDate = new Date(current.completed_at!);
-								return currentDate > latestDate ? current : latest;
-							}, null);
+							const lastCompletedPm =
+								completedPms.reduce<ProjectMilestone | null>(
+									(latest, current) => {
+										if (!latest) return current;
+										const latestDate = new Date(latest.completed_at!);
+										const currentDate = new Date(current.completed_at!);
+										return currentDate > latestDate ? current : latest;
+									},
+									null,
+								);
 
 							// find milestone details by milestone_id
 							const lastMilestone =
