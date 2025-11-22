@@ -4,139 +4,655 @@
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-0",
-    "milestone_id": "ms-1"
+    "milestone_id": "ms-1",
+    "is_disabled": false
   },
   {
     "id": "mqg-qg-0-ms-2",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-0",
-    "milestone_id": "ms-2"
+    "milestone_id": "ms-2",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-1-ms-3",
+    "id": "mqg-qg-0-ms-3",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-3",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-0-ms-4",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-4",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-0-ms-5",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-5",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-0-ms-6",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-6",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-0-ms-7",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-7",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-0-ms-8",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
+    "milestone_id": "ms-8",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-9",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-1",
-    "milestone_id": "ms-3"
+    "milestone_id": "ms-9",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-1-ms-4",
+    "id": "mqg-qg-1-ms-10",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-1",
-    "milestone_id": "ms-4"
+    "milestone_id": "ms-10",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-2-ms-5",
+    "id": "mqg-qg-1-ms-12",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-12",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-13",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-13",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-14",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-14",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-15",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-15",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-16",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-16",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-1-ms-17",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
+    "milestone_id": "ms-17",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-18",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-2",
-    "milestone_id": "ms-5"
+    "milestone_id": "ms-18",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-2-ms-6",
+    "id": "mqg-qg-2-ms-19",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-2",
-    "milestone_id": "ms-6"
+    "milestone_id": "ms-19",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-3-ms-7",
+    "id": "mqg-qg-2-ms-20",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-20",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-21",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-21",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-22",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-22",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-23",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-23",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-24",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-24",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-2-ms-25",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-25",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-26",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-3",
-    "milestone_id": "ms-7"
+    "milestone_id": "ms-26",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-3-ms-8",
+    "id": "mqg-qg-3-ms-27",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-3",
-    "milestone_id": "ms-8"
+    "milestone_id": "ms-27",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-4-ms-9",
+    "id": "mqg-qg-3-ms-28",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-28",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-29",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-29",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-30",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-30",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-30-b",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-30-b",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-31",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-31",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-3-ms-32",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-32",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-33",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-4",
-    "milestone_id": "ms-9"
+    "milestone_id": "ms-33",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-4-ms-10",
+    "id": "mqg-qg-4-ms-34",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-4",
-    "milestone_id": "ms-10"
+    "milestone_id": "ms-34",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-5-ms-11",
+    "id": "mqg-qg-4-ms-35",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-35",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-36",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-36",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-37",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-37",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-38",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-38",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-39",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-39",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-4-ms-40",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-40",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-41",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-5",
-    "milestone_id": "ms-11"
+    "milestone_id": "ms-41",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-5-ms-12",
+    "id": "mqg-qg-5-ms-42",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-5",
-    "milestone_id": "ms-12"
+    "milestone_id": "ms-42",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-6-ms-13",
+    "id": "mqg-qg-5-ms-43",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-43",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-44",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-44",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-45",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-45",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-46",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-46",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-47",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-47",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-5-ms-48",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-48",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-49",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-6",
-    "milestone_id": "ms-13"
+    "milestone_id": "ms-49",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-6-ms-14",
+    "id": "mqg-qg-6-ms-50",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-6",
-    "milestone_id": "ms-14"
+    "milestone_id": "ms-50",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-7-ms-15",
+    "id": "mqg-qg-6-ms-51",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-51",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-52",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-52",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-53",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-53",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-54",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-54",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-55",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-55",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-6-ms-56",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-56",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-57",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-7",
-    "milestone_id": "ms-15"
+    "milestone_id": "ms-57",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-7-ms-16",
+    "id": "mqg-qg-7-ms-58",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-7",
-    "milestone_id": "ms-16"
+    "milestone_id": "ms-58",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-8-ms-17",
+    "id": "mqg-qg-7-ms-59",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-59",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-60",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-60",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-61",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-61",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-62",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-62",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-63",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-63",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-7-ms-64",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-64",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-65",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-8",
-    "milestone_id": "ms-17"
+    "milestone_id": "ms-65",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-8-ms-18",
+    "id": "mqg-qg-8-ms-66",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-8",
-    "milestone_id": "ms-18"
+    "milestone_id": "ms-66",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-9-ms-19",
+    "id": "mqg-qg-8-ms-67",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-67",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-68",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-68",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-69",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-69",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-70",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-70",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-71",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-71",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-8-ms-72",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-72",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-73",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-9",
-    "milestone_id": "ms-19"
+    "milestone_id": "ms-73",
+    "is_disabled": false
   },
   {
-    "id": "mqg-qg-9-ms-20",
+    "id": "mqg-qg-9-ms-74",
     "created_at": "2024-01-01T00:00:00Z",
     "updated_at": "2024-01-01T00:00:00Z",
     "quality_gate_id": "qg-9",
-    "milestone_id": "ms-20"
+    "milestone_id": "ms-74",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-75",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-75",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-76",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-76",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-77",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-77",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-77-b",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-77-b",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-78",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-78",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-9-ms-79",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-79",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-10-ms-80",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-10",
+    "milestone_id": "ms-80",
+    "is_disabled": false
+  },
+  {
+    "id": "mqg-qg-10-ms-81",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-10",
+    "milestone_id": "ms-81",
+    "is_disabled": false
   }
 ]

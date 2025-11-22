@@ -6,7 +6,7 @@ export type MilestoneDTO = {
 	id: string;
 	created_at: string;
 	updated_at: string;
-	completed_at: string;
+	completed_at: string | null;
 	execution_number: number; // 1 to X
 	label_id: string;
 	name: string;
