@@ -64,6 +64,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						</SidebarMenuItem>
 						<SidebarMenuItem>
 							<SidebarMenuButton asChild>
+								<Link to="/log">
+									<GalleryVerticalEnd />
+									<span>Log</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+						<SidebarMenuItem>
+							<SidebarMenuButton asChild>
 								<Link to="/departments">
 									<Building2 />
 									<span>Departments</span>
