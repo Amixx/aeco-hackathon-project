@@ -36,6 +36,8 @@ export const db = {
 	qualityGateMilestones: qualityGateMilestonesData as QualityGateMilestone[],
 };
 
+import { saveDbToSession } from "./sessionPersistence";
+
 // Helper to simulate joins or queries
 export const api = {
 	getAllProjects() {
@@ -180,6 +182,7 @@ export const api = {
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
 
+		saveDbToSession(db);
 		return { ...newProject, milestones: attachedMilestones };
 	},
 	editProject(project: ProjectDTO) {
@@ -211,6 +214,7 @@ export const api = {
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
 
+		saveDbToSession(db);
 		return { ...updated, milestones: attachedMilestones };
 	},
 	deleteProject(projectId: string) {
@@ -226,6 +230,7 @@ export const api = {
 			);
 		}
 
+		saveDbToSession(db);
 		return removed;
 	},
 
@@ -322,6 +327,7 @@ export const api = {
 
 		const status = "pending";
 
+		saveDbToSession(db);
 		return { ...newGate, milestones: milestonesFull, status };
 	},
 	editQualityGate(gate: QualityGateDTO) {
@@ -379,6 +385,7 @@ export const api = {
 
 		const status = "pending";
 
+		saveDbToSession(db);
 		return { ...updated, milestones: milestonesFull, status };
 	},
 	deleteQualityGate(qualityGateId: string) {
@@ -392,6 +399,7 @@ export const api = {
 			);
 		}
 
+		saveDbToSession(db);
 		return removed;
 	},
 	setProjectQualityGateCompletion(

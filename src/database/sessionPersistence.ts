@@ -1,18 +1,7 @@
 const SESSION_DB_KEY = "app:db";
 
-type AutosaveState = {
-	handle: number;
-	onVisibilityChange: () => void;
-	onBeforeUnload: () => void;
-};
-
-type AutosaveGlobals = Window & {
-	__DB_AUTOSAVE__?: AutosaveState;
-	__DB_AUTOSAVE_GUARD__?: boolean;
-};
-
 /**
- * Load a previously saved db snapshot from sessionStorage
+ * Load a previously saved db snapshot from localStorage
  * and shallowly copy its top-level keys into the provided db object.
  */
 export function hydrateDbFromSession(db: Record<string, unknown>): boolean {
@@ -35,7 +24,7 @@ export function hydrateDbFromSession(db: Record<string, unknown>): boolean {
 }
 
 /**
- * Save the current db snapshot to sessionStorage immediately.
+ * Save the current db snapshot to localStorage immediately.
  */
 export function saveDbToSession(db: unknown): void {
 	if (typeof window === "undefined") return;
@@ -47,91 +36,13 @@ export function saveDbToSession(db: unknown): void {
 }
 
 /**
- * Stop the autosave loop and remove lifecycle flush handlers, if running.
- */
-export function stopSessionAutosave(): void {
-	if (typeof window === "undefined") return;
-	const w = window as unknown as AutosaveGlobals;
-	const state = w.__DB_AUTOSAVE__;
-	if (!state) return;
-
-	// Stop periodic snapshot
-	clearInterval(state.handle);
-	// Remove listeners
-	window.removeEventListener("visibilitychange", state.onVisibilityChange);
-	window.removeEventListener("beforeunload", state.onBeforeUnload);
-
-	delete w.__DB_AUTOSAVE__;
-}
-
-/**
- * Start a lightweight autosave loop and lifecycle event flush for the db.
- * Ensures it runs only once per session/tab.
- */
-export function startSessionAutosave(
-	db: unknown,
-	intervalMs: number = 1000,
-): void {
-	if (typeof window === "undefined") return;
-
-	// Avoid multiple registrations
-	const w = window as unknown as AutosaveGlobals;
-	if (w.__DB_AUTOSAVE__) return;
-
-	// Periodic snapshot
-	const handle = window.setInterval(() => {
-		saveDbToSession(db);
-	}, intervalMs);
-
-	// Flush on lifecycle events
-	const onVisibilityChange = () => {
-		if (document.visibilityState === "hidden") {
-			saveDbToSession(db);
-		}
-	};
-	const onBeforeUnload = () => {
-		// In some flows we may intentionally reset the session;
-		// this handler will be removed by stopSessionAutosave() in that case.
-		saveDbToSession(db);
-	};
-
-	window.addEventListener("visibilitychange", onVisibilityChange);
-	window.addEventListener("beforeunload", onBeforeUnload);
-
-	w.__DB_AUTOSAVE__ = { handle, onVisibilityChange, onBeforeUnload };
-}
-
-/**
- * Remove the db snapshot key from sessionStorage.
+ * Remove the db snapshot key from localStorage.
  */
 export function clearSessionDb(): void {
 	if (typeof window === "undefined") return;
 	try {
-		window.sessionStorage.removeItem(SESSION_DB_KEY);
+		window.localStorage.removeItem(SESSION_DB_KEY);
 	} catch {
 		// ignore
 	}
-}
-
-/**
- * Ensure that calling sessionStorage.clear() stops autosave first,
- * so no new snapshots are written between clear() and reload().
- */
-export function installSessionResetGuard(): void {
-	if (typeof window === "undefined") return;
-	const w = window as unknown as AutosaveGlobals;
-	if (w.__DB_AUTOSAVE_GUARD__) return;
-
-	const originalClear = window.localStorage.clear.bind(window.localStorage);
-
-	window.localStorage.clear = () => {
-		// Stop autosave + flush handlers, then clear storage
-		try {
-			stopSessionAutosave();
-		} finally {
-			originalClear();
-		}
-	};
-
-	w.__DB_AUTOSAVE_GUARD__ = true;
 }
