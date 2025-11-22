@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Activity, CheckCircle, Clock, Layers } from "lucide-react";
 import { MilestoneGraph } from "@/components/MilestoneGraph";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/database/api.ts";
 import { cn } from "@/lib/utils";
-import { Activity, CheckCircle, Clock, Layers } from "lucide-react";
 
 export const Route = createFileRoute("/projects/$projectId/")({
 	component: ProjectDetailComponent,

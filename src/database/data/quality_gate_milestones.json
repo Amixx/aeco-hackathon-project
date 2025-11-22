@@ -1,65 +1,182 @@
 [
   {
-    "id": "qgm-alpha-1",
-    "created_at": "2025-01-10T09:00:00.000Z",
-    "updated_at": "2025-01-10T09:00:00.000Z",
-    "quality_gate_id": "qg-alpha",
+    "id": "mqg-qg-0-ms-1",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
     "milestone_id": "ms-1",
     "completed_at": null,
-    "is_disabled": false
+    "risklevel": 3
   },
   {
-    "id": "qgm-alpha-2",
-    "created_at": "2025-01-10T09:00:00.000Z",
-    "updated_at": "2025-01-10T09:00:00.000Z",
-    "quality_gate_id": "qg-alpha",
+    "id": "mqg-qg-0-ms-2",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-0",
     "milestone_id": "ms-2",
     "completed_at": null,
-    "is_disabled": false
+    "risklevel": 3
   },
   {
-    "id": "qgm-beta-1",
-    "created_at": "2025-01-15T09:00:00.000Z",
-    "updated_at": "2025-01-16T10:00:00.000Z",
-    "quality_gate_id": "qg-beta",
-    "milestone_id": "ms-2",
-    "completed_at": "2025-01-16T10:00:00.000Z",
-    "is_disabled": false
-  },
-  {
-    "id": "qgm-beta-2",
-    "created_at": "2025-01-15T09:00:00.000Z",
-    "updated_at": "2025-01-15T09:00:00.000Z",
-    "quality_gate_id": "qg-beta",
+    "id": "mqg-qg-1-ms-3",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
     "milestone_id": "ms-3",
     "completed_at": null,
-    "is_disabled": false
+    "risklevel": 2
   },
   {
-    "id": "qgm-release-1",
-    "created_at": "2025-01-20T09:00:00.000Z",
-    "updated_at": "2025-01-21T09:30:00.000Z",
-    "quality_gate_id": "qg-release",
-    "milestone_id": "ms-3",
-    "completed_at": "2025-01-21T09:30:00.000Z",
-    "is_disabled": false
-  },
-  {
-    "id": "qgm-release-2",
-    "created_at": "2025-01-20T09:00:00.000Z",
-    "updated_at": "2025-01-21T11:45:00.000Z",
-    "quality_gate_id": "qg-release",
+    "id": "mqg-qg-1-ms-4",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-1",
     "milestone_id": "ms-4",
-    "completed_at": "2025-01-21T11:45:00.000Z",
-    "is_disabled": false
+    "completed_at": null,
+    "risklevel": 1
   },
   {
-    "id": "qgm-release-3",
-    "created_at": "2025-01-20T09:00:00.000Z",
-    "updated_at": "2025-01-22T08:15:00.000Z",
-    "quality_gate_id": "qg-release",
+    "id": "mqg-qg-2-ms-5",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
     "milestone_id": "ms-5",
-    "completed_at": "2025-01-22T08:15:00.000Z",
-    "is_disabled": false
+    "completed_at": null,
+    "risklevel": 1
+  },
+  {
+    "id": "mqg-qg-2-ms-6",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-2",
+    "milestone_id": "ms-6",
+    "completed_at": null,
+    "risklevel": 2
+  },
+  {
+    "id": "mqg-qg-3-ms-7",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-7",
+    "completed_at": null,
+    "risklevel": 3
+  },
+  {
+    "id": "mqg-qg-3-ms-8",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-3",
+    "milestone_id": "ms-8",
+    "completed_at": null,
+    "risklevel": 2
+  },
+  {
+    "id": "mqg-qg-4-ms-9",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-9",
+    "completed_at": null,
+    "risklevel": 1
+  },
+  {
+    "id": "mqg-qg-4-ms-10",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-4",
+    "milestone_id": "ms-10",
+    "completed_at": null,
+    "risklevel": 2
+  },
+  {
+    "id": "mqg-qg-5-ms-11",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-11",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-5-ms-12",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-5",
+    "milestone_id": "ms-12",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-6-ms-13",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-13",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-6-ms-14",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-6",
+    "milestone_id": "ms-14",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-7-ms-15",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-15",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-7-ms-16",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-7",
+    "milestone_id": "ms-16",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-8-ms-17",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-17",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-8-ms-18",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-8",
+    "milestone_id": "ms-18",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-9-ms-19",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-19",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
+  },
+  {
+    "id": "mqg-qg-9-ms-20",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "quality_gate_id": "qg-9",
+    "milestone_id": "ms-20",
+    "completed_at": "2024-02-01T12:00:00Z",
+    "risklevel": null
   }
 ]

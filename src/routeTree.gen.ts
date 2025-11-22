@@ -17,6 +17,7 @@ import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as QualityGatesIndexRouteImport } from './routes/quality-gates/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as MilestonesIndexRouteImport } from './routes/milestones/index'
+import { Route as LogIndexRouteImport } from './routes/log/index'
 import { Route as LabelsIndexRouteImport } from './routes/labels/index'
 import { Route as DepartmentsIndexRouteImport } from './routes/departments/index'
 import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
@@ -62,6 +63,11 @@ const MilestonesIndexRoute = MilestonesIndexRouteImport.update({
   path: '/milestones/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LogIndexRoute = LogIndexRouteImport.update({
+  id: '/log/',
+  path: '/log/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LabelsIndexRoute = LabelsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/quality-gates': typeof QualityGatesRouteRouteWithChildren
   '/departments': typeof DepartmentsIndexRoute
   '/labels/': typeof LabelsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/quality-gates/': typeof QualityGatesIndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/departments': typeof DepartmentsIndexRoute
   '/labels': typeof LabelsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/quality-gates': typeof QualityGatesIndexRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/quality-gates': typeof QualityGatesRouteRouteWithChildren
   '/departments/': typeof DepartmentsIndexRoute
   '/labels/': typeof LabelsIndexRoute
+  '/log/': typeof LogIndexRoute
   '/milestones/': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/quality-gates/': typeof QualityGatesIndexRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/quality-gates'
     | '/departments'
     | '/labels/'
+    | '/log'
     | '/milestones'
     | '/projects/'
     | '/quality-gates/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/'
     | '/departments'
     | '/labels'
+    | '/log'
     | '/milestones'
     | '/projects'
     | '/quality-gates'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
     | '/quality-gates'
     | '/departments/'
     | '/labels/'
+    | '/log/'
     | '/milestones/'
     | '/projects/'
     | '/quality-gates/'
@@ -172,6 +184,7 @@ export interface RootRouteChildren {
   ProjectsRouteRoute: typeof ProjectsRouteRouteWithChildren
   QualityGatesRouteRoute: typeof QualityGatesRouteRouteWithChildren
   DepartmentsIndexRoute: typeof DepartmentsIndexRoute
+  LogIndexRoute: typeof LogIndexRoute
   MilestonesIndexRoute: typeof MilestonesIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
 }
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       path: '/milestones'
       fullPath: '/milestones'
       preLoaderRoute: typeof MilestonesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/log/': {
+      id: '/log/'
+      path: '/log'
+      fullPath: '/log'
+      preLoaderRoute: typeof LogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/labels/': {
@@ -310,6 +330,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRouteRoute: ProjectsRouteRouteWithChildren,
   QualityGatesRouteRoute: QualityGatesRouteRouteWithChildren,
   DepartmentsIndexRoute: DepartmentsIndexRoute,
+  LogIndexRoute: LogIndexRoute,
   MilestonesIndexRoute: MilestonesIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
 }
