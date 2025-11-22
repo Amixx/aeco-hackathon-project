@@ -8,7 +8,6 @@ export const Route = createFileRoute("/log/$projectId/$departmentId/")({
 });
 
 function RouteComponent() {
-	const { projectId, departmentId } = Route.useParams();
 	const [checkedList, setCheckedList] = useState<string[]>([]);
 
 	return (
