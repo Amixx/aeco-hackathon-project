@@ -3,12 +3,12 @@
 import { Link } from "@tanstack/react-router";
 import {
 	Building2,
+	GalleryVerticalEnd,
 	Home,
 	Pointer,
 	ShieldCheck,
 	Tag,
 	User,
-	GalleryVerticalEnd,
 } from "lucide-react";
 import type * as React from "react";
 import { NavUser } from "@/components/nav-user";
@@ -38,9 +38,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
 				<img
-					src="/logo_firmengruppe.png"
+					src="/wolff-muller-logo.svg"
 					alt="company logo"
-					className="w-full h-18 object-contain dark:invert"
+					className="w-full h-32 object-contain dark:invert"
 				/>
 			</SidebarHeader>
 			<SidebarContent>
