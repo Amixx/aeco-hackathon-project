@@ -56,6 +56,8 @@ export const api = {
 				.filter((m) => Boolean(m))
 				.sort((a, b) => a!.execution_number - b!.execution_number);
 
+			const quality_gates = this.getProjectQualityGates(project.id);
+
 			const risk = 1;
 			const risks = db.projectQualityGates
 				.filter((pqg) => pqg.project_id === project.id)
@@ -74,7 +76,14 @@ export const api = {
 			if (risks.some((r) => r === 3)) risk = 3;
 			else if (risks.some((r) => r === 2)) risk = 2;
 
-			return { ...project, milestones, risk, quality_gates, risk };
+			return {
+				...project,
+				milestones,
+				quality_gates,
+				risk,
+				quality_gates,
+				risk,
+			};
 		});
 
 		return projects;
@@ -112,42 +121,7 @@ export const api = {
 					(b.definition?.execution_number || 0),
 			);
 
-		// Find relevant quality gates
-		const milestoneIds = new Set(milestones.map((m) => m.milestone_id));
-		const relevantQGM = db.qualityGateMilestones.filter((qgm) =>
-			milestoneIds.has(qgm.milestone_id),
-		);
-		const gateIds = new Set(relevantQGM.map((qgm) => qgm.quality_gate_id));
-
-		const quality_gates = Array.from(gateIds)
-			.map((gateId) => {
-				const definition = this.getQualityGateById(gateId);
-				if (!definition) return null;
-
-				const projectGate = db.projectQualityGates.find(
-					(pqg) =>
-						pqg.project_id === projectId && pqg.quality_gate_id === gateId,
-				);
-
-				const gateMilestoneIds = definition.milestones.map((m) => m.id);
-				const completedCount = milestones.filter(
-					(pm) => gateMilestoneIds.includes(pm.milestone_id) && pm.completed_at,
-				).length;
-
-				let status: QualityGateStatus = "pending";
-				if (projectGate?.completed_at) {
-					status = "done";
-				} else if (completedCount > 0) {
-					status = "in_progress";
-				}
-
-				return {
-					...definition,
-					status,
-					risklevel: projectGate?.risklevel ?? null,
-				};
-			})
-			.filter((g) => g !== null);
+		const quality_gates = this.getProjectQualityGates(projectId);
 
 		return { ...project, milestones, quality_gates };
 	},
