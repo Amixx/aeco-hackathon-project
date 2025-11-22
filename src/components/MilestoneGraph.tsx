@@ -501,7 +501,7 @@ function MilestoneGraphContent({
 			}
 		});
 
-		qualityGates.forEach((gate, i) => {
+		qualityGates.forEach((gate) => {
 			const linkedMilestones = gate.milestones || [];
 			let maxGateExec = 0;
 
@@ -517,7 +517,9 @@ function MilestoneGraphContent({
 			const status = gate.status;
 			const isDone = status === "done";
 
-			const gateColor = isDone ? "#22c55e" : "#ef4444";
+			const gateLineColor = isDone ? "#22c55e" : "#ef4444";
+			const gateBadgeBg = isDone ? "#dcfce7" : "#fff";
+			const gateBadgeBorder = isDone ? "2px solid #22c55e" : "1px solid #777";
 
 			nodes.push({
 				id: `gate-${gate.id}`,
@@ -539,27 +541,35 @@ function MilestoneGraphContent({
 					label: (
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<div className="w-full h-full flex flex-col justify-center group cursor-help relative">
+								<div className="w-full h-full flex items-center relative group cursor-help pointer-events-auto">
+									{/* The Line */}
 									<div
+										className="absolute w-full h-1 rounded"
 										style={{
-											height: "4px",
-											width: "100%",
-											backgroundColor: gateColor,
-											borderRadius: "4px",
+											backgroundColor: gateLineColor,
 										}}
 									/>
+									{/* The Badge */}
 									<div
-										className="absolute left-2 px-2 py-1 rounded text-xs font-bold text-white shadow-sm"
-										style={{ backgroundColor: gateColor, top: "-10px" }}
+										className="relative z-10 px-3 py-1 text-xs font-bold shadow-sm flex items-center justify-center"
+										style={{
+											backgroundColor: gateBadgeBg,
+											border: gateBadgeBorder,
+											borderRadius: "12px",
+											marginLeft: "-40px",
+										}}
 									>
-										QG{i}
+										{gate.name}
 									</div>
 								</div>
 							</TooltipTrigger>
 							<TooltipContent>
-								<div className="font-bold text-sm mb-1">
-									Quality Gate: {gate.id}
-								</div>
+								<div className="font-bold text-sm mb-1">{gate.name}</div>
+								{gate.description && (
+									<div className="text-xs mb-2 text-muted-foreground max-w-[300px]">
+										{gate.description}
+									</div>
+								)}
 								<div className="text-xs mb-2">
 									Status:{" "}
 									<span

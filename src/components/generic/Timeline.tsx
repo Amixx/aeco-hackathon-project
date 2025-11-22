@@ -326,8 +326,8 @@ export default function Timeline({
 							className={`milestone-wrapper m-pos-${milestoneNum}`}
 							onClick={() => toggleMilestone(m.milestone_id)}
 						>
-							<div className={`milestone circle ${checked ? "checked" : ""}`}
-
+							<div
+								className={`milestone circle ${checked ? "checked" : ""}`}
 								style={{
 									borderColor: labelColor,
 									borderWidth: "3px",
