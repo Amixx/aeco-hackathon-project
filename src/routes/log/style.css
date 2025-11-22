@@ -1,4 +1,8 @@
 /* === MAIN LAYOUT === */
+body, html {
+  overflow-x: hidden;
+}
+
 .log-container {
   padding: 40px;
   width: 100%;
@@ -45,72 +49,64 @@
   font-weight: 600;
 }
 
-.phase1 { background: #7f1d1d; }
-.phase2 { background: #b91c1c; }
-.phase3 { background: #0284c7; }
-
-/* === TIMELINE === */
-.timeline {
-  margin-top: 40px;
-  position: relative;
-  height: 260px;
+.phase1 {
+  background: #7f1d1d;
+}
+.phase2 {
+  background: #b91c1c;
+}
+.phase3 {
+  background: #0284c7;
 }
 
-.timeline-line {
-  border-bottom: 2px solid #334155;
-  position: absolute;
-  top: 60px;
-  width: 100%;
-}
-
+/* === TIMELINE SCROLL WRAPPER === */
 .timeline-wrapper {
+  margin-top: 40px;
   overflow-x: auto;
-  overflow-y: visible;
-  white-space: nowrap;
-  width: 100%;
-  padding-bottom: 20px;
+  overflow-y: hidden;
+  padding-bottom: 16px;
 }
 
 .timeline-inner {
   position: relative;
   height: 260px;
-  width: 3000px; /* long enough for 25 items */
+  width: 3300px; /* long enough for 25 elements at 120px spacing */
 }
 
-/* QG blocks */
-.qg {
+/* Horizontal baseline */
+.timeline-line {
+  border-bottom: 2px solid #334155;
   position: absolute;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  top: 120px;
+  left: 0;
+  right: 0;
 }
 
-.qg2 { left: 80px; }
-.qg3 { right: 130px; }
+/* === QG TRIANGLES, LABELS, LINES === */
 
-.qg-hitbox {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.qg-triangle,
+.qg-label,
+.qg-line {
+  position: absolute;
 }
 
+/* Y positions */
+.qg-triangle {
+  top: 20px;
+}
 .qg-label {
+  top: 44px;
   font-size: 12px;
   font-weight: 600;
   color: #0284c7;
-  margin-top: 4px;
 }
-
 .qg-line {
-  border-left: 2px dashed #0284c7;
+  top: 60px;
   height: 160px;
-  margin-top: 4px;
+  border-left: 2px dashed #0284c7;
 }
 
-/* Triangle */
+/* Triangle shape */
 .qg-triangle {
   width: 0;
   height: 0;
@@ -119,7 +115,53 @@
   border-bottom: 20px solid #0284c7;
 }
 
-/* === MILESTONES === */
+/* X positions for QGs (matching 120px spacing) */
+.qg-triangle-1,
+.qg-label-1,
+.qg-line-1,
+.qg-box-1 {
+  left: 80px;
+}
+
+.qg-triangle-2,
+.qg-label-2,
+.qg-line-2,
+.qg-box-2 {
+  left: 800px;
+}
+
+.qg-triangle-3,
+.qg-label-3,
+.qg-line-3,
+.qg-box-3 {
+  left: 1640px;
+}
+
+.qg-triangle-4,
+.qg-label-4,
+.qg-line-4,
+.qg-box-4 {
+  left: 2360px;
+}
+
+.qg-triangle-5,
+.qg-label-5,
+.qg-line-5,
+.qg-box-5 {
+  left: 2960px;
+}
+
+/* === QG BOXES ABOVE THE HORIZONTAL LINE === */
+
+.qg-box {
+  position: absolute;
+  top: 80px; /* above the horizontal line at 120px */
+  cursor: pointer;
+  z-index: 30;
+}
+
+/* === MILESTONE BASE STYLE === */
+
 .milestone {
   width: 40px;
   height: 40px;
@@ -129,10 +171,15 @@
   justify-content: center;
   align-items: center;
   user-select: none;
+  font-size: 16px;
 }
 
 .circle {
   border-radius: 9999px;
+}
+
+.square {
+  /* QG boxes use this – square by default */
 }
 
 .checked {
@@ -142,48 +189,87 @@
   font-weight: bold;
 }
 
-/* milestone positions */
-.circle-wrapper {
+/* === MILESTONE WRAPPERS (positioned on baseline) === */
+
+.milestone-wrapper {
   position: absolute;
-  top: 42px;
-  left: 50%;
-  transform: translateX(-20px);
+  top: 100px; /* so they cross the horizontal line at 120px */
   cursor: pointer;
   z-index: 30;
 }
 
-.square-wrapper {
-  position: absolute;
-  top: 42px;
-  right: 130px;
-  cursor: pointer;
-  z-index: 30;
+/* X positions for milestones (120px spacing) */
+/* Order: QG1 – M1 – M2 – M3 – M4 – M5 – QG2 – M6 – ... – QG5 */
+
+.m-pos-1 {
+  left: 200px; /* M1 */
+}
+.m-pos-2 {
+  left: 320px; /* M2 */
+}
+.m-pos-3 {
+  left: 440px; /* M3 */
+}
+.m-pos-4 {
+  left: 560px; /* M4 */
+}
+.m-pos-5 {
+  left: 680px; /* M5 */
+}
+.m-pos-6 {
+  left: 920px; /* M6 */
+}
+.m-pos-7 {
+  left: 1040px; /* M7 */
+}
+.m-pos-8 {
+  left: 1160px; /* M8 */
+}
+.m-pos-9 {
+  left: 1280px; /* M9 */
+}
+.m-pos-10 {
+  left: 1400px; /* M10 */
+}
+.m-pos-11 {
+  left: 1520px; /* M11 */
+}
+.m-pos-12 {
+  left: 1760px; /* M12 */
+}
+.m-pos-13 {
+  left: 1880px; /* M13 */
+}
+.m-pos-14 {
+  left: 2000px; /* M14 */
+}
+.m-pos-15 {
+  left: 2120px; /* M15 */
+}
+.m-pos-16 {
+  left: 2240px; /* M16 */
+}
+.m-pos-17 {
+  left: 2480px; /* M17 */
+}
+.m-pos-18 {
+  left: 2600px; /* M18 */
+}
+.m-pos-19 {
+  left: 2720px; /* M19 */
+}
+.m-pos-20 {
+  left: 2840px; /* M20 */
 }
 
-/* V box */
-.v-box {
-  position: absolute;
-  top: 42px;
-  left: 85px;
-  z-index: 30;
-}
+/* === CHECKED MILESTONE SECTION === */
 
-.v-inner {
-  width: 32px;
-  height: 32px;
-  border: 2px solid black;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-}
-
-/* === CHECKED MILESTONES SECTION === */
 .checked-wrapper {
+  margin-top: 60px;
 }
 
-.checked-section {}
+.checked-section {
+}
 
 .checked-title {
   background: #0c4a6e;
