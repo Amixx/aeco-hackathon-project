@@ -91,8 +91,7 @@ export function MilestoneGraph({
 				data: {
 					label: (
 						<Link
-							// @ts-expect-error
-							to="/logs/$projectId/$departmentId"
+							to="/log/$projectId/$departmentId"
 							// @ts-expect-error
 							params={{ projectId, departmentId: dept.id }}
 							className="hover:underline cursor-pointer pointer-events-auto"
@@ -393,9 +392,7 @@ export function MilestoneGraph({
 									<span
 										className={cn(
 											"font-bold uppercase",
-											isDone
-												? "text-green-500"
-												: "text-red-500",
+											isDone ? "text-green-500" : "text-red-500",
 										)}
 									>
 										{status.replace("_", " ")}

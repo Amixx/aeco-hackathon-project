@@ -319,7 +319,7 @@ export const api = {
 			.map((l) => db.milestones.find((mm) => mm.id === l.milestone_id))
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
-		
+
 		const status = "pending";
 
 		return { ...newGate, milestones: milestonesFull, status };
@@ -376,7 +376,7 @@ export const api = {
 			.map((l) => db.milestones.find((mm) => mm.id === l.milestone_id))
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
-		
+
 		const status = "pending";
 
 		return { ...updated, milestones: milestonesFull, status };
@@ -401,10 +401,9 @@ export const api = {
 	) {
 		let link = db.projectQualityGates.find(
 			(pqg) =>
-				pqg.project_id === projectId &&
-				pqg.quality_gate_id === qualityGateId,
+				pqg.project_id === projectId && pqg.quality_gate_id === qualityGateId,
 		);
-		
+
 		const now = new Date().toISOString();
 
 		if (!link) {
@@ -424,7 +423,7 @@ export const api = {
 
 		link.completed_at = completed ? now : null;
 		link.updated_at = now;
-		
+
 		// We return the quality gate info, but context might need project info.
 		// The caller likely needs to refresh the project view.
 		return link;

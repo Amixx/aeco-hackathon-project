@@ -1,106 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import "./style.css";
-import Timeline from "@/components/generic/Timeline.tsx";
-
-export const Route = createFileRoute("/log/")({
-	component: LogPage,
-});
-
-function LogPage() {
-	const [projectId, setProjectId] = useState("01");
-	const [dept, setDept] = useState("KIG");
-	const [user, setUser] = useState("DD");
-
-	const [checkedList, setCheckedList] = useState<string[]>([]);
-
-	return (
-
-		<div className="log-container">
-			{/* === TOP: PROJECT INFO + PHASE BARS === */}
-			<div className="top-section">
-				{/* LEFT: DROPDOWNS */}
-				<div className="left-controls">
-					{/* Project ID */}
-					<div className="select-block">
-						<label>Project ID</label>
-						<select
-							value={projectId}
-							onChange={(e) => setProjectId(e.target.value)}
-						>
-							{/* <option value="00">--</option> */}
-							<option value="01">01</option>
-							<option value="02">02</option>
-						</select>
-					</div>
-
-					{/* Dept */}
-					<div className="select-block">
-						<label>Dept.</label>
-						<select value={dept} onChange={(e) => setDept(e.target.value)}>
-							<option value="ARC">Architecture</option>
-							<option value="ENG">Engineering</option>
-							<option value="CON">Construction</option>
-							<option value="FIN">Finance</option>
-							<option value="LEG">Legal</option>
-						</select>
-					</div>
-
-					{/* User */}
-					<div className="select-block">
-						<label>User</label>
-						<select value={user} onChange={(e) => setUser(e.target.value)}>
-							<option value="DD">DD</option>
-							<option value="PM">PM</option>
-						</select>
-					</div>
-				</div>
-
-				{/* RIGHT: PHASE BANDS */}
-				<div className="phase-bands">
-					<div className="phase phase1">Acquisition 1</div>
-					<div className="phase phase2">Acquisition 2</div>
-					<div className="phase phase3">Category</div>
-				</div>
-			</div>
-
-			{/* TIMELINE + CHECKED LIST */}
-			<div>
-			</div>
-			<Timeline setCheckedList={setCheckedList} />
-			<CheckedMilestones checkedList={checkedList} />
-		</div>
-	);
-}
-
-function CheckedMilestones({ checkedList }: { checkedList: string[] }) {
-	return (
-		<div className="checked-section">
-
-			<div className="checked-title">List of checked Quality Gates & Milestones</div>
-
-			<div className="checked-subtitle">
-				{checkedList.length === 0 ? (
-					<>No milestones checked</>
-				) : (
-					checkedList.join(", ")
-				)}
-			</div>
-
-		</div>
-	);
-}
-
-/* === TIMELINE COMPONENT === */
-function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => void }) {
-	const qgRequirements: Record<number, number> = {
-		0: 0,   // QG1 requires nothing
-		1: 5,   // QG2 requires M1–M5
-		2: 11,  // QG3 requires M1–M11
-		3: 16,  // QG4 requires M1–M16
-		4: 20,  // QG5 requires M1–M20
-	};
-
+import { useState } from "react";
+export default function Timeline() {
+	// Milestones 1–15 checked, 16–20 unchecked
 	const [milestonesChecked, setMilestonesChecked] = useState<boolean[]>([
 		true,
 		true,
@@ -134,54 +34,20 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 	]);
 
 	const toggleMilestone = (index: number) => {
-		// First milestone can always be toggled
-		if (index > 0 && !milestonesChecked[index - 1]) {
-			console.log("Cannot check this milestone — previous milestone not completed");
-			return;
-		}
-
-		const updated = [...milestonesChecked];
-		updated[index] = !updated[index];
-		setMilestonesChecked(updated);
+		setMilestonesChecked((prev) => {
+			const next = [...prev];
+			next[index] = !next[index];
+			return next;
+		});
 	};
 
-	const toggleQG = (index: number) => {
-		const requiredMilestones = qgRequirements[index];
-
-		// Check if all required milestones are done
-		const allPreviousChecked = milestonesChecked
-			.slice(0, requiredMilestones)
-			.every(x => x === true);
-
-		if (!allPreviousChecked) {
-			console.log("Cannot check QG yet — earlier milestones missing");
-			return; // block checking
-		}
-
-		// Otherwise toggle QG
-		const newQGs = [...qgBoxesChecked];
-		newQGs[index] = !newQGs[index];
-
-		setQGBoxesChecked(newQGs);
+	const toggleQGBox = (index: number) => {
+		setQGBoxesChecked((prev) => {
+			const next = [...prev];
+			next[index] = !next[index];
+			return next;
+		});
 	};
-
-
-	useEffect(() => {
-		const items: string[] = [];
-
-		// QGs
-		qgBoxesChecked.forEach((checked, i) => {
-			if (checked) items.push(`QG${i + 1}`);
-		});
-
-		// Milestones
-		milestonesChecked.forEach((checked, i) => {
-			if (checked) items.push(`M${i + 1}`);
-		});
-
-		setCheckedList(items);
-	}, [milestonesChecked, qgBoxesChecked]
-	);
 
 	return (
 		<div className="timeline-wrapper">
@@ -217,7 +83,7 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 
 				{/* === QG BOXES ABOVE HORIZONTAL LINE (CLICKABLE) === */}
 				{/* QG1 box */}
-				<div className="qg-box qg-box-1" onClick={() => toggleQG(0)}>
+				<div className="qg-box qg-box-1" onClick={() => toggleQGBox(0)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[0] ? "checked" : "")
@@ -228,7 +94,7 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 				</div>
 
 				{/* QG2 box */}
-				<div className="qg-box qg-box-2" onClick={() => toggleQG(1)}>
+				<div className="qg-box qg-box-2" onClick={() => toggleQGBox(1)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[1] ? "checked" : "")
@@ -239,7 +105,7 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 				</div>
 
 				{/* QG3 box */}
-				<div className="qg-box qg-box-3" onClick={() => toggleQG(2)}>
+				<div className="qg-box qg-box-3" onClick={() => toggleQGBox(2)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[2] ? "checked" : "")
@@ -250,7 +116,7 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 				</div>
 
 				{/* QG4 box */}
-				<div className="qg-box qg-box-4" onClick={() => toggleQG(3)}>
+				<div className="qg-box qg-box-4" onClick={() => toggleQGBox(3)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[3] ? "checked" : "")
@@ -261,7 +127,7 @@ function Timeline({ setCheckedList }: { setCheckedList: (items: string[]) => voi
 				</div>
 
 				{/* QG5 box */}
-				<div className="qg-box qg-box-5" onClick={() => toggleQG(4)}>
+				<div className="qg-box qg-box-5" onClick={() => toggleQGBox(4)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[4] ? "checked" : "")
