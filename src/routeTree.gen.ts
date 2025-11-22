@@ -96,8 +96,8 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/quality-gates': typeof QualityGatesRouteRouteWithChildren
   '/departments': typeof DepartmentsIndexRoute
-  '/log': typeof LogIndexRoute
   '/labels/': typeof LabelsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/quality-gates/': typeof QualityGatesIndexRoute
@@ -108,8 +108,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/departments': typeof DepartmentsIndexRoute
-  '/log': typeof LogIndexRoute
   '/labels': typeof LabelsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/quality-gates': typeof QualityGatesIndexRoute
@@ -124,8 +124,8 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/quality-gates': typeof QualityGatesRouteRouteWithChildren
   '/departments/': typeof DepartmentsIndexRoute
-  '/log/': typeof LogIndexRoute
   '/labels/': typeof LabelsIndexRoute
+  '/log/': typeof LogIndexRoute
   '/milestones/': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/quality-gates/': typeof QualityGatesIndexRoute
@@ -141,8 +141,8 @@ export interface FileRouteTypes {
     | '/projects'
     | '/quality-gates'
     | '/departments'
-    | '/log'
     | '/labels/'
+    | '/log'
     | '/milestones'
     | '/projects/'
     | '/quality-gates/'
@@ -153,8 +153,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/departments'
-    | '/log'
     | '/labels'
+    | '/log'
     | '/milestones'
     | '/projects'
     | '/quality-gates'
@@ -168,8 +168,8 @@ export interface FileRouteTypes {
     | '/projects'
     | '/quality-gates'
     | '/departments/'
-    | '/log/'
     | '/labels/'
+    | '/log/'
     | '/milestones/'
     | '/projects/'
     | '/quality-gates/'
