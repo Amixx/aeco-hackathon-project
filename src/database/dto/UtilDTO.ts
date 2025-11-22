@@ -21,5 +21,6 @@ export type QualityGateMilestone = {
 	quality_gate_id: string;
 	milestone_id: string;
 	completed_at: string | null; // timestamp, null = not completed
-	is_disabled: boolean | null;
+	is_disabled?: boolean | null;
+	risklevel?: number | null;
 };
