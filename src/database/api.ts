@@ -56,7 +56,15 @@ export const api = {
 				.filter((m) => Boolean(m))
 				.sort((a, b) => a!.execution_number - b!.execution_number);
 
-			return { ...project, milestones };
+			let risk = 1;
+			const risks = db.projectQualityGates
+				.filter((pqg) => pqg.project_id === project.id)
+				.map((pqg) => pqg.risklevel ?? 1);
+
+			if (risks.some((r) => r === 3)) risk = 3;
+			else if (risks.some((r) => r === 2)) risk = 2;
+
+			return { ...project, milestones, risk };
 		});
 
 		return projects;
@@ -123,7 +131,11 @@ export const api = {
 					status = "in_progress";
 				}
 
-				return { ...definition, status };
+				return {
+					...definition,
+					status,
+					risklevel: projectGate?.risklevel ?? null,
+				};
 			})
 			.filter((g) => g !== null);
 
@@ -425,11 +437,15 @@ export const api = {
 				project_id: projectId,
 				quality_gate_id: qualityGateId,
 				completed_at: null,
+				risklevel: null,
 			};
 			db.projectQualityGates.push(link);
 		}
 
 		link.completed_at = completed ? now : null;
+		if (completed) {
+			link.risklevel = null;
+		}
 		link.updated_at = now;
 
 		// We return the quality gate info, but context might need project info.

@@ -5,7 +5,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-0",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-1-qg-1",
@@ -13,7 +14,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-1",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-1-qg-2",
@@ -21,7 +23,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-2",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-1-qg-3",
@@ -29,7 +32,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-3",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-1-qg-4",
@@ -37,7 +41,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-4",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-1-qg-5",
@@ -45,7 +50,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-5",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-1-qg-6",
@@ -53,7 +59,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-6",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-1-qg-7",
@@ -61,7 +68,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-7",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-1-qg-8",
@@ -69,7 +77,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-8",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-1-qg-9",
@@ -77,7 +86,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-9",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-1-qg-10",
@@ -85,7 +95,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-1",
     "quality_gate_id": "qg-10",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-2-qg-0",
@@ -93,7 +104,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-0",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-2-qg-1",
@@ -101,7 +113,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-1",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-2-qg-2",
@@ -109,7 +122,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-2",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-2-qg-3",
@@ -117,7 +131,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-3",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-2-qg-4",
@@ -125,7 +140,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-4",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-2-qg-5",
@@ -133,7 +149,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-5",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-2-qg-6",
@@ -141,7 +158,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-6",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-2-qg-7",
@@ -149,7 +167,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-7",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-2-qg-8",
@@ -157,7 +176,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-8",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-2-qg-9",
@@ -165,7 +185,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-9",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-2-qg-10",
@@ -173,7 +194,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-2",
     "quality_gate_id": "qg-10",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-3-qg-0",
@@ -181,7 +203,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-0",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-3-qg-1",
@@ -189,7 +212,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-1",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-3-qg-2",
@@ -197,7 +221,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-2",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-3-qg-3",
@@ -205,7 +230,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-3",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-3-qg-4",
@@ -213,7 +239,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-4",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-3-qg-5",
@@ -221,7 +248,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-5",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-3-qg-6",
@@ -229,7 +257,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-6",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-3-qg-7",
@@ -237,7 +266,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-7",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-3-qg-8",
@@ -245,7 +275,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-8",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-3-qg-9",
@@ -253,7 +284,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-9",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-3-qg-10",
@@ -261,7 +293,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-3",
     "quality_gate_id": "qg-10",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-4-qg-0",
@@ -269,7 +302,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-0",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-1",
@@ -277,7 +311,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-1",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-2",
@@ -285,7 +320,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-2",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-3",
@@ -293,7 +329,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-3",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-4",
@@ -301,7 +338,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-4",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-5",
@@ -309,7 +347,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-5",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-6",
@@ -317,7 +356,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-6",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-7",
@@ -325,7 +365,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-7",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-8",
@@ -333,7 +374,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-8",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-9",
@@ -341,7 +383,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-9",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-4-qg-10",
@@ -349,7 +392,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-4",
     "quality_gate_id": "qg-10",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-5-qg-0",
@@ -357,7 +401,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-0",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-1",
@@ -365,7 +410,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-1",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-2",
@@ -373,7 +419,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-2",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-3",
@@ -381,7 +428,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-3",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-4",
@@ -389,7 +437,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-4",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-5",
@@ -397,7 +446,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-5",
-      "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-6",
@@ -405,7 +455,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-6",
-    "completed_at": "2024-01-01T00:00:00Z"
+    "completed_at": "2024-01-01T00:00:00Z",
+    "risklevel": null
   },
   {
     "id": "pqg-proj-5-qg-7",
@@ -413,7 +464,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-7",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 1
   },
   {
     "id": "pqg-proj-5-qg-8",
@@ -421,7 +473,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-8",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 2
   },
   {
     "id": "pqg-proj-5-qg-9",
@@ -429,7 +482,8 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-9",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   },
   {
     "id": "pqg-proj-5-qg-10",
@@ -437,6 +491,7 @@
     "updated_at": "2024-01-01T00:00:00Z",
     "project_id": "proj-5",
     "quality_gate_id": "qg-10",
-    "completed_at": null
+    "completed_at": null,
+    "risklevel": 3
   }
 ]

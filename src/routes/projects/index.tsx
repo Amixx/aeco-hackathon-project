@@ -1,5 +1,10 @@
-import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Activity, AlertTriangle, CheckCircle } from "lucide-react";
+import * as React from "react";
+import { ExcelExport } from "@/components/ExcelExport";
+import { ExcelImport } from "@/components/ExcelImport";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Table,
 	TableBody,
@@ -9,12 +14,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { ExcelImport } from "@/components/ExcelImport";
 import { api } from "@/database/api.ts";
 import type { ProjectMilestone } from "@/database/dto/UtilDTO";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, CheckCircle, AlertTriangle } from "lucide-react";
 
 export const Route = createFileRoute("/projects/")({
 	component: ProjectsComponent,
@@ -191,16 +192,37 @@ function ProjectsComponent() {
 		({ project }) => project.closed_at && project.closed_at !== "Null",
 	).length;
 
-	// risk KPIs – still empty for now
-	const highRiskProjects: string | number = "";
-	const mediumRiskProjects: string | number = "";
-	const lowRiskProjects: string | number = "";
+	// risk KPIs
+	const highRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 3,
+	).length;
+	const mediumRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 2,
+	).length;
+	const lowRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 1,
+	).length;
+
+	const exportData = filteredProjects.map(
+		({ project, checkedLabel, lastMilestoneLabel, durationLabel }) => ({
+			Project: project.name,
+			Description: project.description,
+			Risk: project.risk === 3 ? "High" : project.risk === 2 ? "Medium" : "Low",
+			Duration: durationLabel,
+			"Checked Milestones": checkedLabel,
+			"Last Checked Milestone": lastMilestoneLabel,
+			Status: project.closed_at ? "Closed" : "In Progress",
+		}),
+	);
 
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-				<ExcelImport />
+				<div className="flex gap-2">
+					<ExcelImport />
+					<ExcelExport data={exportData} filename="projects" />
+				</div>
 			</div>
 
 			{/* Filter */}
@@ -306,6 +328,7 @@ function ProjectsComponent() {
 						<TableRow>
 							<TableHead>Project</TableHead>
 							<TableHead>Project Size</TableHead>
+							<TableHead>Risk</TableHead>
 							<TableHead>Duration</TableHead>
 							<TableHead>Checked Quality Gates</TableHead>
 							<TableHead>Last Checked Quality Gate</TableHead>
@@ -343,6 +366,21 @@ function ProjectsComponent() {
 											</Link>
 										</TableCell>
 										<TableCell>{projectSizeLabel}</TableCell>
+										<TableCell>
+											{project.risk === 3 ? (
+												<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-red-500 text-white">
+													High
+												</span>
+											) : project.risk === 2 ? (
+												<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-orange-400 text-white">
+													Medium
+												</span>
+											) : (
+												<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-green-500 text-white">
+													Low
+												</span>
+											)}
+										</TableCell>
 										<TableCell>{durationLabel}</TableCell>
 										<TableCell>{checkedQualityGatesCount}</TableCell>
 										<TableCell>{lastQualityGateLabel}</TableCell>
