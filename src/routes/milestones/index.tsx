@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ExcelExport } from "@/components/ExcelExport";
+import { ExcelImport } from "@/components/ExcelImport";
 import {
 	Table,
 	TableBody,
@@ -8,7 +10,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { ExcelImport } from "@/components/ExcelImport";
 import { db } from "@/database/api.ts";
 
 export const Route = createFileRoute("/milestones/")({
@@ -20,13 +21,33 @@ function MilestonesComponent() {
 		(a, b) => a.execution_number - b.execution_number,
 	);
 
+	const exportData = milestones.map((milestone) => {
+		const label = db.labels.find((l) => l.id === milestone.label_id);
+		const dept = db.departments.find((d) => d.id === milestone.department_id);
+		return {
+			"#": milestone.execution_number,
+			Label: label?.name || milestone.label_id,
+			Name: milestone.name,
+			Description: milestone.description,
+			"Quality Gate":
+				milestone.previous_quality_gate > 0
+					? milestone.previous_quality_gate
+					: "-",
+			Recurring: milestone.recurring ? "Yes" : "No",
+			Department: dept?.name || milestone.department_id,
+		};
+	});
+
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">
 					Milestone Definitions
 				</h1>
-				<ExcelImport />
+				<div className="flex gap-2">
+					<ExcelImport />
+					<ExcelExport data={exportData} filename="milestones" />
+				</div>
 			</div>
 
 			<div className="rounded-md border">

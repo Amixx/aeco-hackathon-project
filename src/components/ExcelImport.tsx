@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Upload } from "lucide-react";
 import { useRef } from "react";
+import { Button } from "@/components/ui/button";
 
 export function ExcelImport() {
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +31,8 @@ export function ExcelImport() {
 				onChange={handleFileChange}
 				style={{ display: "none" }}
 			/>
-			<Button variant="outline" onClick={handleButtonClick}>
+			<Button variant="outline" onClick={handleButtonClick} className="gap-2">
+				<Upload className="h-4 w-4" />
 				Import from Excel
 			</Button>
 		</>

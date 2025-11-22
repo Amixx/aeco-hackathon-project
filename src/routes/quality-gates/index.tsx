@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ExcelExport } from "@/components/ExcelExport";
+import { ExcelImport } from "@/components/ExcelImport";
 import {
 	Table,
 	TableBody,
@@ -8,7 +10,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { ExcelImport } from "@/components/ExcelImport";
 import { api } from "@/database/api.ts";
 
 export const Route = createFileRoute("/quality-gates/")({
@@ -18,11 +19,22 @@ export const Route = createFileRoute("/quality-gates/")({
 function QualityGatesComponent() {
 	const qualityGates = api.getAllQualityGates();
 
+	const exportData = qualityGates.map((gate) => ({
+		Name: gate.name,
+		Description: gate.description,
+		Status: gate.status.replace("_", " "),
+		"Execution Number": gate.execution_number,
+		ID: gate.id,
+	}));
+
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Quality Gates</h1>
-				<ExcelImport />
+				<div className="flex gap-2">
+					<ExcelImport />
+					<ExcelExport data={exportData} filename="quality-gates" />
+				</div>
 			</div>
 
 			<div className="rounded-md border">

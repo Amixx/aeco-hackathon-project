@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ExcelExport } from "@/components/ExcelExport";
+import { ExcelImport } from "@/components/ExcelImport";
 import {
 	Table,
 	TableBody,
@@ -8,7 +10,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { ExcelImport } from "@/components/ExcelImport";
 import { db } from "@/database/api.ts";
 
 export const Route = createFileRoute("/users/")({
@@ -18,11 +19,24 @@ export const Route = createFileRoute("/users/")({
 function UsersComponent() {
 	const users = db.users;
 
+	const exportData = users.map((user) => {
+		const dept = db.departments.find((d) => d.id === user.department_id);
+		return {
+			Name: user.name,
+			Email: user.email,
+			Role: user.role.replace("_", " "),
+			Department: dept?.name || user.department_id,
+		};
+	});
+
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Users</h1>
-				<ExcelImport />
+				<div className="flex gap-2">
+					<ExcelImport />
+					<ExcelExport data={exportData} filename="users" />
+				</div>
 			</div>
 
 			<div className="rounded-md border">

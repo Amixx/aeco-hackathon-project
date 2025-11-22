@@ -1,5 +1,10 @@
-import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Activity, AlertTriangle, CheckCircle } from "lucide-react";
+import * as React from "react";
+import { ExcelExport } from "@/components/ExcelExport";
+import { ExcelImport } from "@/components/ExcelImport";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Table,
 	TableBody,
@@ -9,12 +14,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { ExcelImport } from "@/components/ExcelImport";
 import { api } from "@/database/api.ts";
 import type { ProjectMilestone } from "@/database/dto/UtilDTO";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, CheckCircle, AlertTriangle } from "lucide-react";
 
 export const Route = createFileRoute("/projects/")({
 	component: ProjectsComponent,
@@ -121,12 +122,25 @@ function ProjectsComponent() {
 	const highRiskProjects: string | number = "";
 	const mediumRiskProjects: string | number = "";
 	const lowRiskProjects: string | number = "";
+	const exportData = filteredProjects.map(
+		({ project, checkedLabel, lastMilestoneLabel, durationLabel }) => ({
+			Project: project.name,
+			Description: project.description,
+			Duration: durationLabel,
+			"Checked Milestones": checkedLabel,
+			"Last Checked Milestone": lastMilestoneLabel,
+			Status: project.closed_at ? "Closed" : "In Progress",
+		}),
+	);
 
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-				<ExcelImport />
+				<div className="flex gap-2">
+					<ExcelImport />
+					<ExcelExport data={exportData} filename="projects" />
+				</div>
 			</div>
 
 			{/* Filter */}
