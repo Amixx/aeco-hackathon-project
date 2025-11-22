@@ -40,30 +40,44 @@ export default function Timeline({
 		{ id: string; checked: boolean }[]
 	>(checkedStuff ?? []);
 
-	const lastSyncedRef = useRef(checkedStuff ?? []);
+	// Track the last seen updated_at timestamp for each milestone to avoid resetting local state
+	// when parent re-renders but data hasn't actually changed in the DB.
+	const lastUpdatedRef = useRef<Record<string, string>>({});
 
 	useEffect(() => {
-		const currentDbState =
+		const nextUpdatedMap: Record<string, string> = {};
+		let needsUpdate = false;
+
+		const nextState =
 			milestones?.map((x) => {
+				nextUpdatedMap[x.milestone_id] = x.updated_at;
+
+				// Check if we saw this version before
+				if (lastUpdatedRef.current[x.milestone_id] !== x.updated_at) {
+					needsUpdate = true;
+				}
+
 				return {
-					id: x.definition.id,
+					id: x.milestone_id,
 					checked:
 						Boolean(x.completed_at) &&
 						x.definition.department_id === departmentId,
 				};
 			}) ?? [];
 
-		// Check if DB state effectively changed compared to what we last saw
-		const isDbDifferent =
-			currentDbState.length !== lastSyncedRef.current.length ||
-			!currentDbState.every((m, i) => {
-				const last = lastSyncedRef.current[i];
-				return last.id === m.id && last.checked === m.checked;
-			});
+		// Also check if count changed (e.g. first load)
+		if (
+			milestones?.length !== Object.keys(lastUpdatedRef.current).length ||
+			// Handle case where milestones is undefined/empty but ref has data
+			(milestones === undefined &&
+				Object.keys(lastUpdatedRef.current).length > 0)
+		) {
+			needsUpdate = true;
+		}
 
-		if (isDbDifferent) {
-			setMilestonesChecked(currentDbState);
-			lastSyncedRef.current = currentDbState;
+		if (needsUpdate) {
+			setMilestonesChecked(nextState);
+			lastUpdatedRef.current = nextUpdatedMap;
 		}
 	}, [milestones, departmentId]);
 
