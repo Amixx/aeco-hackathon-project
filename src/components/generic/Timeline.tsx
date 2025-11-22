@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
@@ -39,6 +39,33 @@ export default function Timeline({
 	const [milestonesChecked, setMilestonesChecked] = useState<
 		{ id: string; checked: boolean }[]
 	>(checkedStuff ?? []);
+
+	const lastSyncedRef = useRef(checkedStuff ?? []);
+
+	useEffect(() => {
+		const currentDbState =
+			milestones?.map((x) => {
+				return {
+					id: x.definition.id,
+					checked:
+						Boolean(x.completed_at) &&
+						x.definition.department_id === departmentId,
+				};
+			}) ?? [];
+
+		// Check if DB state effectively changed compared to what we last saw
+		const isDbDifferent =
+			currentDbState.length !== lastSyncedRef.current.length ||
+			!currentDbState.every((m, i) => {
+				const last = lastSyncedRef.current[i];
+				return last.id === m.id && last.checked === m.checked;
+			});
+
+		if (isDbDifferent) {
+			setMilestonesChecked(currentDbState);
+			lastSyncedRef.current = currentDbState;
+		}
+	}, [milestones, departmentId]);
 
 	const saveMilestones = () => {
 		console.log("Saving milestones...");
@@ -101,7 +128,7 @@ export default function Timeline({
 
 		// Milestones
 		milestonesChecked?.forEach((checked, i) => {
-			if (checked) items.push(`M${i + 1}`);
+			if (checked.checked) items.push(`M${i + 1}`);
 		});
 
 		setCheckedList(items);
@@ -204,7 +231,7 @@ export default function Timeline({
 
 					return (
 						<div
-							key={i}
+							key={m.milestone_id}
 							className={`milestone-wrapper m-pos-${i + 1}`}
 							onClick={() => toggleMilestone(m.milestone_id)}
 						>

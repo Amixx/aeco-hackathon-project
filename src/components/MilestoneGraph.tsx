@@ -83,9 +83,9 @@ export function MilestoneGraph({
 		const allDepartments = db.departments;
 
 		// Filter departments based on selection
-		const visibleDepartments = allDepartments.filter(
-			(d) => d.id === selectedDepartmentId,
-		);
+		const visibleDepartments = selectedDepartmentId
+			? allDepartments.filter((d) => d.id === selectedDepartmentId)
+			: allDepartments;
 
 		// Map used for looking up department index in the VISIBLE list
 		const deptIndexMap = new Map<string, number>();
