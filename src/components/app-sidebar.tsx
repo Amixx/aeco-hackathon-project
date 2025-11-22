@@ -63,7 +63,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						</SidebarMenuItem>
 						<SidebarMenuItem>
 							<SidebarMenuButton asChild>
-								<Link to="/projects">
+								<Link to="/milestones">
 									<Pointer />
 									<span>Milestones</span>
 								</Link>
