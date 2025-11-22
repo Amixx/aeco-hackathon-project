@@ -191,6 +191,7 @@ export const api = {
 				milestone_id: m.id,
 				completed_at: null,
 				responsible_person_id: responsibleFallback,
+				risklevel: null,
 			}));
 			db.projectMilestones.push(...links);
 		}
@@ -245,6 +246,7 @@ export const api = {
 				milestone_id: m.id,
 				completed_at: null,
 				responsible_person_id: responsibleFallback,
+				risklevel: null,
 			}));
 			db.projectMilestones.push(...newLinks);
 		}
