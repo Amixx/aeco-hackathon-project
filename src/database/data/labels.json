@@ -1,0 +1,16 @@
+[
+	{ "id": "lbl-1", "name": "Concept", "department_id": "dept-1" },
+	{ "id": "lbl-2", "name": "Design", "department_id": "dept-1" },
+	{ "id": "lbl-3", "name": "Docs", "department_id": "dept-1" },
+	{ "id": "lbl-4", "name": "Structural", "department_id": "dept-2" },
+	{ "id": "lbl-5", "name": "Systems", "department_id": "dept-2" },
+	{ "id": "lbl-6", "name": "Check", "department_id": "dept-2" },
+	{ "id": "lbl-7", "name": "Mobilize", "department_id": "dept-3" },
+	{ "id": "lbl-8", "name": "Build", "department_id": "dept-3" },
+	{ "id": "lbl-9", "name": "Handover", "department_id": "dept-3" },
+	{ "id": "lbl-10", "name": "Budget", "department_id": "dept-4" },
+	{ "id": "lbl-11", "name": "Tender", "department_id": "dept-4" },
+	{ "id": "lbl-12", "name": "Close", "department_id": "dept-4" },
+	{ "id": "lbl-13", "name": "Permit", "department_id": "dept-5" },
+	{ "id": "lbl-14", "name": "Contract", "department_id": "dept-5" }
+]

@@ -15,42 +15,55 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { api } from "@/database/api";
+import { type api, db } from "@/database/api";
 import { cn } from "@/lib/utils";
 
 type ProjectMilestoneWithDetails = NonNullable<
 	ReturnType<typeof api.getProjectById>
 >["milestones"][0];
 
+type ProjectQualityGateWithDetails = NonNullable<
+	ReturnType<typeof api.getProjectById>
+>["quality_gates"][0];
+
 interface MilestoneGraphProps {
 	milestones: ProjectMilestoneWithDetails[];
+	qualityGates?: ProjectQualityGateWithDetails[];
 }
 
-const DEPARTMENTS = [
-	"Architecture",
-	"Structural",
-	"MEP",
-	"Interior Design",
-	"Landscape",
-];
-
 const DEPARTMENT_HEIGHT = 150;
-const MILESTONE_WIDTH = 250;
+const MILESTONE_WIDTH = 200;
 
-export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
+const SimpleNode = ({ data }: { data: { label: React.ReactNode } }) => {
+	return (
+		<div className="w-full h-full pointer-events-none select-none">
+			{data.label}
+		</div>
+	);
+};
+
+const nodeTypes = {
+	simple: SimpleNode,
+};
+
+export function MilestoneGraph({
+	milestones,
+	qualityGates = [],
+}: MilestoneGraphProps) {
 	// Memoize the graph data generation to avoid re-randomizing on every render
 	const { initialNodes, initialEdges } = useMemo(() => {
 		const nodes: Node[] = [];
 		const edges: Edge[] = [];
+		const departments = db.departments;
 
 		// Create department labels (swimlanes)
-		DEPARTMENTS.forEach((dept, index) => {
+		departments.forEach((dept, index) => {
 			nodes.push({
-				id: `dept-${index}`,
+				id: `dept-${dept.id}`,
 				type: "group",
 				position: { x: 0, y: index * DEPARTMENT_HEIGHT },
 				style: {
-					width: milestones.length * MILESTONE_WIDTH + 100,
+					width: milestones.length * MILESTONE_WIDTH + 200,
 					height: DEPARTMENT_HEIGHT,
 					backgroundColor:
 						index % 2 === 0
@@ -59,50 +72,154 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 					border: "none",
 					zIndex: -1,
 				},
-				data: { label: dept },
+				data: { label: dept.name },
 				selectable: false,
 				draggable: false,
 			});
 
 			// Add text label for the department
 			nodes.push({
-				id: `dept-label-${index}`,
-				type: "input", // Using input type just for simple text node mostly
-				position: { x: 10, y: index * DEPARTMENT_HEIGHT + 10 },
-				data: { label: dept },
+				id: `dept-label-${dept.id}`,
+				type: "simple", // Use custom simple node
+				position: {
+					x: 10,
+					y: DEPARTMENT_HEIGHT / 2 - 25, // Relative to parent group
+				},
+				data: { label: dept.name },
 				style: {
 					border: "none",
 					background: "transparent",
 					fontWeight: "bold",
 					width: 150,
+					height: 50,
 					pointerEvents: "none",
+					display: "flex",
+					alignItems: "center",
+					fontSize: "16px",
 				},
-				parentId: `dept-${index}`,
+				parentId: `dept-${dept.id}`,
 				extent: "parent",
 				draggable: false,
+				selectable: false,
 			});
 		});
 
-		// Process milestones
+		// 1. Analyze labels and departments to determine tracks
+		const labelsByDept = new Map<string, Set<string>>();
+		const labelInfo = new Map<string, { name: string; deptId: string }>();
+		let maxExecutionNumber = 0;
+
+		milestones.forEach((m) => {
+			const exec = m.definition?.execution_number || 0;
+			if (exec > maxExecutionNumber) maxExecutionNumber = exec;
+
+			const l = m.definition?.label;
+			const dId = m.definition?.department_id;
+			if (l && dId) {
+				if (!labelsByDept.has(dId)) {
+					labelsByDept.set(dId, new Set());
+				}
+				labelsByDept.get(dId)?.add(l.id);
+				labelInfo.set(l.id, { name: l.name, deptId: dId });
+			}
+		});
+
+		// Calculate Y-offsets for each label within its department
+		const labelYOffsets = new Map<string, number>();
+
+		departments.forEach((dept) => {
+			const labelIds = Array.from(labelsByDept.get(dept.id) || []);
+			// Sort labels for deterministic layout
+			labelIds.sort();
+
+			const count = labelIds.length;
+			if (count > 0) {
+				// Distribute lines evenly within the 150px height
+				const step = DEPARTMENT_HEIGHT / (count + 1);
+				labelIds.forEach((lId, idx) => {
+					labelYOffsets.set(lId, (idx + 1) * step);
+				});
+			}
+		});
+
+		// 2. Create Label Lines (Full Width)
+		// Width covers from slightly before first milestone to slightly after last
+		const startX = 150;
+		const endX = 200 + (maxExecutionNumber + 1) * MILESTONE_WIDTH;
+		const lineWidth = endX - startX;
+
+		labelInfo.forEach((info, labelId) => {
+			const deptIndex = departments.findIndex((d) => d.id === info.deptId);
+			if (deptIndex === -1) return;
+
+			const yOffset = labelYOffsets.get(labelId) || DEPARTMENT_HEIGHT / 2;
+			const absoluteY = deptIndex * DEPARTMENT_HEIGHT + yOffset;
+
+			nodes.push({
+				id: `label-line-${labelId}`,
+				type: "simple", // Use custom simple node
+				position: {
+					x: startX,
+					y: absoluteY - 30,
+				},
+				style: {
+					width: lineWidth,
+					height: 30,
+					backgroundColor: "transparent",
+					borderBottom: "2px solid #9ca3af",
+					borderRadius: 0,
+					zIndex: 0,
+					display: "flex",
+					alignItems: "flex-end",
+					paddingBottom: "4px",
+					paddingLeft: "10px", // Label at start of line
+					color: "#6b7280",
+					fontSize: "11px",
+					fontWeight: "bold",
+					textTransform: "uppercase",
+					borderTop: "none",
+					borderLeft: "none",
+					borderRight: "none",
+				},
+				data: {
+					label: (
+						<div className="w-full h-full flex items-end">
+							<span className="mb-1 ml-2 bg-white/50 px-1 rounded">
+								{info.name}
+							</span>
+						</div>
+					),
+				},
+				draggable: false,
+				selectable: false,
+			});
+		});
+
+		// 3. Process milestones
 		milestones.forEach((milestone, index) => {
-			// Randomly assign to a department (0-4)
-			// Use a deterministic random based on ID so it doesn't jump around on refresh if possible,
-			// but user said "random", so Math.random is okay.
-			// However, to keep it stable during this session, simple hash or just random is fine.
-			// Let's use a pseudo-random based on ID char codes to be stable.
-			const charCodeSum = milestone.id
-				.split("")
-				.reduce((acc, char) => acc + char.charCodeAt(0), 0);
-			const deptIndex = charCodeSum % DEPARTMENTS.length;
+			const deptId = milestone.definition?.department_id;
+			const deptIndex = departments.findIndex((d) => d.id === deptId);
+			const safeDeptIndex = deptIndex === -1 ? 0 : deptIndex;
 
 			const isCompleted = !!milestone.completed_at;
 			const isDisabled = !!milestone.is_disabled;
+			const label = milestone.definition?.label?.name || "N/A";
+			const labelId = milestone.definition?.label_id;
+
+			const xPos =
+				200 +
+				(milestone.definition?.execution_number || index) * MILESTONE_WIDTH;
+
+			// Determine Y based on label track or fallback to center
+			const yOffset =
+				(labelId ? labelYOffsets.get(labelId) : null) || DEPARTMENT_HEIGHT / 2;
+			const yPos = safeDeptIndex * DEPARTMENT_HEIGHT + yOffset;
 
 			const node: Node = {
 				id: milestone.id,
 				position: {
-					x: 200 + index * MILESTONE_WIDTH,
-					y: deptIndex * DEPARTMENT_HEIGHT + 50, // vertically centered in swimlane
+					x: xPos - 20, // Center on the line (width is 40)
+					y: yPos - 20, // Center vertically (height is 40)
 				},
 				data: {
 					label: (
@@ -136,7 +253,9 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 								) : isCompleted ? (
 									<div className="text-xs text-green-500 font-medium">
 										Completed:{" "}
-										{new Date(milestone.completed_at!).toLocaleDateString()}
+										{new Date(
+											milestone.completed_at ?? "",
+										).toLocaleDateString()}
 									</div>
 								) : (
 									<div className="text-xs text-yellow-500 font-medium">
@@ -146,6 +265,7 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 								<div className="text-xs text-gray-400 mt-1">
 									Resp: {milestone.responsible_person?.name || "Unassigned"}
 								</div>
+								<div className="text-xs text-gray-400 mt-1">Label: {label}</div>
 							</TooltipContent>
 						</Tooltip>
 					),
@@ -169,10 +289,12 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 					justifyContent: "center",
 					padding: 0,
 					opacity: isDisabled ? 0.8 : 1,
+					zIndex: 10,
 				},
 				sourcePosition: Position.Right,
 				targetPosition: Position.Left,
 				draggable: false,
+				connectable: false,
 			};
 
 			nodes.push(node);
@@ -189,8 +311,104 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 			}
 		});
 
+		// 4. Process Quality Gates
+		qualityGates.forEach((gate, i) => {
+			const linkedMilestones = gate.milestones || [];
+			let maxGateExec = 0;
+
+			linkedMilestones.forEach((m) => {
+				if (m.execution_number > maxGateExec) maxGateExec = m.execution_number;
+			});
+
+			if (maxGateExec === 0) return;
+
+			// Position gate after the last milestone
+			const xPos = 200 + (maxGateExec + 0.5) * MILESTONE_WIDTH;
+			const totalHeight = departments.length * DEPARTMENT_HEIGHT;
+
+			const status = gate.status;
+			const isDone = status === "done";
+			const inProgress = status === "in_progress";
+
+			const gateColor = isDone ? "#ef4444" : inProgress ? "#3b82f6" : "#22c55e";
+
+			nodes.push({
+				id: `gate-${gate.id}`,
+				type: "simple",
+				position: {
+					x: xPos,
+					y: 0,
+				},
+				style: {
+					width: 40, // wider to house the vertical bar
+					height: totalHeight,
+					zIndex: 5,
+					display: "flex",
+					justifyContent: "center",
+					pointerEvents: "all",
+				},
+				data: {
+					label: (
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<div className="w-full h-full flex justify-center group cursor-help relative">
+									{/* The visible vertical line */}
+									<div
+										style={{
+											width: "4px",
+											height: "100%",
+											backgroundColor: gateColor,
+											borderRadius: "4px",
+										}}
+									/>
+									{/* Optional: Gate Label / Icon at top */}
+									<div
+										className="absolute top-2 px-2 py-1 rounded text-xs font-bold text-white shadow-sm"
+										style={{ backgroundColor: gateColor }}
+									>
+										QG{i}
+									</div>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent>
+								<div className="font-bold text-sm mb-1">
+									Quality Gate: {gate.id}
+								</div>
+								<div className="text-xs mb-2">
+									Status:{" "}
+									<span
+										className={cn(
+											"font-bold uppercase",
+											isDone
+												? "text-green-500"
+												: inProgress
+													? "text-blue-500"
+													: "text-red-500",
+										)}
+									>
+										{status.replace("_", " ")}
+									</span>
+								</div>
+								<div className="text-xs text-muted-foreground">
+									Linked Milestones: {linkedMilestones.length}
+								</div>
+								{!isDone && (
+									<div className="text-xs text-red-500 mt-2 font-medium">
+										Complete all {linkedMilestones.length} linked milestones to
+										unlock.
+									</div>
+								)}
+							</TooltipContent>
+						</Tooltip>
+					),
+				},
+				draggable: false,
+				selectable: false,
+			});
+		});
+
 		return { initialNodes: nodes, initialEdges: edges };
-	}, [milestones]);
+	}, [milestones, qualityGates]);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -209,6 +427,9 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				fitView
+				nodesConnectable={false}
+				nodesDraggable={false}
+				nodeTypes={nodeTypes}
 			>
 				<Background />
 				<Controls />
