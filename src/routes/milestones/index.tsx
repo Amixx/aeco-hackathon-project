@@ -51,7 +51,7 @@ function MilestonesComponent() {
 									<TableCell className="font-medium">
 										{milestone.execution_number}
 									</TableCell>
-									<TableCell>{milestone.label}</TableCell>
+									<TableCell>{milestone.label?.name}</TableCell>
 									<TableCell>{milestone.name}</TableCell>
 									<TableCell>{milestone.description}</TableCell>
 									<TableCell>
