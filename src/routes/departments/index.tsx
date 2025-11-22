@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export const Route = createFileRoute('/departments')({
+export const Route = createFileRoute('/departments/')({
   component: DepartmentsComponent,
 })
 

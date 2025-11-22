@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Circle } from "lucide-react";
 
-export const Route = createFileRoute("/projects/$projectId")({
+export const Route = createFileRoute("/projects/$projectId/")({
   component: ProjectDetailComponent,
 });
 

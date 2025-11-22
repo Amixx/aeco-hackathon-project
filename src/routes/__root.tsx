@@ -1,26 +1,52 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.tsx";
+import {AppSidebar} from "@/components/app-sidebar.tsx";
+import {Separator} from "@/components/ui/separator.tsx";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList, BreadcrumbPage,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb.tsx";
 
 export const Route = createRootRoute({
   component: () => (
-    <>
-      <div className="p-2 flex gap-2 text-lg border-b">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/projects" className="[&.active]:font-bold">
-          Projects
-        </Link>
-        <Link to="/milestones" className="[&.active]:font-bold">
-          Milestones
-        </Link>
-        <Link to="/users" className="[&.active]:font-bold">
-          Users
-        </Link>
-        <Link to="/departments" className="[&.active]:font-bold">
-          Departments
-        </Link>
-      </div>
-      <Outlet />
-    </>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                  orientation="vertical"
+                  className="mr-2 data-[orientation=vertical]:h-4"
+              />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">
+                      Building Your Application
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+          </header>
+          <Outlet/>
+          {/*<div className="flex flex-1 flex-col gap-4 p-4 pt-0">*/}
+          {/*  <div className="grid auto-rows-min gap-4 md:grid-cols-3">*/}
+          {/*    <div className="bg-muted/50 aspect-video rounded-xl" />*/}
+          {/*    <div className="bg-muted/50 aspect-video rounded-xl" />*/}
+          {/*    <div className="bg-muted/50 aspect-video rounded-xl" />*/}
+          {/*  </div>*/}
+          {/*  <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />*/}
+          {/*</div>*/}
+        </SidebarInset>
+      </SidebarProvider>
   ),
 });
