@@ -1,4 +1,5 @@
 import departmentsData from "@/database/data/departments.json";
+import labelsData from "@/database/data/labels.json";
 import milestonesData from "@/database/data/milestones.json";
 import projectMilestonesData from "@/database/data/project_milestones.json";
 import projectsData from "@/database/data/projects.json";
@@ -6,6 +7,7 @@ import qualityGateMilestonesData from "@/database/data/quality_gate_milestones.j
 import qualityGatesData from "@/database/data/quality_gates.json";
 import usersData from "@/database/data/users.json";
 import type { DepartmentDTO } from "@/database/dto/DepartmentDTO.ts";
+import type { LabelDTO } from "@/database/dto/LabelDTO.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
 import type { ProjectDTO } from "@/database/dto/ProjectDTO.ts";
 import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
@@ -20,6 +22,7 @@ import type {
 
 export const db = {
 	departments: departmentsData as DepartmentDTO[],
+	labels: labelsData as LabelDTO[],
 	users: usersData as UserDTO[],
 	projects: projectsData as ProjectDTO[],
 	milestones: milestonesData as MilestoneDTO[],
@@ -94,9 +97,16 @@ export const api = {
 		const projects = db.projects.map((project) => {
 			const milestones = db.projectMilestones
 				.filter((pm) => pm.project_id === project.id)
-				.map((pm) => db.milestones.find((m) => m.id === pm.milestone_id))
-				.filter((m): m is MilestoneDTO => Boolean(m))
-				.sort((a, b) => a.execution_number - b.execution_number);
+				.map((pm) => {
+					const m = db.milestones.find((m) => m.id === pm.milestone_id);
+					if (!m) return null;
+					return {
+						...m,
+						label: db.labels.find((l) => l.id === m.label_id),
+					};
+				})
+				.filter((m) => Boolean(m))
+				.sort((a, b) => a!.execution_number - b!.execution_number);
 
 			return { ...project, milestones };
 		});
@@ -118,9 +128,14 @@ export const api = {
 				);
 				if (!milestoneDef) return null;
 
+				const enrichedMilestone = {
+					...milestoneDef,
+					label: db.labels.find((l) => l.id === milestoneDef.label_id),
+				};
+
 				return {
 					...pm,
-					definition: milestoneDef,
+					definition: enrichedMilestone,
 					responsible_person: responsibleUser,
 				};
 			})

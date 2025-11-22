@@ -1,4 +1,5 @@
 import type { DepartmentDTO } from "./DepartmentDTO";
+import type { LabelDTO } from "./LabelDTO";
 import type { ProjectDTO } from "./ProjectDTO";
 
 export type MilestoneDTO = {
@@ -7,12 +8,13 @@ export type MilestoneDTO = {
 	updated_at: string;
 	completed_at: string;
 	execution_number: number; // 1 to X
-	label: string;
+	label_id: string;
 	name: string;
 	description: string;
 	department_id: string;
 	previous_quality_gate: number; // 0 to 10
 	recurring: boolean;
 	department?: DepartmentDTO; // Owning department
+	label?: LabelDTO;
 	projects?: ProjectDTO[]; // Projects containing this milestone
 };
