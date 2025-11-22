@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import { Building2, Home, Pointer, ShieldCheck, Tag, User } from "lucide-react";
+import { Building2, Home, Pointer, ShieldCheck, Tag, User, GalleryVerticalEnd } from "lucide-react";
 import type * as React from "react";
 import { NavUser } from "@/components/nav-user";
 import {
