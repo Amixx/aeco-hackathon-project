@@ -1,16 +1,16 @@
-const SESSION_DB_KEY = 'app:db';
+const SESSION_DB_KEY = "app:db";
 
 /**
  * Load a previously saved db snapshot from sessionStorage
  * and shallowly copy its top-level keys into the provided db object.
  */
 export function hydrateDbFromSession(db: Record<string, unknown>): boolean {
-	if (typeof window === 'undefined') return false;
+	if (typeof window === "undefined") return false;
 	try {
 		const raw = window.sessionStorage.getItem(SESSION_DB_KEY);
 		if (!raw) return false;
 		const snapshot = JSON.parse(raw);
-		if (!snapshot || typeof snapshot !== 'object') return false;
+		if (!snapshot || typeof snapshot !== "object") return false;
 
 		// Shallow replace top-level keys to preserve object identity of db
 		for (const key of Object.keys(snapshot)) {
@@ -27,7 +27,7 @@ export function hydrateDbFromSession(db: Record<string, unknown>): boolean {
  * Save the current db snapshot to sessionStorage immediately.
  */
 export function saveDbToSession(db: unknown): void {
-	if (typeof window === 'undefined') return;
+	if (typeof window === "undefined") return;
 	try {
 		window.sessionStorage.setItem(SESSION_DB_KEY, JSON.stringify(db));
 	} catch {
@@ -39,8 +39,11 @@ export function saveDbToSession(db: unknown): void {
  * Start a lightweight autosave loop and lifecycle event flush for the db.
  * Ensures it runs only once per session/tab.
  */
-export function startSessionAutosave(db: unknown, intervalMs: number = 1000): void {
-	if (typeof window === 'undefined') return;
+export function startSessionAutosave(
+	db: unknown,
+	intervalMs: number = 1000,
+): void {
+	if (typeof window === "undefined") return;
 
 	// Avoid multiple registrations
 	const w = window as unknown as { __DB_AUTOSAVE__?: { handle: number } };
@@ -52,12 +55,12 @@ export function startSessionAutosave(db: unknown, intervalMs: number = 1000): vo
 	}, intervalMs);
 
 	// Flush on lifecycle events
-	window.addEventListener('visibilitychange', () => {
-		if (document.visibilityState === 'hidden') {
+	window.addEventListener("visibilitychange", () => {
+		if (document.visibilityState === "hidden") {
 			saveDbToSession(db);
 		}
 	});
-	window.addEventListener('beforeunload', () => {
+	window.addEventListener("beforeunload", () => {
 		saveDbToSession(db);
 	});
 

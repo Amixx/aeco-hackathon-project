@@ -1,5 +1,9 @@
-import { db } from './api';
-import { hydrateDbFromSession, startSessionAutosave, saveDbToSession } from './sessionPersistence';
+import { db } from "./api";
+import {
+	hydrateDbFromSession,
+	startSessionAutosave,
+	saveDbToSession,
+} from "./sessionPersistence";
 
 // Hydrate once at startup from sessionStorage if present
 hydrateDbFromSession(db);

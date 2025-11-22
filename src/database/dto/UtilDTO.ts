@@ -7,7 +7,7 @@ export type ProjectMilestone = {
 	project_id: string;
 	milestone_id: string;
 	completed_at: string | null; // timestamp, null = not completed
-	risklevel:number| null;
+	risklevel: number | null;
 	responsible_person_id: string;
 	is_disabled?: boolean;
 };
