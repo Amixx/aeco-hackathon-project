@@ -3,18 +3,13 @@
         "id": "qg-0",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 0,
-        "label_id": "lbl-1",
         "name": "Kategorisierung",
         "description": "Initiale Kategorisierung und Klassifizierung des Projekts"
-        
     },
     {
         "id": "qg-1",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 1,
-        "label_id": "lbl-2",
         "name": "Entscheidung zur Ausschreibung",
         "description": "Entscheidung ob das Projekt ausgeschrieben werden soll"
     },
@@ -22,8 +17,6 @@
         "id": "qg-2",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 2,
-        "label_id": "lbl-3",
         "name": "Validierung zur Ausschreibung",
         "description": "Validierung und Freigabe der Ausschreibungsunterlagen"
     },
@@ -31,8 +24,6 @@
         "id": "qg-3",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 3,
-        "label_id": "lbl-4",
         "name": "Entscheidung zur Angebotsabgabe",
         "description": "Entscheidung über die Abgabe eines Angebots"
     },
@@ -40,8 +31,6 @@
         "id": "qg-4",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 4,
-        "label_id": "lbl-5",
         "name": "Endgültige Genehmigung des Vertrages",
         "description": "Finale Vertragsfreigabe und rechtliche Prüfung"
     },
@@ -49,8 +38,6 @@
         "id": "qg-5",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 5,
-        "label_id": "lbl-6",
         "name": "Start Bau vorbereiten",
         "description": "Vorbereitung und Planung für den Baubeginn"
     },
@@ -58,8 +45,6 @@
         "id": "qg-6",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 6,
-        "label_id": "lbl-7",
         "name": "Start der Konstruktion",
         "description": "Offizieller Beginn der Konstruktionsphase"
     },
@@ -67,8 +52,6 @@
         "id": "qg-7",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 7,
-        "label_id": "lbl-8",
         "name": "Konstruktion",
         "description": "Laufende Konstruktion und Baufortschritt"
     },
@@ -76,8 +59,6 @@
         "id": "qg-8",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 8,
-        "label_id": "lbl-9",
         "name": "Projektabschluss",
         "description": "Abschluss der Bauarbeiten und Übergabe"
     },
@@ -85,8 +66,6 @@
         "id": "qg-9",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 9,
-        "label_id": "lbl-10",
         "name": "Gewährleistung/Betreibung",
         "description": "Gewährleistungsphase und operative Inbetriebnahme"
     },
@@ -94,8 +73,6 @@
         "id": "qg-10",
         "created_at": "2024-01-01T00:00:00Z",
         "updated_at": "2024-01-01T00:00:00Z",
-        "execution_number": 10,
-        "label_id": "lbl-11",
         "name": "Projektabschluss",
         "description": "Finaler Projektabschluss nach Gewährleistung"
     }

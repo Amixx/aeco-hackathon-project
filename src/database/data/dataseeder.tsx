@@ -1,89 +1,69 @@
-"use client";
+import { writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
 
-import { Link } from "@tanstack/react-router";
-import {
-	Folder,
-	Forward,
-	type LucideIcon,
-	MoreHorizontal,
-	Trash2,
-} from "lucide-react";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-	SidebarGroup,
-	SidebarGroupLabel,
-	SidebarMenu,
-	SidebarMenuAction,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	useSidebar,
-} from "@/components/ui/sidebar";
+// __dirname für ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export function NavLink({
-	links,
-}: {
-	links: {
-		name: string;
-		url: string;
-		icon: LucideIcon;
-	}[];
-}) {
-	const { isMobile } = useSidebar();
+const milestoneQualityGateConnections: any[] = [];
 
-	return (
-		<SidebarGroup className="group-data-[collapsible=icon]:hidden">
-			<SidebarGroupLabel>Projects</SidebarGroupLabel>
-			<SidebarMenu>
-				{links.map((item) => (
-					<SidebarMenuItem key={item.name}>
-						<SidebarMenuButton asChild>
-							<Link to={item.url}>
-								<item.icon />
-								<span>{item.name}</span>
-							</Link>
-						</SidebarMenuButton>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuAction showOnHover>
-									<MoreHorizontal />
-									<span className="sr-only">More</span>
-								</SidebarMenuAction>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent
-								className="w-48 rounded-lg"
-								side={isMobile ? "bottom" : "right"}
-								align={isMobile ? "end" : "start"}
-							>
-								<DropdownMenuItem>
-									<Folder className="text-muted-foreground" />
-									<span>View Project</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Forward className="text-muted-foreground" />
-									<span>Share Project</span>
-								</DropdownMenuItem>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem>
-									<Trash2 className="text-muted-foreground" />
-									<span>Delete Project</span>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				))}
-				<SidebarMenuItem>
-					<SidebarMenuButton className="text-sidebar-foreground/70">
-						<MoreHorizontal className="text-sidebar-foreground/70" />
-						<span>More</span>
-					</SidebarMenuButton>
-				</SidebarMenuItem>
-			</SidebarMenu>
-		</SidebarGroup>
-	);
+// 20 Milestones auf 11 Quality Gates verteilen (jeweils 2 Milestones pro QG)
+// QG-0 bis QG-4 sind offen (haben risklevel)
+// QG-5 bis QG-10 sind geschlossen (risklevel = null)
+
+for (let qgIndex = 0; qgIndex <= 10; qgIndex++) {
+    const milestone1Index = qgIndex * 2 + 1; // 1, 3, 5, 7, ...
+    const milestone2Index = qgIndex * 2 + 2; // 2, 4, 6, 8, ...
+
+    // Quality Gates bis einschließlich QG-4 sind offen (haben risklevel)
+    const isOpen = qgIndex <= 4;
+
+    // Erste Milestone für dieses Quality Gate
+    if (milestone1Index <= 20) {
+        // Wenn QG offen ist (0-4), dann ist completed_at null und es gibt ein risklevel
+        // Wenn QG geschlossen ist (5-10), dann gibt es completed_at und kein risklevel
+        const completedAt = isOpen ? null : "2024-02-01T12:00:00Z";
+        const riskLevel = isOpen ? Math.floor(Math.random() * 3) + 1 : null;
+
+        const connection: any = {
+            id: `mqg-qg-${qgIndex}-ms-${milestone1Index}`,
+            created_at: "2024-01-01T00:00:00Z",
+            updated_at: "2024-01-01T00:00:00Z",
+            quality_gate_id: `qg-${qgIndex}`,
+            milestone_id: `ms-${milestone1Index}`,
+            completed_at: completedAt,
+            risklevel: riskLevel
+        };
+        milestoneQualityGateConnections.push(connection);
+    }
+
+    // Zweite Milestone für dieses Quality Gate
+    if (milestone2Index <= 20) {
+        // Wenn QG offen ist (0-4), dann ist completed_at null und es gibt ein risklevel
+        // Wenn QG geschlossen ist (5-10), dann gibt es completed_at und kein risklevel
+        const completedAt = isOpen ? null : "2024-02-01T12:00:00Z";
+        const riskLevel = isOpen ? Math.floor(Math.random() * 3) + 1 : null;
+
+        const connection: any = {
+            id: `mqg-qg-${qgIndex}-ms-${milestone2Index}`,
+            created_at: "2024-01-01T00:00:00Z",
+            updated_at: "2024-01-01T00:00:00Z",
+            quality_gate_id: `qg-${qgIndex}`,
+            milestone_id: `ms-${milestone2Index}`,
+            completed_at: completedAt,
+            risklevel: riskLevel
+        };
+        milestoneQualityGateConnections.push(connection);
+    }
 }
+
+const outputPath = join(__dirname, "milestone_quality_gate_connections.json");
+writeFileSync(outputPath, JSON.stringify(milestoneQualityGateConnections, null, 2));
+
+console.log(
+    `Generated ${milestoneQualityGateConnections.length} milestone-quality gate connections at ${outputPath}`
+);
+console.log(`- Open gates (with risklevel): QG-0 to QG-4`);
+console.log(`- Closed gates (risklevel = null): QG-5 to QG-10`);
