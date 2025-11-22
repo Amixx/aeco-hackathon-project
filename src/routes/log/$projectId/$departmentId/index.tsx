@@ -3,7 +3,6 @@ import { useState } from "react";
 import CheckedMilestones from "@/components/generic/CheckedMilestones.tsx";
 import Timeline from "@/components/generic/Timeline.tsx";
 import { api, db } from "@/database/api.ts";
-import { Card, CardContent } from "@/components/ui/card.tsx";
 
 export const Route = createFileRoute("/log/$projectId/$departmentId/")({
 	component: RouteComponent,
