@@ -151,7 +151,6 @@ function ProjectDetailComponent() {
 
 			{/* Milestone Graph */}
 			<div className="space-y-2">
-				<h2 className="text-xl font-semibold">Milestone Flow</h2>
 				<MilestoneGraph
 					projectId={project.id}
 					milestones={project.milestones}
