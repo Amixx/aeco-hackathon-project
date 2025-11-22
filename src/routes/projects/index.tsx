@@ -220,9 +220,7 @@ function ProjectsComponent() {
 									<div className="h-2 w-2 rounded-full bg-green-500" />
 									<span>Number of projects with low risk</span>
 								</div>
-								<span className="text-sm font-semibold">
-									{lowRiskProjects}
-								</span>
+								<span className="text-sm font-semibold">{lowRiskProjects}</span>
 							</div>
 						</div>
 					</CardContent>

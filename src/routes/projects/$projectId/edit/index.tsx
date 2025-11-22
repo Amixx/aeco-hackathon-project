@@ -23,8 +23,6 @@ function RouteComponent() {
 
 	const [name, setName] = React.useState("");
 	const [description, setDescription] = React.useState("");
-	const [ownerId, setOwnerId] = React.useState<string | "">("");
-	const [departmentId, setDepartmentId] = React.useState<string | "">("");
 
 	React.useEffect(() => {
 		const p = api.getProjectById(projectId);
@@ -32,13 +30,9 @@ function RouteComponent() {
 		if (p) {
 			setName(p.name ?? "");
 			setDescription(p.description ?? "");
-			// setOwnerId(p.owner_id ?? "");
-			// setDepartmentId(p.department_id ?? "");
 		} else {
 			setName("");
 			setDescription("");
-			setOwnerId("");
-			setDepartmentId("");
 		}
 		setLoaded(true);
 	}, [projectId]);
@@ -56,8 +50,6 @@ function RouteComponent() {
 			...project,
 			name: name.trim(),
 			description: description ?? "",
-			owner_id: ownerId || null,
-			department_id: departmentId || null,
 			updated_at: new Date().toISOString(),
 		};
 
@@ -74,9 +66,6 @@ function RouteComponent() {
 			setSubmitting(false);
 		}
 	}
-
-	const users = db.users ?? [];
-	const departments = db.departments ?? [];
 
 	if (!loaded) {
 		return (
@@ -119,40 +108,6 @@ function RouteComponent() {
 						onChange={(e) => setDescription(e.target.value)}
 						disabled={submitting}
 					/>
-				</div>
-
-				<div>
-					<Label className="block text-sm font-medium mb-1">Owner</Label>
-					<select
-						value={ownerId}
-						onChange={(e) => setOwnerId(e.target.value)}
-						className="rounded-md border px-3 py-2 w-full"
-						disabled={submitting}
-					>
-						<option value="">— none —</option>
-						{users.map((u) => (
-							<option key={u.id} value={u.id}>
-								{u.name || u.email || u.id}
-							</option>
-						))}
-					</select>
-				</div>
-
-				<div>
-					<Label className="block text-sm font-medium mb-1">Department</Label>
-					<select
-						value={departmentId}
-						onChange={(e) => setDepartmentId(e.target.value)}
-						className="rounded-md border px-3 py-2 w-full"
-						disabled={submitting}
-					>
-						<option value="">— none —</option>
-						{departments.map((d) => (
-							<option key={d.id} value={d.id}>
-								{d.name || d.id}
-							</option>
-						))}
-					</select>
 				</div>
 
 				<div className="flex gap-2">

@@ -182,30 +182,6 @@ export const api = {
 		// Persist base record (without embedded milestones array)
 		db.projects[idx] = { ...updated, milestones: undefined };
 
-		// If milestones provided, replace links
-		if (milestones) {
-			db.projectMilestones = db.projectMilestones.filter(
-				(pm) => pm.project_id !== updated.id,
-			);
-
-			const responsibleFallback = db.users[0]?.id ?? "";
-			const validMilestones = milestones
-				.map((m) => db.milestones.find((mm) => mm.id === m.id))
-				.filter((m): m is MilestoneDTO => Boolean(m));
-
-			const newLinks = validMilestones.map((m) => ({
-				id: `pm_${Math.random().toString(36).slice(2, 10)}_${Date.now().toString(36)}`,
-				created_at: now,
-				updated_at: now,
-				project_id: updated.id,
-				milestone_id: m.id,
-				completed_at: null,
-				responsible_person_id: responsibleFallback,
-				risklevel: null,
-			}));
-			db.projectMilestones.push(...newLinks);
-		}
-
 		const attachedMilestones = db.projectMilestones
 			.filter((pm) => pm.project_id === updated.id)
 			.map((pm) => db.milestones.find((m) => m.id === pm.milestone_id))
