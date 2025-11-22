@@ -9,6 +9,7 @@ import {
 	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import {
 	Tooltip,
@@ -27,6 +28,7 @@ type ProjectQualityGateWithDetails = NonNullable<
 >["quality_gates"][0];
 
 interface MilestoneGraphProps {
+	projectId: string;
 	milestones: ProjectMilestoneWithDetails[];
 	qualityGates?: ProjectQualityGateWithDetails[];
 }
@@ -47,6 +49,7 @@ const nodeTypes = {
 };
 
 export function MilestoneGraph({
+	projectId,
 	milestones,
 	qualityGates = [],
 }: MilestoneGraphProps) {
@@ -85,14 +88,26 @@ export function MilestoneGraph({
 					x: 10,
 					y: DEPARTMENT_HEIGHT / 2 - 25, // Relative to parent group
 				},
-				data: { label: dept.name },
+				data: {
+					label: (
+						<Link
+							// @ts-expect-error
+							to="/logs/$projectId/$departmentId"
+							// @ts-expect-error
+							params={{ projectId, departmentId: dept.id }}
+							className="hover:underline cursor-pointer pointer-events-auto"
+						>
+							{dept.name}
+						</Link>
+					),
+				},
 				style: {
 					border: "none",
 					background: "transparent",
 					fontWeight: "bold",
 					width: 150,
 					height: 50,
-					pointerEvents: "none",
+					pointerEvents: "all",
 					display: "flex",
 					alignItems: "center",
 					fontSize: "16px",
@@ -408,7 +423,7 @@ export function MilestoneGraph({
 		});
 
 		return { initialNodes: nodes, initialEdges: edges };
-	}, [milestones, qualityGates]);
+	}, [milestones, qualityGates, projectId]);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
