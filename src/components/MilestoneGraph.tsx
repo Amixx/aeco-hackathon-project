@@ -6,23 +6,18 @@ import {
 	Position,
 	ReactFlow,
 	type ReactFlowInstance,
-	type ReactFlowInstance,
 	useEdgesState,
 	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, ChevronDown } from "lucide-react";
-import { useEffect, useMemo, useState, useState } from "react";
-import { Button, Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
-	DropdownMenu,
-	DropdownMenuContent,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -81,11 +76,6 @@ export function MilestoneGraph({
 		return map;
 	}, []);
 
-	const [selectedDepartmentId, setSelectedDepartmentId] = useState<
-		string | null
-	>(null);
-	const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
-
 	// Memoize the graph data generation to avoid re-randomizing on every render
 	const { initialNodes, initialEdges } = useMemo(() => {
 		const nodes: Node[] = [];
@@ -93,9 +83,9 @@ export function MilestoneGraph({
 		const allDepartments = db.departments;
 
 		// Filter departments based on selection
-		const visibleDepartments = selectedDepartmentId
-			? allDepartments.filter((d) => d.id === selectedDepartmentId)
-			: allDepartments;
+		const visibleDepartments = allDepartments.filter(
+			(d) => d.id === selectedDepartmentId,
+		);
 
 		// Map used for looking up department index in the VISIBLE list
 		const deptIndexMap = new Map<string, number>();
@@ -536,7 +526,6 @@ export function MilestoneGraph({
 		qualityGates,
 		projectId,
 		selectedDepartmentId,
-		selectedDepartmentId,
 		labelColorMap.get,
 	]);
 
@@ -586,7 +575,7 @@ export function MilestoneGraph({
 						<Button variant="outline">
 							{selectedDepartmentId
 								? allDepartments.find((d) => d.id === selectedDepartmentId)
-									?.name || "Unknown Department"
+										?.name || "Unknown Department"
 								: "All Departments"}
 							<ChevronDown className="ml-2 h-4 w-4" />
 						</Button>

@@ -58,16 +58,6 @@ export const api = {
 
 			const quality_gates = this.getProjectQualityGates(project.id);
 
-			const risk = 1;
-			const risks = db.projectQualityGates
-				.filter((pqg) => pqg.project_id === project.id)
-				.map((pqg) => pqg.risklevel ?? 1);
-
-			if (risks.some((r) => r === 3)) risk = 3;
-			else if (risks.some((r) => r === 2)) risk = 2;
-
-			const quality_gates = this.getProjectQualityGates(project.id);
-
 			let risk = 1;
 			const risks = db.projectQualityGates
 				.filter((pqg) => pqg.project_id === project.id)
@@ -79,8 +69,6 @@ export const api = {
 			return {
 				...project,
 				milestones,
-				quality_gates,
-				risk,
 				quality_gates,
 				risk,
 			};
