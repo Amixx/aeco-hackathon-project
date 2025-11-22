@@ -19,7 +19,7 @@ export const Route = createRootRoute({
 							orientation="vertical"
 							className="mr-2 data-[orientation=vertical]:h-4"
 						/>
-						TODO: Add Breadcrumbs
+						{/* TODO: Add Breadcrumbs */}
 						{/*<Breadcrumb>*/}
 						{/*  <BreadcrumbList>*/}
 						{/*    <BreadcrumbItem className="hidden md:block">*/}
