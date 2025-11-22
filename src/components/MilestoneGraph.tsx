@@ -56,14 +56,7 @@ const SimpleNode = ({ data }: { data: { label: React.ReactNode } }) => {
 const nodeTypes = {
 	simple: SimpleNode,
 };
-// At the top of your component, create a color map from your labels
-const labelColorMap = useMemo(() => {
-	const map = new Map<string, string>();
-	db.labels.forEach(label => {
-		map.set(label.id, label.color);
-	});
-	return map;
-}, []);
+
 
 export function MilestoneGraph({
 	projectId,
@@ -91,7 +84,14 @@ export function MilestoneGraph({
 		visibleDepartments.forEach((dept, index) => {
 			deptIndexMap.set(dept.id, index);
 		});
-
+		// At the top of your component, create a color map from your labels
+		const labelColorMap = useMemo(() => {
+			const map = new Map<string, string>();
+			db.labels.forEach(label => {
+				map.set(label.id, label.color);
+			});
+			return map;
+		}, []);
 		// Create department labels (swimlanes)
 		visibleDepartments.forEach((dept, index) => {
 			nodes.push({
@@ -190,9 +190,9 @@ export function MilestoneGraph({
 
 		// // 2. Create Label Lines (Full Width)
 		// // Width covers from slightly before first milestone to slightly after last
-		// const startX = 150;
-		// const endX = 200 + (maxExecutionNumber + 1) * MILESTONE_WIDTH;
-		// const lineWidth = endX - startX;
+		const startX = 150;
+		const endX = 200 + (maxExecutionNumber + 1) * MILESTONE_WIDTH;
+		const lineWidth = endX - startX;
 
 		// labelInfo.forEach((info, labelId) => {
 		// 	// Only create line if department is visible
