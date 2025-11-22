@@ -146,10 +146,9 @@ export const api = {
 
 		const newProject: ProjectDTO = {
 			...rest,
-			milestone_count:
-				milestones && milestones.length
-					? milestones.length
-					: rest.milestone_count,
+			milestone_count: milestones?.length
+				? milestones.length
+				: rest.milestone_count,
 			updated_at: now,
 		};
 
@@ -157,7 +156,7 @@ export const api = {
 		db.projects.push({ ...newProject, milestones: undefined });
 
 		// Create project-milestone links if provided
-		if (milestones && milestones.length) {
+		if (milestones?.length) {
 			// Remove any stale links for this id (safety)
 			db.projectMilestones = db.projectMilestones.filter(
 				(pm) => pm.project_id !== newProject.id,
@@ -334,7 +333,7 @@ export const api = {
 
 		db.qualityGates.push(newGate);
 
-		if (milestones && milestones.length) {
+		if (milestones?.length) {
 			// Clean any existing links first
 			db.qualityGateMilestones = db.qualityGateMilestones.filter(
 				(qgm) => qgm.quality_gate_id !== newGate.id,
