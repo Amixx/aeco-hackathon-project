@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { ExcelImport } from "@/components/ExcelImport";
 import { db } from "@/database/api.ts";
 
 export const Route = createFileRoute("/milestones/")({
@@ -25,6 +26,7 @@ function MilestonesComponent() {
 				<h1 className="text-3xl font-bold tracking-tight">
 					Milestone Definitions
 				</h1>
+				<ExcelImport />
 			</div>
 
 			<div className="rounded-md border">

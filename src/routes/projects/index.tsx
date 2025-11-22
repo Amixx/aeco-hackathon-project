@@ -9,6 +9,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { ExcelImport } from "@/components/ExcelImport";
 import { api } from "@/database/api.ts";
 import type { ProjectMilestone } from "@/database/dto/UtilDTO";
 
@@ -44,6 +45,7 @@ function ProjectsComponent() {
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+				<ExcelImport />
 			</div>
 
 			<div className="rounded-md border">
