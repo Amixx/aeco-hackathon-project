@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { api } from "@/database/api.ts";
 import type { ProjectMilestone } from "@/database/dto/UtilDTO";
 
@@ -56,6 +57,7 @@ function ProjectsComponent() {
 							<TableHead>Checked Milestones</TableHead>
 							<TableHead>Last Checked Milestone</TableHead>
 							<TableHead className="text-right">Status</TableHead>
+							<TableHead className="text-right">Actions</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -138,6 +140,16 @@ function ProjectsComponent() {
 												Active
 											</span>
 										)}
+									</TableCell>
+									<TableCell className="text-right">
+										<Button asChild variant="outline" size="sm">
+											<Link
+												to="/projects/$projectId/edit"
+												params={{ projectId: project.id }}
+											>
+												Edit
+											</Link>
+										</Button>
 									</TableCell>
 								</TableRow>
 							);
