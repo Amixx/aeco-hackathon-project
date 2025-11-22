@@ -37,13 +37,11 @@ function LogPage() {
 					<div className="select-block">
 						<label>Dept.</label>
 						<select value={dept} onChange={(e) => setDept(e.target.value)}>
-							<option value="KIG">KIG</option>
-							<option value="OM">OM</option>
-							<option value="PCB">PCB</option>
-							<option value="B">B</option>
-							<option value="PVA">PVA</option>
-							<option value="QAG">QAG</option>
-							<option value="TS">TS</option>
+							<option value="ARC">Architecture</option>
+							<option value="ENG">Engineering</option>
+							<option value="CON">Construction</option>
+							<option value="FIN">Finance</option>
+							<option value="LEG">Legal</option>
 						</select>
 					</div>
 
