@@ -52,9 +52,12 @@ function getQualityGateOrder(id: string) {
 }
 
 function ProjectsComponent() {
-	// NEW: filter by last checked quality gate
+	// filter by last checked quality gate
 	const [selectedQualityGateId, setSelectedQualityGateId] =
 		React.useState<string>("all");
+	// NEW: filter by risk level
+	const [selectedRisk, setSelectedRisk] =
+		React.useState<"all" | "high" | "medium" | "low">("all");
 
 	const projects = api.getAllProjects();
 	const projectMilestones = api.getAllProjectMilestones();
@@ -64,7 +67,7 @@ function ProjectsComponent() {
 	const projectQualityGates = api.getAllProjectQualityGates();
 	const qualityGates = api.getAllQualityGates();
 
-	// ---- Build meta data per project (reused for KPIs + table + filter) ----
+	// ---- Build meta data per project (reused for KPIs + table + filters) ----
 	const projectsWithMeta = projects.map((project) => {
 		// ---- Milestones ----
 		const pmsForProject = projectMilestones.filter(
@@ -128,7 +131,7 @@ function ProjectsComponent() {
 				if (currentDate > latestDate) return current;
 				if (currentDate < latestDate) return latest;
 
-				// dates are equal -> pick the gate with the higher order (qg-2 > qg-1)
+				// dates equal -> pick gate with higher order (qg-2 > qg-1)
 				const latestOrder = getQualityGateOrder(latest.quality_gate_id);
 				const currentOrder = getQualityGateOrder(current.quality_gate_id);
 				return currentOrder > latestOrder ? current : latest;
@@ -144,7 +147,7 @@ function ProjectsComponent() {
 				? lastCompletedQG.quality_gate_id
 				: "-";
 
-		// IMPORTANT: store the id we will filter on
+		// store id we filter on
 		const lastQualityGateId = lastQualityGate
 			? lastQualityGate.id
 			: lastCompletedQG
@@ -167,11 +170,25 @@ function ProjectsComponent() {
 		};
 	});
 
-	// ---- Apply filter: "projects end with quality gate X" ----
+	// ---- Apply filters: quality gate + risk ----
 	const filteredProjects = projectsWithMeta.filter((meta) => {
-		if (selectedQualityGateId === "all") return true;
-		if (!meta.lastQualityGateId) return false;
-		return meta.lastQualityGateId === selectedQualityGateId;
+		// quality gate filter
+		const matchesQualityGate =
+			selectedQualityGateId === "all" ||
+			(!!meta.lastQualityGateId &&
+				meta.lastQualityGateId === selectedQualityGateId);
+
+		// risk filter
+		let matchesRisk = true;
+		if (selectedRisk === "high") {
+			matchesRisk = meta.project.risk === 3;
+		} else if (selectedRisk === "medium") {
+			matchesRisk = meta.project.risk === 2;
+		} else if (selectedRisk === "low") {
+			matchesRisk = meta.project.risk === 1;
+		}
+
+		return matchesQualityGate && matchesRisk;
 	});
 
 	// ---- KPI calculations based on FILTERED projects ----
@@ -218,24 +235,45 @@ function ProjectsComponent() {
 				</div>
 			</div>
 
-			{/* Filter */}
+			{/* Filters */}
 			<div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-				<div>
-					<label className="block text-sm font-medium mb-1">
-						Filter projects by last checked quality gate
-					</label>
-					<select
-						className="mt-1 block w-full md:w-80 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
-						value={selectedQualityGateId}
-						onChange={(e) => setSelectedQualityGateId(e.target.value)}
-					>
-						<option value="all">All quality gates</option>
-						{qualityGates.map((qg: any) => (
-							<option key={qg.id} value={qg.id}>
-								{qg.name}
-							</option>
-						))}
-					</select>
+				<div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
+					<div>
+						<label className="block text-sm font-medium mb-1">
+							Filter projects by last checked quality gate
+						</label>
+						<select
+							className="mt-1 block w-full md:w-72 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+							value={selectedQualityGateId}
+							onChange={(e) => setSelectedQualityGateId(e.target.value)}
+						>
+							<option value="all">All quality gates</option>
+							{qualityGates.map((qg: any) => (
+								<option key={qg.id} value={qg.id}>
+									{qg.name}
+								</option>
+							))}
+						</select>
+					</div>
+
+					{/* NEW: risk filter */}
+					<div>
+						<label className="block text-sm font-medium mb-1">
+							Filter projects by risk level
+						</label>
+						<select
+							className="mt-1 block w-full md:w-48 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+							value={selectedRisk}
+							onChange={(e) =>
+								setSelectedRisk(e.target.value as "all" | "high" | "medium" | "low")
+							}
+						>
+							<option value="all">All risks</option>
+							<option value="high">High</option>
+							<option value="medium">Medium</option>
+							<option value="low">Low</option>
+						</select>
+					</div>
 				</div>
 			</div>
 
