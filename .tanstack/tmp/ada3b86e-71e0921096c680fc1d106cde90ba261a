@@ -15,7 +15,7 @@ export const Route = createFileRoute("/projects/")({
 });
 
 function ProjectsComponent() {
-    const projects = api.getAllProjects();
+    const projects = api.getProjects();
 
     return (
         <div className="p-8">
@@ -50,9 +50,9 @@ function ProjectsComponent() {
                                 <TableCell>{project.description}</TableCell>
                                 <TableCell>{project.milestone_count}</TableCell>
                                 <TableCell>
-                                    {/*{project.current_milestone*/}
-                                    {/*    ? `${project.current_milestone.execution_number}. ${project.current_milestone.name}`*/}
-                                    {/*    : "Completed"}*/}
+                                    {project.current_milestone
+                                        ? `${project.current_milestone.execution_number}. ${project.current_milestone.name}`
+                                        : "Completed"}
                                 </TableCell>
                                 <TableCell className="text-right">
                                     {project.closed_at ? (
