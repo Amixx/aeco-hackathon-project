@@ -52,18 +52,19 @@ function getQualityGateOrder(id: string) {
 }
 
 function ProjectsComponent() {
-	const [selectedMilestoneId, setSelectedMilestoneId] =
+	// NEW: filter by last checked quality gate
+	const [selectedQualityGateId, setSelectedQualityGateId] =
 		React.useState<string>("all");
 
 	const projects = api.getAllProjects();
 	const projectMilestones = api.getAllProjectMilestones();
 	const milestones = api.getAllMilestones();
 
-	// NEW: quality gate data
+	// quality gate data
 	const projectQualityGates = api.getAllProjectQualityGates();
 	const qualityGates = api.getAllQualityGates();
 
-	// ---- Build meta data per project (so we can reuse for KPIs + table) ----
+	// ---- Build meta data per project (reused for KPIs + table + filter) ----
 	const projectsWithMeta = projects.map((project) => {
 		// ---- Milestones ----
 		const pmsForProject = projectMilestones.filter(
@@ -143,6 +144,13 @@ function ProjectsComponent() {
 				? lastCompletedQG.quality_gate_id
 				: "-";
 
+		// IMPORTANT: store the id we will filter on
+		const lastQualityGateId = lastQualityGate
+			? lastQualityGate.id
+			: lastCompletedQG
+				? lastCompletedQG.quality_gate_id
+				: null;
+
 		const durationLabel = getDurationLabel(
 			project.created_at,
 			project.closed_at,
@@ -155,32 +163,15 @@ function ProjectsComponent() {
 			durationLabel,
 			checkedQualityGatesCount,
 			lastQualityGateLabel,
+			lastQualityGateId,
 		};
 	});
 
-	// ---- Apply filter: "projects end with milestone X" ----
+	// ---- Apply filter: "projects end with quality gate X" ----
 	const filteredProjects = projectsWithMeta.filter((meta) => {
-		if (selectedMilestoneId === "all") return true;
-		// if no last milestone, can't match a specific one
-		const lastCompletedPmForFilter = (() => {
-			const pmsForProject = projectMilestones.filter(
-				(pm) => pm.project_id === meta.project.id,
-			);
-			const completedPms = pmsForProject.filter(
-				(pm) => pm.completed_at && pm.completed_at !== "",
-			);
-			return (
-				completedPms.reduce<ProjectMilestone | null>((latest, current) => {
-					if (!latest) return current;
-					const latestDate = new Date(latest.completed_at!);
-					const currentDate = new Date(current.completed_at!);
-					return currentDate > latestDate ? current : latest;
-				}, null) ?? null
-			);
-		})();
-
-		if (!lastCompletedPmForFilter) return false;
-		return lastCompletedPmForFilter.milestone_id === selectedMilestoneId;
+		if (selectedQualityGateId === "all") return true;
+		if (!meta.lastQualityGateId) return false;
+		return meta.lastQualityGateId === selectedQualityGateId;
 	});
 
 	// ---- KPI calculations based on FILTERED projects ----
@@ -190,7 +181,6 @@ function ProjectsComponent() {
 		({ project }) => project.closed_at && project.closed_at !== "Null",
 	).length;
 
-	// risk KPIs
 	const highRiskProjects = filteredProjects.filter(
 		({ project }) => project.risk === 3,
 	).length;
@@ -232,17 +222,17 @@ function ProjectsComponent() {
 			<div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 				<div>
 					<label className="block text-sm font-medium mb-1">
-						Filter projects by last completed milestone
+						Filter projects by last checked quality gate
 					</label>
 					<select
 						className="mt-1 block w-full md:w-80 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
-						value={selectedMilestoneId}
-						onChange={(e) => setSelectedMilestoneId(e.target.value)}
+						value={selectedQualityGateId}
+						onChange={(e) => setSelectedQualityGateId(e.target.value)}
 					>
-						<option value="all">All milestones</option>
-						{milestones.map((ms) => (
-							<option key={ms.id} value={ms.id}>
-								{ms.execution_number}. {ms.name}
+						<option value="all">All quality gates</option>
+						{qualityGates.map((qg: any) => (
+							<option key={qg.id} value={qg.id}>
+								{qg.name}
 							</option>
 						))}
 					</select>
