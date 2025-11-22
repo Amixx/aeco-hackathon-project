@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
-import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
 import type { UserDTO } from "@/database/dto/UserDTO.ts";
+import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
 
 export type EnrichedProjectMilestone = ProjectMilestone & {
 	definition: MilestoneDTO;
@@ -245,14 +245,22 @@ export default function Timeline({
 					const checked = milestonesChecked?.find(
 						(x) => x.id === m.milestone_id,
 					)?.checked;
-
+					// Define labelColor HERE, inside the map function
+					const labelColor = m.definition.label?.color || "#ccc";
 					return (
 						<div
 							key={m.milestone_id}
 							className={`milestone-wrapper m-pos-${i + 1}`}
 							onClick={() => toggleMilestone(m.milestone_id)}
 						>
-							<div className={"milestone circle " + (checked ? "checked" : "")}>
+							<div
+								className={"milestone circle " + (checked ? "checked" : "")}
+								style={{
+									borderColor: labelColor,
+									borderWidth: "3px",
+									borderStyle: "solid",
+								}}
+							>
 								{checked ? "✔" : m.milestone_id}
 							</div>
 						</div>
