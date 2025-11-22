@@ -8,7 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { db } from "@/database";
+import { db } from "@/database/api.ts";
 
 export const Route = createFileRoute("/milestones/")({
 	component: MilestonesComponent,

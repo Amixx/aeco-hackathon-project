@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, Circle } from "lucide-react";
 import { useState } from "react";
-import { api } from "@/database";
+import { api } from "@/database/api.ts";
 import { cn } from "@/lib/utils";
 
 import { MilestoneGraph } from "@/components/MilestoneGraph";
