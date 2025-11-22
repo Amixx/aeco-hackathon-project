@@ -11,37 +11,37 @@ import {
 import { ExcelImport } from "@/components/ExcelImport";
 import { db } from "@/database/api.ts";
 
-export const Route = createFileRoute("/departments/")({
-	component: DepartmentsComponent,
+export const Route = createFileRoute("/labels/")({
+	component: LabelsComponent,
 });
 
-function DepartmentsComponent() {
-	const departments = db.departments;
+function LabelsComponent() {
+	const labels = db.labels;
 
 	return (
 		<div className="p-8">
 			<div className="flex items-center justify-between mb-6">
-				<h1 className="text-3xl font-bold tracking-tight">Departments</h1>
+				<h1 className="text-3xl font-bold tracking-tight">Labels</h1>
 				<ExcelImport />
 			</div>
 
 			<div className="rounded-md border">
 				<Table>
-					<TableCaption>List of organization departments.</TableCaption>
+					<TableCaption>List of labels.</TableCaption>
 					<TableHeader>
 						<TableRow>
 							<TableHead>Name</TableHead>
-							<TableHead className="w-[400px]">Description</TableHead>
+							<TableHead>Department ID</TableHead>
 							<TableHead>ID</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{departments.map((dept) => (
-							<TableRow key={dept.id}>
-								<TableCell className="font-medium">{dept.name}</TableCell>
-								<TableCell>{dept.description}</TableCell>
+						{labels.map((label) => (
+							<TableRow key={label.id}>
+								<TableCell className="font-medium">{label.name}</TableCell>
+								<TableCell>{label.department_id}</TableCell>
 								<TableCell className="text-muted-foreground text-xs">
-									{dept.id}
+									{label.id}
 								</TableCell>
 							</TableRow>
 						))}

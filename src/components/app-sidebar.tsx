@@ -3,9 +3,12 @@
 import { Link } from "@tanstack/react-router";
 import {
 	AudioWaveform,
+	Building2,
 	GalleryVerticalEnd,
 	Home,
 	Pointer,
+	ShieldCheck,
+	Tag,
 	User,
 } from "lucide-react";
 import type * as React from "react";
@@ -74,6 +77,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 								<Link to="/users">
 									<User />
 									<span>Users</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+						<SidebarMenuItem>
+							<SidebarMenuButton asChild>
+								<Link to="/departments">
+									<Building2 />
+									<span>Departments</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+						<SidebarMenuItem>
+							<SidebarMenuButton asChild>
+								<Link to="/labels">
+									<Tag />
+									<span>Labels</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+						<SidebarMenuItem>
+							<SidebarMenuButton asChild>
+								<Link to="/quality-gates">
+									<ShieldCheck />
+									<span>Quality Gates</span>
 								</Link>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
