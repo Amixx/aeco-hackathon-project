@@ -118,14 +118,22 @@ function ProjectsComponent() {
 		({ project }) => project.closed_at && project.closed_at !== "Null",
 	).length;
 
-	// risk KPIs – still empty for now
-	const highRiskProjects: string | number = "";
-	const mediumRiskProjects: string | number = "";
-	const lowRiskProjects: string | number = "";
+	// risk KPIs
+	const highRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 3,
+	).length;
+	const mediumRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 2,
+	).length;
+	const lowRiskProjects = filteredProjects.filter(
+		({ project }) => project.risk === 1,
+	).length;
+
 	const exportData = filteredProjects.map(
 		({ project, checkedLabel, lastMilestoneLabel, durationLabel }) => ({
 			Project: project.name,
 			Description: project.description,
+			Risk: project.risk === 3 ? "High" : project.risk === 2 ? "Medium" : "Low",
 			Duration: durationLabel,
 			"Checked Milestones": checkedLabel,
 			"Last Checked Milestone": lastMilestoneLabel,
@@ -246,6 +254,7 @@ function ProjectsComponent() {
 						<TableRow>
 							<TableHead>Project</TableHead>
 							<TableHead className="w-[300px]">Description</TableHead>
+							<TableHead>Risk</TableHead>
 							<TableHead>Duration</TableHead>
 							<TableHead>Checked Milestones</TableHead>
 							<TableHead>Last Checked Milestone</TableHead>
@@ -272,6 +281,21 @@ function ProjectsComponent() {
 										</Link>
 									</TableCell>
 									<TableCell>{project.description}</TableCell>
+									<TableCell>
+										{project.risk === 3 ? (
+											<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-red-500 text-white">
+												High
+											</span>
+										) : project.risk === 2 ? (
+											<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-orange-400 text-white">
+												Medium
+											</span>
+										) : (
+											<span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-green-500 text-white">
+												Low
+											</span>
+										)}
+									</TableCell>
 									<TableCell>{durationLabel}</TableCell>
 									<TableCell>{checkedLabel}</TableCell>
 									<TableCell>{lastMilestoneLabel}</TableCell>
