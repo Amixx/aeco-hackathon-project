@@ -443,4 +443,7 @@ export const api = {
 	getAllProjectMilestones() {
 		return db.projectMilestones;
 	},
+	getAllProjectQualityGates() {
+		return db.projectQualityGates;
+	},
 };

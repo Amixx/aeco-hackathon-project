@@ -37,6 +37,20 @@ function getDurationLabel(created_at: string, closed_at?: string | null) {
 	return `${days} days`;
 }
 
+type ProjectQualityGate = {
+	project_id: string;
+	quality_gate_id: string;
+	completed_at: string | null;
+};
+
+function getQualityGateOrder(id: string) {
+	// "qg-4" -> 4
+	const parts = id.split("-");
+	const n = Number(parts[1]);
+	return Number.isNaN(n) ? 0 : n;
+}
+
+
 function ProjectsComponent() {
 	const [selectedMilestoneId, setSelectedMilestoneId] =
 		React.useState<string>("all");
@@ -45,8 +59,13 @@ function ProjectsComponent() {
 	const projectMilestones = api.getAllProjectMilestones();
 	const milestones = api.getAllMilestones();
 
+	// NEW: quality gate data
+	const projectQualityGates = api.getAllProjectQualityGates();
+	const qualityGates = api.getAllQualityGates();
+
 	// ---- Build meta data per project (so we can reuse for KPIs + table) ----
 	const projectsWithMeta = projects.map((project) => {
+		// ---- Milestones ----
 		const pmsForProject = projectMilestones.filter(
 			(pm) => pm.project_id === project.id,
 		);
@@ -64,7 +83,7 @@ function ProjectsComponent() {
 		);
 		const completedCount = distinctCompletedIds.length;
 
-		const checkedLabel =
+		const checkedMilestonesLabel =
 			totalMilestones > 0 ? `${completedCount}/${totalMilestones}` : "-";
 
 		const lastCompletedPm =
@@ -85,6 +104,46 @@ function ProjectsComponent() {
 				? lastCompletedPm.milestone_id
 				: "-";
 
+		// ---- Quality Gates ----
+		const pqgsForProject = projectQualityGates.filter(
+			(pqg: ProjectQualityGate) => pqg.project_id === project.id,
+		);
+
+		const completedQGs = pqgsForProject.filter(
+			(pqg) => pqg.completed_at && pqg.completed_at !== "Null",
+		);
+
+		const checkedQualityGatesCount = new Set(
+			completedQGs.map((pqg) => pqg.quality_gate_id),
+		).size;
+
+		const lastCompletedQG =
+			completedQGs.reduce<ProjectQualityGate | null>((latest, current) => {
+				if (!latest) return current;
+
+				const latestDate = new Date(latest.completed_at!);
+				const currentDate = new Date(current.completed_at!);
+
+				if (currentDate > latestDate) return current;
+				if (currentDate < latestDate) return latest;
+
+				// dates are equal -> pick the gate with the higher order (qg-2 > qg-1)
+				const latestOrder = getQualityGateOrder(latest.quality_gate_id);
+				const currentOrder = getQualityGateOrder(current.quality_gate_id);
+				return currentOrder > latestOrder ? current : latest;
+			}, null) ?? null;
+
+
+		const lastQualityGate =
+			lastCompletedQG &&
+			qualityGates.find((qg: any) => qg.id === lastCompletedQG.quality_gate_id);
+
+		const lastQualityGateLabel = lastQualityGate
+			? lastQualityGate.name
+			: lastCompletedQG
+				? lastCompletedQG.quality_gate_id
+				: "-";
+
 		const durationLabel = getDurationLabel(
 			project.created_at,
 			project.closed_at,
@@ -92,22 +151,37 @@ function ProjectsComponent() {
 
 		return {
 			project,
-			pmsForProject,
-			totalMilestones,
-			completedCount,
-			checkedLabel,
-			lastCompletedPm,
-			lastMilestone,
+			checkedMilestonesLabel,
 			lastMilestoneLabel,
 			durationLabel,
+			checkedQualityGatesCount,
+			lastQualityGateLabel,
 		};
 	});
 
 	// ---- Apply filter: "projects end with milestone X" ----
 	const filteredProjects = projectsWithMeta.filter((meta) => {
 		if (selectedMilestoneId === "all") return true;
-		if (!meta.lastCompletedPm) return false;
-		return meta.lastCompletedPm.milestone_id === selectedMilestoneId;
+		// if no last milestone, can't match a specific one
+		const lastCompletedPmForFilter = (() => {
+			const pmsForProject = projectMilestones.filter(
+				(pm) => pm.project_id === meta.project.id,
+			);
+			const completedPms = pmsForProject.filter(
+				(pm) => pm.completed_at && pm.completed_at !== "",
+			);
+			return (
+				completedPms.reduce<ProjectMilestone | null>((latest, current) => {
+					if (!latest) return current;
+					const latestDate = new Date(latest.completed_at!);
+					const currentDate = new Date(current.completed_at!);
+					return currentDate > latestDate ? current : latest;
+				}, null) ?? null
+			);
+		})();
+
+		if (!lastCompletedPmForFilter) return false;
+		return lastCompletedPmForFilter.milestone_id === selectedMilestoneId;
 	});
 
 	// ---- KPI calculations based on FILTERED projects ----
@@ -231,8 +305,10 @@ function ProjectsComponent() {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Project</TableHead>
-							<TableHead className="w-[300px]">Description</TableHead>
+							<TableHead>Project Size</TableHead>
 							<TableHead>Duration</TableHead>
+							<TableHead>Checked Quality Gates</TableHead>
+							<TableHead>Last Checked Quality Gate</TableHead>
 							<TableHead>Checked Milestones</TableHead>
 							<TableHead>Last Checked Milestone</TableHead>
 							<TableHead className="text-right">Status</TableHead>
@@ -243,47 +319,59 @@ function ProjectsComponent() {
 						{filteredProjects.map(
 							({
 								project,
-								checkedLabel,
-								lastMilestoneLabel,
 								durationLabel,
-							}) => (
-								<TableRow key={project.id}>
-									<TableCell className="font-medium">
-										<Link
-											to="/projects/$projectId"
-											params={{ projectId: project.id }}
-											className="hover:underline text-blue-600"
-										>
-											{project.name}
-										</Link>
-									</TableCell>
-									<TableCell>{project.description}</TableCell>
-									<TableCell>{durationLabel}</TableCell>
-									<TableCell>{checkedLabel}</TableCell>
-									<TableCell>{lastMilestoneLabel}</TableCell>
-									<TableCell className="text-right">
-										{project.closed_at ? (
-											<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-500 text-destructive-foreground hover:bg-destructive/80">
-												Closed
-											</span>
-										) : (
-											<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-500 text-white hover:bg-green-600">
-												in Progress
-											</span>
-										)}
-									</TableCell>
-									<TableCell className="text-right">
-										<Button asChild variant="outline" size="sm">
+								checkedQualityGatesCount,
+								lastQualityGateLabel,
+								checkedMilestonesLabel,
+								lastMilestoneLabel,
+							}) => {
+								const sizeValue = (project as any)["project_size_Mio€"];
+								const projectSizeLabel =
+									sizeValue !== undefined && sizeValue !== null
+										? `${sizeValue}M€`
+										: "-";
+
+								return (
+									<TableRow key={project.id}>
+										<TableCell className="font-medium">
 											<Link
-												to="/projects/$projectId/edit"
+												to="/projects/$projectId"
 												params={{ projectId: project.id }}
+												className="hover:underline text-blue-600"
 											>
-												Edit
+												{project.name}
 											</Link>
-										</Button>
-									</TableCell>
-								</TableRow>
-							),
+										</TableCell>
+										<TableCell>{projectSizeLabel}</TableCell>
+										<TableCell>{durationLabel}</TableCell>
+										<TableCell>{checkedQualityGatesCount}</TableCell>
+										<TableCell>{lastQualityGateLabel}</TableCell>
+										<TableCell>{checkedMilestonesLabel}</TableCell>
+										<TableCell>{lastMilestoneLabel}</TableCell>
+										<TableCell className="text-right">
+											{project.closed_at ? (
+												<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-500 text-destructive-foreground hover:bg-destructive/80">
+													Closed
+												</span>
+											) : (
+												<span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-500 text-white hover:bg-green-600">
+													in Progress
+												</span>
+											)}
+										</TableCell>
+										<TableCell className="text-right">
+											<Button asChild variant="outline" size="sm">
+												<Link
+													to="/projects/$projectId/edit"
+													params={{ projectId: project.id }}
+												>
+													Edit
+												</Link>
+											</Button>
+										</TableCell>
+									</TableRow>
+								);
+							},
 						)}
 					</TableBody>
 				</Table>
