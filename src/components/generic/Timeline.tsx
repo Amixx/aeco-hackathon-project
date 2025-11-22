@@ -22,11 +22,15 @@ export default function Timeline({
 	projectId: string;
 }) {
 	const qgRequirements: Record<number, number> = {
-		0: 0, // QG1 requires nothing
-		1: 5, // QG2 requires M1–M5
-		2: 11, // QG3 requires M1–M11
-		3: 16, // QG4 requires M1–M16
-		4: 20, // QG5 requires M1–M20
+		0: 1, // QG0 requires M1
+		1: 0, // QG1 requires nothing
+		2: 5, // QG2 requires M1–M5
+		3: 11, // QG3 requires M1–M11
+		4: 16, // QG4 requires M1–M16
+		5: 20, // QG5 requires M1–M20
+		6: 20, // QG6 requires M1–M20
+		7: 20, // QG7 requires M1–M20
+		8: 20, // QG8 requires M1–M20
 	};
 
 	const checkedStuff = milestones?.map((x) => {
@@ -95,11 +99,15 @@ export default function Timeline({
 		);
 	};
 
-	// QG boxes 1–3 checked, 4–5 unchecked
+	// QG boxes: QG0 unchecked, QG1–3 checked, QG4–8 unchecked
 	const [qgBoxesChecked, setQGBoxesChecked] = useState<boolean[]>([
+		false,
 		true,
 		true,
 		true,
+		false,
+		false,
+		false,
 		false,
 		false,
 	]);
@@ -158,6 +166,11 @@ export default function Timeline({
 				<div className="timeline-line" />
 
 				{/* === QG TRIANGLES + VERTICAL LINES === */}
+				{/* QG0 */}
+				<div className="qg-triangle qg-triangle-0" />
+				<div className="qg-label qg-label-0">QG 0</div>
+				<div className="qg-line qg-line-0" />
+
 				{/* QG1 */}
 				<div className="qg-triangle qg-triangle-1" />
 				<div className="qg-label qg-label-1">QG 1</div>
@@ -183,9 +196,24 @@ export default function Timeline({
 				<div className="qg-label qg-label-5">QG 5</div>
 				<div className="qg-line qg-line-5" />
 
+				{/* QG6 */}
+				<div className="qg-triangle qg-triangle-6" />
+				<div className="qg-label qg-label-6">QG 6</div>
+				<div className="qg-line qg-line-6" />
+
+				{/* QG7 */}
+				<div className="qg-triangle qg-triangle-7" />
+				<div className="qg-label qg-label-7">QG 7</div>
+				<div className="qg-line qg-line-7" />
+
+				{/* QG8 */}
+				<div className="qg-triangle qg-triangle-8" />
+				<div className="qg-label qg-label-8">QG 8</div>
+				<div className="qg-line qg-line-8" />
+
 				{/* === QG BOXES ABOVE HORIZONTAL LINE (CLICKABLE) === */}
-				{/* QG1 box */}
-				<div className="qg-box qg-box-1" onClick={() => toggleQG(0)}>
+				{/* QG0 box */}
+				<div className="qg-box qg-box-0" onClick={() => toggleQG(0)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[0] ? "checked" : "")
@@ -195,8 +223,8 @@ export default function Timeline({
 					</div>
 				</div>
 
-				{/* QG2 box */}
-				<div className="qg-box qg-box-2" onClick={() => toggleQG(1)}>
+				{/* QG1 box */}
+				<div className="qg-box qg-box-1" onClick={() => toggleQG(1)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[1] ? "checked" : "")
@@ -206,8 +234,8 @@ export default function Timeline({
 					</div>
 				</div>
 
-				{/* QG3 box */}
-				<div className="qg-box qg-box-3" onClick={() => toggleQG(2)}>
+				{/* QG2 box */}
+				<div className="qg-box qg-box-2" onClick={() => toggleQG(2)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[2] ? "checked" : "")
@@ -217,8 +245,8 @@ export default function Timeline({
 					</div>
 				</div>
 
-				{/* QG4 box */}
-				<div className="qg-box qg-box-4" onClick={() => toggleQG(3)}>
+				{/* QG3 box */}
+				<div className="qg-box qg-box-3" onClick={() => toggleQG(3)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[3] ? "checked" : "")
@@ -228,8 +256,8 @@ export default function Timeline({
 					</div>
 				</div>
 
-				{/* QG5 box */}
-				<div className="qg-box qg-box-5" onClick={() => toggleQG(4)}>
+				{/* QG4 box */}
+				<div className="qg-box qg-box-4" onClick={() => toggleQG(4)}>
 					<div
 						className={
 							"milestone square " + (qgBoxesChecked[4] ? "checked" : "")
@@ -239,9 +267,54 @@ export default function Timeline({
 					</div>
 				</div>
 
+				{/* QG5 box */}
+				<div className="qg-box qg-box-5" onClick={() => toggleQG(5)}>
+					<div
+						className={
+							"milestone square " + (qgBoxesChecked[5] ? "checked" : "")
+						}
+					>
+						{qgBoxesChecked[5] ? "✔" : ""}
+					</div>
+				</div>
+
+				{/* QG6 box */}
+				<div className="qg-box qg-box-6" onClick={() => toggleQG(6)}>
+					<div
+						className={
+							"milestone square " + (qgBoxesChecked[6] ? "checked" : "")
+						}
+					>
+						{qgBoxesChecked[6] ? "✔" : ""}
+					</div>
+				</div>
+
+				{/* QG7 box */}
+				<div className="qg-box qg-box-7" onClick={() => toggleQG(7)}>
+					<div
+						className={
+							"milestone square " + (qgBoxesChecked[7] ? "checked" : "")
+						}
+					>
+						{qgBoxesChecked[7] ? "✔" : ""}
+					</div>
+				</div>
+
+				{/* QG8 box */}
+				<div className="qg-box qg-box-8" onClick={() => toggleQG(8)}>
+					<div
+						className={
+							"milestone square " + (qgBoxesChecked[8] ? "checked" : "")
+						}
+					>
+						{qgBoxesChecked[8] ? "✔" : ""}
+					</div>
+				</div>
+
 				{/* === 20 MILESTONES IN SEQUENCE === */}
 				{/* M1 */}
-				{milestones?.map((m, i) => {
+				{milestones?.map((m) => {
+					const milestoneNum = m.milestone_id.split("-")[1];
 					const checked = milestonesChecked?.find(
 						(x) => x.id === m.milestone_id,
 					)?.checked;
@@ -249,11 +322,11 @@ export default function Timeline({
 					return (
 						<div
 							key={m.milestone_id}
-							className={`milestone-wrapper m-pos-${i + 1}`}
+							className={`milestone-wrapper m-pos-${milestoneNum}`}
 							onClick={() => toggleMilestone(m.milestone_id)}
 						>
-							<div className={"milestone circle " + (checked ? "checked" : "")}>
-								{checked ? "✔" : m.milestone_id}
+							<div className={`milestone circle ${checked ? "checked" : ""}`}>
+								{checked ? "✔" : m.milestone_id.split("-")[1]}
 							</div>
 						</div>
 					);

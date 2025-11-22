@@ -20,7 +20,7 @@ function RouteComponent() {
 			(m) => m.definition.department_id === departmentId,
 		) ?? [];
 	return (
-		<div className="p-8 max-w-7xl mx-auto">
+		<div className="p-8 w-[100%]">
 			{/* === HEADER === */}
 			<div className="mb-8">
 				<h1 className="text-3xl font-bold">Log view</h1>

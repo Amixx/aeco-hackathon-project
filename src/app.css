@@ -136,7 +136,7 @@ body, html {
 .timeline-inner {
   position: relative;
   height: 260px;
-  width: 3300px; /* long enough for 25 elements at 120px spacing */
+  width: 1520px; /* ends after QG8 (1440px) + 80px right gap */
 }
 
 /* Horizontal baseline */
@@ -181,40 +181,68 @@ body, html {
   border-bottom: 20px solid #0284c7;
 }
 
-/* X positions for QGs (matching 120px spacing) */
+/* X positions for QGs (consistent 160px spacing) */
+.qg-triangle-0,
+.qg-label-0,
+.qg-line-0,
+.qg-box-0 {
+  left: 160px;
+}
+
 .qg-triangle-1,
 .qg-label-1,
 .qg-line-1,
 .qg-box-1 {
-  left: 80px;
+  left: 320px;
 }
 
 .qg-triangle-2,
 .qg-label-2,
 .qg-line-2,
 .qg-box-2 {
-  left: 800px;
+  left: 480px;
 }
 
 .qg-triangle-3,
 .qg-label-3,
 .qg-line-3,
 .qg-box-3 {
-  left: 1640px;
+  left: 640px;
 }
 
 .qg-triangle-4,
 .qg-label-4,
 .qg-line-4,
 .qg-box-4 {
-  left: 2360px;
+  left: 800px;
 }
 
 .qg-triangle-5,
 .qg-label-5,
 .qg-line-5,
 .qg-box-5 {
-  left: 2960px;
+  left: 960px;
+}
+
+.qg-triangle-6,
+.qg-label-6,
+.qg-line-6,
+.qg-box-6 {
+  left: 1120px;
+}
+
+.qg-triangle-7,
+.qg-label-7,
+.qg-line-7,
+.qg-box-7 {
+  left: 1280px;
+}
+
+.qg-triangle-8,
+.qg-label-8,
+.qg-line-8,
+.qg-box-8 {
+  left: 1440px;
 }
 
 /* === QG BOXES ABOVE THE HORIZONTAL LINE === */
@@ -262,68 +290,68 @@ body, html {
   z-index: 30;
 }
 
-/* X positions for milestones (120px spacing) */
-/* Order: QG1 – M1 – M2 – M3 – M4 – M5 – QG2 – M6 – ... – QG5 */
+/* X positions for milestones */
+/* Order: M1 – QG0 – M3 – QG1 – M6 – QG2 – M7 – QG3 – M9 – QG4 – QG5 – QG6 – M17 – QG7 – QG8 */
 
 .m-pos-1 {
-  left: 200px; /* M1 */
+  left: 80px; /* M1 */
 }
 .m-pos-2 {
-  left: 320px; /* M2 */
+  left: 100px; /* M2 */
 }
 .m-pos-3 {
-  left: 440px; /* M3 */
+  left: 240px; /* M3 */
 }
 .m-pos-4 {
-  left: 560px; /* M4 */
+  left: 260px; /* M4 */
 }
 .m-pos-5 {
-  left: 680px; /* M5 */
+  left: 280px; /* M5 */
 }
 .m-pos-6 {
-  left: 920px; /* M6 */
+  left: 400px; /* M6 */
 }
 .m-pos-7 {
-  left: 1040px; /* M7 */
+  left: 560px; /* M7 */
 }
 .m-pos-8 {
-  left: 1160px; /* M8 */
+  left: 580px; /* M8 */
 }
 .m-pos-9 {
-  left: 1280px; /* M9 */
+  left: 720px; /* M9 */
 }
 .m-pos-10 {
-  left: 1400px; /* M10 */
+  left: 740px; /* M10 */
 }
 .m-pos-11 {
-  left: 1520px; /* M11 */
+  left: 760px; /* M11 */
 }
 .m-pos-12 {
-  left: 1760px; /* M12 */
+  left: 780px; /* M12 */
 }
 .m-pos-13 {
-  left: 1880px; /* M13 */
+  left: 800px; /* M13 */
 }
 .m-pos-14 {
-  left: 2000px; /* M14 */
+  left: 820px; /* M14 */
 }
 .m-pos-15 {
-  left: 2120px; /* M15 */
+  left: 840px; /* M15 */
 }
 .m-pos-16 {
-  left: 2240px; /* M16 */
+  left: 860px; /* M16 */
 }
 .m-pos-17 {
-  left: 2480px; /* M17 */
+  left: 1360px; /* M17 – between QG7 (1280px) and QG8 (1440px) */
 }
 .m-pos-18 {
-  left: 2600px; /* M18 */
+  left: 1380px; /* M18 */
 }
 .m-pos-19 {
-  left: 2720px; /* M19 */
+  left: 1400px; /* M19 */
 }
 .m-pos-20 {
-  left: 2840px; /* M20 */
+  left: 1420px; /* M20 */
 }
 
 /* === LOG LAYOUT END === */
