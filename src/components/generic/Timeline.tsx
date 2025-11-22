@@ -114,18 +114,21 @@ export default function Timeline({
 
 	const toggleQG = (index: number) => {
 		const requiredMilestones = qgRequirements[index];
+		const isCurrentlyChecked = qgBoxesChecked[index];
 
-		// Check if all required milestones are done
-		const allPreviousChecked = milestonesChecked
-			?.slice(0, requiredMilestones)
-			.every((x) => x.checked);
+		// If trying to check (not uncheck), verify all required milestones are done
+		if (!isCurrentlyChecked) {
+			const allPreviousChecked = milestonesChecked
+				?.slice(0, requiredMilestones)
+				.every((x) => x.checked);
 
-		if (!allPreviousChecked) {
-			console.log("Cannot check QG yet — earlier milestones missing");
-			return; // block checking
+			if (!allPreviousChecked) {
+				console.log("Cannot check QG yet — earlier milestones missing");
+				return; // block checking
+			}
 		}
 
-		// Otherwise toggle QG
+		// Toggle QG (allows unchecking regardless)
 		const newQGs = [...qgBoxesChecked];
 		newQGs[index] = !newQGs[index];
 

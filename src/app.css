@@ -125,62 +125,6 @@ body, html {
   overflow-x: hidden;
 }
 
-.log-container {
-  padding: 40px;
-  width: 85%;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.top-section {
-  display: flex;
-  gap: 40px;
-}
-
-/* LEFT CONTROL PANEL */
-.left-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.select-block label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.select-block select {
-  padding: 6px 10px;
-  width: 110px;
-  border: 1px solid #ccc;
-}
-
-/* PHASE BANDS */
-.phase-bands {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.phase {
-  padding: 8px 16px;
-  font-size: 18px;
-  color: white;
-  font-weight: 600;
-}
-
-.phase1 {
-  background: #7f1d1d;
-}
-.phase2 {
-  background: #b91c1c;
-}
-.phase3 {
-  background: #0284c7;
-}
-
 /* === TIMELINE SCROLL WRAPPER === */
 .timeline-wrapper {
   margin-top: 40px;
@@ -380,27 +324,6 @@ body, html {
 }
 .m-pos-20 {
   left: 2840px; /* M20 */
-}
-
-/* === CHECKED MILESTONE SECTION === */
-
-.checked-wrapper {
-  margin-top: 60px;
-}
-
-/* .checked-section {} */
-
-.checked-title {
-  background: #0c4a6e;
-  color: white;
-  padding: 8px 24px;
-  font-weight: 600;
-}
-
-.checked-subtitle {
-  background: #e5e7eb;
-  padding: 8px 24px;
-  font-size: 14px;
 }
 
 /* === LOG LAYOUT END === */

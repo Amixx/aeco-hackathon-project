@@ -1,21 +1,31 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+
 export default function CheckedMilestones({
 	checkedList,
 }: {
 	checkedList: string[];
 }) {
 	return (
-		<div className="checked-section">
-			<div className="checked-title">
-				List of checked Quality Gates & Milestones
-			</div>
-
-			<div className="checked-subtitle">
+		<Card>
+			<CardHeader>
+				<CardTitle className="text-sm">
+					List of checked Quality Gates & Milestones
+				</CardTitle>
+			</CardHeader>
+			<CardContent>
 				{checkedList.length === 0 ? (
-					<>No milestones checked</>
+					<p className="text-sm text-muted-foreground">No milestones checked</p>
 				) : (
-					checkedList.join(", ")
+					<div className="flex flex-wrap gap-2">
+						{checkedList.map((item) => (
+							<Badge key={item} variant="secondary">
+								{item}
+							</Badge>
+						))}
+					</div>
 				)}
-			</div>
-		</div>
+			</CardContent>
+		</Card>
 	);
 }
