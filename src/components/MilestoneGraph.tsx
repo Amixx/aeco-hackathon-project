@@ -5,12 +5,21 @@ import {
 	type Node,
 	Position,
 	ReactFlow,
+	type ReactFlowInstance,
 	useEdgesState,
 	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Link } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	Tooltip,
 	TooltipContent,
@@ -53,20 +62,36 @@ export function MilestoneGraph({
 	milestones,
 	qualityGates = [],
 }: MilestoneGraphProps) {
+	const [selectedDepartmentId, setSelectedDepartmentId] = useState<
+		string | null
+	>(null);
+	const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+
 	// Memoize the graph data generation to avoid re-randomizing on every render
 	const { initialNodes, initialEdges } = useMemo(() => {
 		const nodes: Node[] = [];
 		const edges: Edge[] = [];
-		const departments = db.departments;
+		const allDepartments = db.departments;
+
+		// Filter departments based on selection
+		const visibleDepartments = selectedDepartmentId
+			? allDepartments.filter((d) => d.id === selectedDepartmentId)
+			: allDepartments;
+
+		// Map used for looking up department index in the VISIBLE list
+		const deptIndexMap = new Map<string, number>();
+		visibleDepartments.forEach((dept, index) => {
+			deptIndexMap.set(dept.id, index);
+		});
 
 		// Create department labels (swimlanes)
-		departments.forEach((dept, index) => {
+		visibleDepartments.forEach((dept, index) => {
 			nodes.push({
 				id: `dept-${dept.id}`,
 				type: "group",
 				position: { x: 0, y: index * DEPARTMENT_HEIGHT },
 				style: {
-					width: milestones.length * MILESTONE_WIDTH + 200,
+					width: milestones.length * MILESTONE_WIDTH + 400, // Extra space for stubs
 					height: DEPARTMENT_HEIGHT,
 					backgroundColor:
 						index % 2 === 0
@@ -92,7 +117,6 @@ export function MilestoneGraph({
 					label: (
 						<Link
 							to="/log/$projectId/$departmentId"
-							// @ts-expect-error
 							params={{ projectId, departmentId: dept.id }}
 							className="hover:underline cursor-pointer pointer-events-auto"
 						>
@@ -141,7 +165,7 @@ export function MilestoneGraph({
 		// Calculate Y-offsets for each label within its department
 		const labelYOffsets = new Map<string, number>();
 
-		departments.forEach((dept) => {
+		visibleDepartments.forEach((dept) => {
 			const labelIds = Array.from(labelsByDept.get(dept.id) || []);
 			// Sort labels for deterministic layout
 			labelIds.sort();
@@ -163,9 +187,10 @@ export function MilestoneGraph({
 		const lineWidth = endX - startX;
 
 		labelInfo.forEach((info, labelId) => {
-			const deptIndex = departments.findIndex((d) => d.id === info.deptId);
-			if (deptIndex === -1) return;
+			// Only create line if department is visible
+			if (!deptIndexMap.has(info.deptId)) return;
 
+			const deptIndex = deptIndexMap.get(info.deptId) ?? 0;
 			const yOffset = labelYOffsets.get(labelId) || DEPARTMENT_HEIGHT / 2;
 			const absoluteY = deptIndex * DEPARTMENT_HEIGHT + yOffset;
 
@@ -210,10 +235,11 @@ export function MilestoneGraph({
 		});
 
 		// 3. Process milestones
+		// We iterate ALL milestones to maintain the chain logic
 		milestones.forEach((milestone, index) => {
 			const deptId = milestone.definition?.department_id;
-			const deptIndex = departments.findIndex((d) => d.id === deptId);
-			const safeDeptIndex = deptIndex === -1 ? 0 : deptIndex;
+			const isVisible = deptId ? deptIndexMap.has(deptId) : false;
+			const deptIndex = deptId ? (deptIndexMap.get(deptId) ?? 0) : 0;
 
 			const isCompleted = !!milestone.completed_at;
 			const isDisabled = !!milestone.is_disabled;
@@ -227,105 +253,117 @@ export function MilestoneGraph({
 			// Determine Y based on label track or fallback to center
 			const yOffset =
 				(labelId ? labelYOffsets.get(labelId) : null) || DEPARTMENT_HEIGHT / 2;
-			const yPos = safeDeptIndex * DEPARTMENT_HEIGHT + yOffset;
+			const yPos = deptIndex * DEPARTMENT_HEIGHT + yOffset;
 
-			const node: Node = {
-				id: milestone.id,
-				position: {
-					x: xPos - 20, // Center on the line (width is 40)
-					y: yPos - 20, // Center vertically (height is 40)
-				},
-				data: {
-					label: (
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<div
-									className={cn(
-										"flex items-center justify-center w-full h-full text-sm font-bold cursor-help",
-										isDisabled && "text-muted-foreground",
+			if (isVisible) {
+				const node: Node = {
+					id: milestone.id,
+					position: {
+						x: xPos - 20, // Center on the line (width is 40)
+						y: yPos - 20, // Center vertically (height is 40)
+					},
+					data: {
+						label: (
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<div
+										className={cn(
+											"flex items-center justify-center w-full h-full text-sm font-bold cursor-help",
+											isDisabled && "text-muted-foreground",
+										)}
+									>
+										{milestone.definition?.execution_number}
+									</div>
+								</TooltipTrigger>
+								<TooltipContent className="max-w-xs">
+									<div className="font-bold text-sm mb-1">
+										{milestone.definition?.name}
+										{isDisabled && (
+											<span className="ml-2 text-xs font-normal text-muted-foreground">
+												(Disabled)
+											</span>
+										)}
+									</div>
+									<div className="text-xs text-muted-foreground mb-2">
+										{milestone.definition?.description}
+									</div>
+									{isDisabled ? (
+										<div className="text-xs text-muted-foreground font-medium">
+											Disabled
+										</div>
+									) : isCompleted ? (
+										<div className="text-xs text-green-500 font-medium">
+											Completed:{" "}
+											{new Date(
+												milestone.completed_at ?? "",
+											).toLocaleDateString()}
+										</div>
+									) : (
+										<div className="text-xs text-yellow-500 font-medium">
+											Pending
+										</div>
 									)}
-								>
-									{milestone.definition?.execution_number}
-								</div>
-							</TooltipTrigger>
-							<TooltipContent className="max-w-xs">
-								<div className="font-bold text-sm mb-1">
-									{milestone.definition?.name}
-									{isDisabled && (
-										<span className="ml-2 text-xs font-normal text-muted-foreground">
-											(Disabled)
-										</span>
-									)}
-								</div>
-								<div className="text-xs text-muted-foreground mb-2">
-									{milestone.definition?.description}
-								</div>
-								{isDisabled ? (
-									<div className="text-xs text-muted-foreground font-medium">
-										Disabled
+									<div className="text-xs text-gray-400 mt-1">
+										Resp: {milestone.responsible_person?.name || "Unassigned"}
 									</div>
-								) : isCompleted ? (
-									<div className="text-xs text-green-500 font-medium">
-										Completed:{" "}
-										{new Date(
-											milestone.completed_at ?? "",
-										).toLocaleDateString()}
+									<div className="text-xs text-gray-400 mt-1">
+										Label: {label}
 									</div>
-								) : (
-									<div className="text-xs text-yellow-500 font-medium">
-										Pending
-									</div>
-								)}
-								<div className="text-xs text-gray-400 mt-1">
-									Resp: {milestone.responsible_person?.name || "Unassigned"}
-								</div>
-								<div className="text-xs text-gray-400 mt-1">Label: {label}</div>
-							</TooltipContent>
-						</Tooltip>
-					),
-				},
-				style: {
-					background: isDisabled
-						? "#f3f4f6" // gray-100
-						: isCompleted
-							? "#dcfce7"
-							: "#fff",
-					border: isDisabled
-						? "1px solid #e5e7eb" // gray-200
-						: isCompleted
-							? "2px solid #22c55e"
-							: "1px solid #777",
-					width: 40,
-					height: 40,
-					borderRadius: "50%",
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					padding: 0,
-					opacity: isDisabled ? 0.8 : 1,
-					zIndex: 10,
-				},
-				sourcePosition: Position.Right,
-				targetPosition: Position.Left,
-				draggable: false,
-				connectable: false,
-			};
+								</TooltipContent>
+							</Tooltip>
+						),
+					},
+					style: {
+						background: isDisabled
+							? "#f3f4f6" // gray-100
+							: isCompleted
+								? "#dcfce7"
+								: "#fff",
+						border: isDisabled
+							? "1px solid #e5e7eb" // gray-200
+							: isCompleted
+								? "2px solid #22c55e"
+								: "1px solid #777",
+						width: 40,
+						height: 40,
+						borderRadius: "50%",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: 0,
+						opacity: isDisabled ? 0.8 : 1,
+						zIndex: 10,
+					},
+					sourcePosition: Position.Right,
+					targetPosition: Position.Left,
+					draggable: false,
+					connectable: false,
+				};
 
-			nodes.push(node);
+				nodes.push(node);
+			}
 
 			// Connect to previous milestone
 			if (index > 0) {
-				edges.push({
-					id: `e-${milestones[index - 1].id}-${milestone.id}`,
-					source: milestones[index - 1].id,
-					target: milestone.id,
-					animated: !isCompleted,
-					style: { stroke: isCompleted ? "#22c55e" : "#b1b1b7" },
-				});
+				const prevMilestone = milestones[index - 1];
+				const prevDeptId = prevMilestone.definition?.department_id;
+				const isPrevVisible = prevDeptId ? deptIndexMap.has(prevDeptId) : false;
+
+				// Case 1: Both visible
+				if (isVisible && isPrevVisible) {
+					edges.push({
+						id: `e-${prevMilestone.id}-${milestone.id}`,
+						source: prevMilestone.id,
+						target: milestone.id,
+						animated: !isCompleted,
+						style: { stroke: isCompleted ? "#22c55e" : "#b1b1b7" },
+					});
+				}
 			}
 		});
 
 		// 4. Process Quality Gates
+		// If we are filtering, we still show QGs but they span only the visible swimlanes.
 		qualityGates.forEach((gate, i) => {
 			const linkedMilestones = gate.milestones || [];
 			let maxGateExec = 0;
@@ -338,7 +376,7 @@ export function MilestoneGraph({
 
 			// Position gate after the last milestone
 			const xPos = 200 + (maxGateExec + 0.5) * MILESTONE_WIDTH;
-			const totalHeight = departments.length * DEPARTMENT_HEIGHT;
+			const totalHeight = visibleDepartments.length * DEPARTMENT_HEIGHT;
 
 			const status = gate.status;
 			const isDone = status === "done";
@@ -417,36 +455,99 @@ export function MilestoneGraph({
 		});
 
 		return { initialNodes: nodes, initialEdges: edges };
-	}, [milestones, qualityGates, projectId]);
+	}, [milestones, qualityGates, projectId, selectedDepartmentId]);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-	// Reset nodes if milestones change (e.g. loading)
+	const allDepartments = db.departments;
+	// Calculate initial centeredY based on full or filtered height
+	const visibleDepartments = selectedDepartmentId
+		? allDepartments.filter((d) => d.id === selectedDepartmentId)
+		: allDepartments;
+
+	// Update nodes when selection or data changes
 	useEffect(() => {
 		setNodes(initialNodes);
 		setEdges(initialEdges);
-	}, [initialNodes, initialEdges, setNodes, setEdges]);
 
-	const departments = db.departments;
-	const totalHeight = departments.length * DEPARTMENT_HEIGHT;
+		// Reset viewport to initial left-aligned state when department changes
+		if (rfInstance) {
+			const totalHeight = visibleDepartments.length * DEPARTMENT_HEIGHT;
+			const newCenteredY = totalHeight < 600 ? (600 - totalHeight) / 2 : 0;
+			window.requestAnimationFrame(() => {
+				rfInstance.setViewport(
+					{ x: 50, y: newCenteredY, zoom: 0.75 },
+					{ duration: 800 },
+				);
+			});
+		}
+	}, [
+		initialNodes,
+		initialEdges,
+		setNodes,
+		setEdges,
+		rfInstance,
+		visibleDepartments.length,
+	]);
+
+	const totalHeight = visibleDepartments.length * DEPARTMENT_HEIGHT;
 	const centeredY = totalHeight < 600 ? (600 - totalHeight) / 2 : 0;
 
 	return (
-		<div style={{ height: 600, border: "1px solid #eee", borderRadius: 8 }}>
-			<ReactFlow
-				nodes={nodes}
-				edges={edges}
-				onNodesChange={onNodesChange}
-				onEdgesChange={onEdgesChange}
-				defaultViewport={{ x: 50, y: centeredY, zoom: 0.75 }}
-				nodesConnectable={false}
-				nodesDraggable={false}
-				nodeTypes={nodeTypes}
+		<div className="flex flex-col gap-4 pb-40">
+			<div className="flex items-center justify-between">
+				<div className="text-lg font-bold">Milestone Graph</div>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="outline">
+							{selectedDepartmentId
+								? allDepartments.find((d) => d.id === selectedDepartmentId)
+										?.name || "Unknown Department"
+								: "All Departments"}
+							<ChevronDown className="ml-2 h-4 w-4" />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuItem onClick={() => setSelectedDepartmentId(null)}>
+							All Departments
+						</DropdownMenuItem>
+						{allDepartments.map((dept) => (
+							<DropdownMenuItem
+								key={dept.id}
+								onClick={() => setSelectedDepartmentId(dept.id)}
+							>
+								{dept.name}
+							</DropdownMenuItem>
+						))}
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
+			<div
+				style={{
+					height: 600,
+					border: "1px solid #eee",
+					borderRadius: 8,
+					resize: "vertical",
+					overflow: "hidden",
+					minHeight: 300,
+				}}
 			>
-				<Background />
-				<Controls />
-			</ReactFlow>
+				<ReactFlow
+					nodes={nodes}
+					edges={edges}
+					onNodesChange={onNodesChange}
+					onEdgesChange={onEdgesChange}
+					onInit={setRfInstance}
+					defaultViewport={{ x: 50, y: centeredY, zoom: 0.75 }}
+					nodesConnectable={false}
+					nodesDraggable={false}
+					nodeTypes={nodeTypes}
+				>
+					<Background />
+					<Controls />
+				</ReactFlow>
+			</div>
 		</div>
 	);
 }
