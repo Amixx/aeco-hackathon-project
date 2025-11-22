@@ -64,6 +64,7 @@ export function NavUser({
 							<DropdownMenuItem
 								onClick={() => {
 									localStorage.clear();
+									window.location.reload();
 								}}
 							>
 								<Trash />

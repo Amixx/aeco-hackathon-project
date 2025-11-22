@@ -2,6 +2,7 @@ import departmentsData from "@/database/data/departments.json";
 import labelsData from "@/database/data/labels.json";
 import milestonesData from "@/database/data/milestones.json";
 import projectMilestonesData from "@/database/data/project_milestones.json";
+import projectQualityGatesData from "@/database/data/project_quality_gates.json";
 import projectsData from "@/database/data/projects.json";
 import qualityGateMilestonesData from "@/database/data/quality_gate_milestones.json";
 import qualityGatesData from "@/database/data/quality_gates.json";
@@ -14,6 +15,7 @@ import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
 import type { UserDTO } from "@/database/dto/UserDTO.ts";
 import type {
 	ProjectMilestone,
+	ProjectQualityGate,
 	QualityGateMilestone,
 	QualityGateStatus,
 } from "@/database/dto/UtilDTO.ts";
@@ -27,6 +29,7 @@ export const db = {
 	projects: projectsData as ProjectDTO[],
 	milestones: milestonesData as MilestoneDTO[],
 	projectMilestones: projectMilestonesData as ProjectMilestone[],
+	projectQualityGates: projectQualityGatesData as ProjectQualityGate[],
 
 	// Quality Gates
 	qualityGates: qualityGatesData as QualityGateDTO[],
@@ -98,7 +101,27 @@ export const api = {
 
 		const quality_gates = Array.from(gateIds)
 			.map((gateId) => {
-				return this.getQualityGateById(gateId);
+				const definition = this.getQualityGateById(gateId);
+				if (!definition) return null;
+
+				const projectGate = db.projectQualityGates.find(
+					(pqg) =>
+						pqg.project_id === projectId && pqg.quality_gate_id === gateId,
+				);
+
+				const gateMilestoneIds = definition.milestones.map((m) => m.id);
+				const completedCount = milestones.filter(
+					(pm) => gateMilestoneIds.includes(pm.milestone_id) && pm.completed_at,
+				).length;
+
+				let status: QualityGateStatus = "pending";
+				if (projectGate?.completed_at) {
+					status = "done";
+				} else if (completedCount > 0) {
+					status = "in_progress";
+				}
+
+				return { ...definition, status };
 			})
 			.filter((g) => g !== null);
 
@@ -219,15 +242,7 @@ export const api = {
 				.filter((m): m is MilestoneDTO => Boolean(m))
 				.sort((a, b) => a.execution_number - b.execution_number);
 
-			const completed = links.filter((l) => !!l.completed_at).length;
-			const status: QualityGateStatus =
-				links.length === 0
-					? "pending"
-					: completed === links.length
-						? "done"
-						: completed === 0
-							? "pending"
-							: "in_progress";
+			const status: QualityGateStatus = "pending";
 
 			return { ...gate, status, milestones };
 		});
@@ -246,15 +261,7 @@ export const api = {
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
 
-		const completed = links.filter((l) => !!l.completed_at).length;
-		const status: QualityGateStatus =
-			links.length === 0
-				? "pending"
-				: completed === links.length
-					? "done"
-					: completed === 0
-						? "pending"
-						: "in_progress";
+		const status: QualityGateStatus = "pending";
 
 		return { ...gate, status, milestones };
 	},
@@ -298,7 +305,7 @@ export const api = {
 				updated_at: now,
 				quality_gate_id: newGate.id,
 				milestone_id: m.id,
-				completed_at: null,
+				// completed_at removed
 				is_disabled: false,
 			}));
 			db.qualityGateMilestones.push(...links);
@@ -312,16 +319,8 @@ export const api = {
 			.map((l) => db.milestones.find((mm) => mm.id === l.milestone_id))
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
-		const completedCount = qgmLinks.filter((l) => l.completed_at).length;
-		const total = qgmLinks.length;
-		const status =
-			total === 0
-				? "pending"
-				: completedCount === 0
-					? "pending"
-					: completedCount === total
-						? "done"
-						: "in_progress";
+		
+		const status = "pending";
 
 		return { ...newGate, milestones: milestonesFull, status };
 	},
@@ -363,7 +362,7 @@ export const api = {
 				updated_at: now,
 				quality_gate_id: updated.id,
 				milestone_id: m.id,
-				completed_at: null,
+				// completed_at removed
 				is_disabled: false,
 			}));
 			db.qualityGateMilestones.push(...newLinks);
@@ -377,16 +376,8 @@ export const api = {
 			.map((l) => db.milestones.find((mm) => mm.id === l.milestone_id))
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
-		const completedCount = qgmLinks.filter((l) => l.completed_at).length;
-		const total = qgmLinks.length;
-		const status =
-			total === 0
-				? "pending"
-				: completedCount === 0
-					? "pending"
-					: completedCount === total
-						? "done"
-						: "in_progress";
+		
+		const status = "pending";
 
 		return { ...updated, milestones: milestonesFull, status };
 	},
@@ -403,22 +394,40 @@ export const api = {
 
 		return removed;
 	},
-	setQualityGateMilestoneCompletion(
+	setProjectQualityGateCompletion(
+		projectId: string,
 		qualityGateId: string,
-		milestoneId: string,
 		completed: boolean,
 	) {
-		const link = db.qualityGateMilestones.find(
-			(qgm) =>
-				qgm.quality_gate_id === qualityGateId &&
-				qgm.milestone_id === milestoneId,
+		let link = db.projectQualityGates.find(
+			(pqg) =>
+				pqg.project_id === projectId &&
+				pqg.quality_gate_id === qualityGateId,
 		);
-		if (!link) return this.getQualityGateById(qualityGateId);
+		
+		const now = new Date().toISOString();
 
-		link.completed_at = completed ? new Date().toISOString() : null;
-		link.updated_at = new Date().toISOString();
+		if (!link) {
+			if (!completed) return; // Nothing to uncheck if it doesn't exist
 
-		return this.getQualityGateById(qualityGateId);
+			// Create new link
+			link = {
+				id: `pqg_${Math.random().toString(36).slice(2, 10)}_${Date.now().toString(36)}`,
+				created_at: now,
+				updated_at: now,
+				project_id: projectId,
+				quality_gate_id: qualityGateId,
+				completed_at: null,
+			};
+			db.projectQualityGates.push(link);
+		}
+
+		link.completed_at = completed ? now : null;
+		link.updated_at = now;
+		
+		// We return the quality gate info, but context might need project info.
+		// The caller likely needs to refresh the project view.
+		return link;
 	},
 	getAllMilestones() {
 		return db.milestones;

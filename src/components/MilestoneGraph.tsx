@@ -343,9 +343,8 @@ export function MilestoneGraph({
 
 			const status = gate.status;
 			const isDone = status === "done";
-			const inProgress = status === "in_progress";
 
-			const gateColor = isDone ? "#ef4444" : inProgress ? "#3b82f6" : "#22c55e";
+			const gateColor = isDone ? "#22c55e" : "#ef4444";
 
 			nodes.push({
 				id: `gate-${gate.id}`,
@@ -396,9 +395,7 @@ export function MilestoneGraph({
 											"font-bold uppercase",
 											isDone
 												? "text-green-500"
-												: inProgress
-													? "text-blue-500"
-													: "text-red-500",
+												: "text-red-500",
 										)}
 									>
 										{status.replace("_", " ")}

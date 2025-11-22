@@ -7,6 +7,7 @@ This document outlines patterns, conventions, and APIs used in this project to h
 - DTOs represent plain data structures exchanged across the app.
 - Relations between domain objects are represented via explicit link collections:
   - Projects ↔ Milestones via project-milestones links.
+  - Projects ↔ QualityGates via project-quality-gates links.
   - QualityGates ↔ Milestones via quality-gate-milestones links.
 - Timestamps are ISO 8601 strings (e.g., 2025-01-01T12:34:56.000Z).
 - IDs are stable strings and must be unique across their respective collections.
@@ -40,6 +41,7 @@ Prefer these methods when working with the in-memory API:
   - setQualityGateMilestoneCompletion(qualityGateId, milestoneId, completed): toggles completion for a milestone link and returns updated gate.
 
 Status logic for QualityGates:
+
 - pending: no milestones completed (or no milestones linked).
 - in_progress: at least one milestone completed but not all.
 - done: all linked milestones completed.

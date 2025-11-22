@@ -12,6 +12,15 @@ export type ProjectMilestone = {
 	is_disabled?: boolean;
 };
 
+export type ProjectQualityGate = {
+	id: string;
+	created_at: string;
+	updated_at: string;
+	project_id: string;
+	quality_gate_id: string;
+	completed_at: string | null; // timestamp, null = not completed
+};
+
 export type QualityGateStatus = "pending" | "in_progress" | "done";
 
 export type QualityGateMilestone = {
@@ -20,7 +29,6 @@ export type QualityGateMilestone = {
 	updated_at: string;
 	quality_gate_id: string;
 	milestone_id: string;
-	completed_at: string | null; // timestamp, null = not completed
 	is_disabled?: boolean | null;
 	risklevel?: number | null;
 };
