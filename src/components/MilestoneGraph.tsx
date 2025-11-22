@@ -434,6 +434,10 @@ export function MilestoneGraph({
 		setEdges(initialEdges);
 	}, [initialNodes, initialEdges, setNodes, setEdges]);
 
+	const departments = db.departments;
+	const totalHeight = departments.length * DEPARTMENT_HEIGHT;
+	const centeredY = totalHeight < 600 ? (600 - totalHeight) / 2 : 0;
+
 	return (
 		<div style={{ height: 600, border: "1px solid #eee", borderRadius: 8 }}>
 			<ReactFlow
@@ -441,7 +445,7 @@ export function MilestoneGraph({
 				edges={edges}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
-				fitView
+				defaultViewport={{ x: 50, y: centeredY, zoom: 0.75 }}
 				nodesConnectable={false}
 				nodesDraggable={false}
 				nodeTypes={nodeTypes}
