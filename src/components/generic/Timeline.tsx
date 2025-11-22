@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
-import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
 import type { UserDTO } from "@/database/dto/UserDTO.ts";
+import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
 
 export type EnrichedProjectMilestone = ProjectMilestone & {
 	definition: MilestoneDTO;
@@ -315,6 +315,7 @@ export default function Timeline({
 				{/* M1 */}
 				{milestones?.map((m) => {
 					const milestoneNum = m.milestone_id.split("-")[1];
+					const labelColor = m.definition.label?.color || "#ccc";
 					const checked = milestonesChecked?.find(
 						(x) => x.id === m.milestone_id,
 					)?.checked;
@@ -327,6 +328,11 @@ export default function Timeline({
 						>
 							<div className={`milestone circle ${checked ? "checked" : ""}`}>
 								{checked ? "✔" : m.milestone_id.split("-")[1]}
+								{{
+									borderColor: labelColor,
+									borderWidth: "3px",
+									borderStyle: "solid",
+								}}
 							</div>
 						</div>
 					);
