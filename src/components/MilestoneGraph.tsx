@@ -56,6 +56,14 @@ const SimpleNode = ({ data }: { data: { label: React.ReactNode } }) => {
 const nodeTypes = {
 	simple: SimpleNode,
 };
+// At the top of your component, create a color map from your labels
+const labelColorMap = useMemo(() => {
+	const map = new Map<string, string>();
+	db.labels.forEach(label => {
+		map.set(label.id, label.color);
+	});
+	return map;
+}, []);
 
 export function MilestoneGraph({
 	projectId,
@@ -180,23 +188,73 @@ export function MilestoneGraph({
 			}
 		});
 
+		// // 2. Create Label Lines (Full Width)
+		// // Width covers from slightly before first milestone to slightly after last
+		// const startX = 150;
+		// const endX = 200 + (maxExecutionNumber + 1) * MILESTONE_WIDTH;
+		// const lineWidth = endX - startX;
+
+		// labelInfo.forEach((info, labelId) => {
+		// 	// Only create line if department is visible
+		// 	if (!deptIndexMap.has(info.deptId)) return;
+
+		// 	const deptIndex = deptIndexMap.get(info.deptId) ?? 0;
+		// 	const yOffset = labelYOffsets.get(labelId) || DEPARTMENT_HEIGHT / 2;
+		// 	const absoluteY = deptIndex * DEPARTMENT_HEIGHT + yOffset;
+
+		// 	nodes.push({
+		// 		id: `label-line-${labelId}`,
+		// 		type: "simple", // Use custom simple node
+		// 		position: {
+		// 			x: startX,
+		// 			y: absoluteY - 30,
+		// 		},
+		// 		style: {
+		// 			width: lineWidth,
+		// 			height: 30,
+		// 			backgroundColor: "transparent",
+		// 			borderBottom: "2px solid #9ca3af",
+		// 			borderRadius: 0,
+		// 			zIndex: 0,
+		// 			display: "flex",
+		// 			alignItems: "flex-end",
+		// 			paddingBottom: "4px",
+		// 			paddingLeft: "10px", // Label at start of line
+		// 			color: "#6b7280",
+		// 			fontSize: "11px",
+		// 			fontWeight: "bold",
+		// 			textTransform: "uppercase",
+		// 			borderTop: "none",
+		// 			borderLeft: "none",
+		// 			borderRight: "none",
+		// 		},
+		// 		data: {
+		// 			label: (
+		// 				<div className="w-full h-full flex items-end">
+		// 					<span className="mb-1 ml-2 bg-white/50 px-1 rounded">
+		// 						{info.name}
+		// 					</span>
+		// 				</div>
+		// 			),
+		// 		},
+		// 		draggable: false,
+		// 		selectable: false,
+		// 	});
+		// });
 		// 2. Create Label Lines (Full Width)
-		// Width covers from slightly before first milestone to slightly after last
-		const startX = 150;
-		const endX = 200 + (maxExecutionNumber + 1) * MILESTONE_WIDTH;
-		const lineWidth = endX - startX;
-
 		labelInfo.forEach((info, labelId) => {
-			// Only create line if department is visible
-			if (!deptIndexMap.has(info.deptId)) return;
+			const deptIndex = allDepartments.findIndex((d) => d.id === info.deptId);
+			if (deptIndex === -1) return;
 
-			const deptIndex = deptIndexMap.get(info.deptId) ?? 0;
 			const yOffset = labelYOffsets.get(labelId) || DEPARTMENT_HEIGHT / 2;
 			const absoluteY = deptIndex * DEPARTMENT_HEIGHT + yOffset;
 
+			// Get the color for this label
+			const labelColor = labelColorMap.get(labelId) || "#9ca3af";
+
 			nodes.push({
 				id: `label-line-${labelId}`,
-				type: "simple", // Use custom simple node
+				type: "simple",
 				position: {
 					x: startX,
 					y: absoluteY - 30,
@@ -205,14 +263,14 @@ export function MilestoneGraph({
 					width: lineWidth,
 					height: 30,
 					backgroundColor: "transparent",
-					borderBottom: "2px solid #9ca3af",
+					borderBottom: `2px solid ${labelColor}`, // Use label color here
 					borderRadius: 0,
 					zIndex: 0,
 					display: "flex",
 					alignItems: "flex-end",
 					paddingBottom: "4px",
-					paddingLeft: "10px", // Label at start of line
-					color: "#6b7280",
+					paddingLeft: "10px",
+					color: labelColor, // Also update text color to match
 					fontSize: "11px",
 					fontWeight: "bold",
 					textTransform: "uppercase",
@@ -223,7 +281,13 @@ export function MilestoneGraph({
 				data: {
 					label: (
 						<div className="w-full h-full flex items-end">
-							<span className="mb-1 ml-2 bg-white/50 px-1 rounded">
+							<span
+								className="mb-1 ml-2 px-1 rounded"
+								style={{
+									backgroundColor: `${labelColor}20`, // 20 = ~12% opacity
+									color: labelColor
+								}}
+							>
 								{info.name}
 							</span>
 						</div>
@@ -503,7 +567,7 @@ export function MilestoneGraph({
 						<Button variant="outline">
 							{selectedDepartmentId
 								? allDepartments.find((d) => d.id === selectedDepartmentId)
-										?.name || "Unknown Department"
+									?.name || "Unknown Department"
 								: "All Departments"}
 							<ChevronDown className="ml-2 h-4 w-4" />
 						</Button>

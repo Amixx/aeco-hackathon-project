@@ -1,37 +1,44 @@
 [
-	{
-		"id": "dept-1",
-		"created_at": "2024-01-01T00:00:00Z",
-		"updated_at": "2024-01-01T00:00:00Z",
-		"name": "Architecture",
-		"description": "Responsible for design and planning."
-	},
-	{
-		"id": "dept-2",
-		"created_at": "2024-01-01T00:00:00Z",
-		"updated_at": "2024-01-01T00:00:00Z",
-		"name": "Engineering",
-		"description": "Structural and MEP engineering."
-	},
-	{
-		"id": "dept-3",
-		"created_at": "2024-01-01T00:00:00Z",
-		"updated_at": "2024-01-01T00:00:00Z",
-		"name": "Construction",
-		"description": "On-site execution and management."
-	},
-	{
-		"id": "dept-4",
-		"created_at": "2024-01-01T00:00:00Z",
-		"updated_at": "2024-01-01T00:00:00Z",
-		"name": "Finance",
-		"description": "Budgeting and cost control."
-	},
-	{
-		"id": "dept-5",
-		"created_at": "2024-01-01T00:00:00Z",
-		"updated_at": "2024-01-01T00:00:00Z",
-		"name": "Legal",
-		"description": "Contracts and compliance."
-	}
+    {
+        "id": "dept-1",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Kunde & Interessensgruppen",
+        "description": "Kunde & Interessensgruppen"
+    },
+    {
+        "id": "dept-2",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Organisation und Management",
+        "description": "Organisation und Management"
+    },
+    {
+        "id": "dept-3",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Projektsteuerung, Controlling & Berichtswesen",
+        "description": "Projektsteuerung, Controlling & Berichtswesen"
+    },
+    {
+        "id": "dept-4",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Beschaffung",
+        "description": "Beschaffung (Baupartner, Partner, Lieferanten, Material und Equipment)"
+    },
+    {
+        "id": "dept-5",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Planung, Vorbereitung & Ausführung",
+        "description": "Planung, Vorbereitung & Ausführung"
+    },
+    {
+        "id": "dept-6",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z",
+        "name": "Qualität, Arbeitssicherheit & Nachhaltigkeit",
+        "description": "Qualität, Arbeitssicherheit, Gesundheitsschutz, Nachhaltigkeit, Umwelt und Energie"
+    }
 ]
