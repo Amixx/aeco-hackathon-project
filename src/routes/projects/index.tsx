@@ -51,7 +51,6 @@ function getQualityGateOrder(id: string) {
 	return Number.isNaN(n) ? 0 : n;
 }
 
-
 function ProjectsComponent() {
 	const [selectedMilestoneId, setSelectedMilestoneId] =
 		React.useState<string>("all");
@@ -134,7 +133,6 @@ function ProjectsComponent() {
 				return currentOrder > latestOrder ? current : latest;
 			}, null) ?? null;
 
-
 		const lastQualityGate =
 			lastCompletedQG &&
 			qualityGates.find((qg: any) => qg.id === lastCompletedQG.quality_gate_id);
@@ -204,12 +202,17 @@ function ProjectsComponent() {
 	).length;
 
 	const exportData = filteredProjects.map(
-		({ project, checkedLabel, lastMilestoneLabel, durationLabel }) => ({
+		({
+			project,
+			checkedMilestonesLabel,
+			lastMilestoneLabel,
+			durationLabel,
+		}) => ({
 			Project: project.name,
 			Description: project.description,
 			Risk: project.risk === 3 ? "High" : project.risk === 2 ? "Medium" : "Low",
 			Duration: durationLabel,
-			"Checked Milestones": checkedLabel,
+			"Checked Milestones": checkedMilestonesLabel,
 			"Last Checked Milestone": lastMilestoneLabel,
 			Status: project.closed_at ? "Closed" : "In Progress",
 		}),
