@@ -9,6 +9,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { api } from "@/database/api.ts";
+import type { ProjectMilestone } from "@/database/dto/UtilDTO";
 
 export const Route = createFileRoute("/projects/")({
 	component: ProjectsComponent,
@@ -85,9 +86,7 @@ function ProjectsComponent() {
 									: "-";
 
 							// latest completed_at row for this project
-							const lastCompletedPm = completedPms.reduce<
-								(typeof completedPms)[number] | null
-							>((latest, current) => {
+							const lastCompletedPm = completedPms.reduce<ProjectMilestone | null>((latest, current) => {
 								if (!latest) return current;
 								const latestDate = new Date(latest.completed_at!);
 								const currentDate = new Date(current.completed_at!);
