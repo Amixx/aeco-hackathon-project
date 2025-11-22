@@ -14,7 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as MilestonesIndexRouteImport } from './routes/milestones/index'
-import { Route as LoggsIndexRouteImport } from './routes/loggs/index'
+import { Route as LogIndexRouteImport } from './routes/log/index'
 import { Route as DepartmentsIndexRouteImport } from './routes/departments/index'
 import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
 
@@ -43,9 +43,9 @@ const MilestonesIndexRoute = MilestonesIndexRouteImport.update({
   path: '/milestones/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoggsIndexRoute = LoggsIndexRouteImport.update({
-  id: '/loggs/',
-  path: '/loggs/',
+const LogIndexRoute = LogIndexRouteImport.update({
+  id: '/log/',
+  path: '/log/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DepartmentsIndexRoute = DepartmentsIndexRouteImport.update({
@@ -63,7 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/departments': typeof DepartmentsIndexRoute
-  '/loggs': typeof LoggsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/users': typeof UsersIndexRoute
@@ -72,7 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/departments': typeof DepartmentsIndexRoute
-  '/loggs': typeof LoggsIndexRoute
+  '/log': typeof LogIndexRoute
   '/milestones': typeof MilestonesIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/users': typeof UsersIndexRoute
@@ -83,7 +83,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/departments/': typeof DepartmentsIndexRoute
-  '/loggs/': typeof LoggsIndexRoute
+  '/log/': typeof LogIndexRoute
   '/milestones/': typeof MilestonesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/users/': typeof UsersIndexRoute
@@ -95,7 +95,7 @@ export interface FileRouteTypes {
     | '/'
     | '/projects'
     | '/departments'
-    | '/loggs'
+    | '/log'
     | '/milestones'
     | '/projects/'
     | '/users'
@@ -104,7 +104,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/departments'
-    | '/loggs'
+    | '/log'
     | '/milestones'
     | '/projects'
     | '/users'
@@ -114,7 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/projects'
     | '/departments/'
-    | '/loggs/'
+    | '/log/'
     | '/milestones/'
     | '/projects/'
     | '/users/'
@@ -125,7 +125,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProjectsRouteRoute: typeof ProjectsRouteRouteWithChildren
   DepartmentsIndexRoute: typeof DepartmentsIndexRoute
-  LoggsIndexRoute: typeof LoggsIndexRoute
+  LogIndexRoute: typeof LogIndexRoute
   MilestonesIndexRoute: typeof MilestonesIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
 }
@@ -167,11 +167,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MilestonesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/loggs/': {
-      id: '/loggs/'
-      path: '/loggs'
-      fullPath: '/loggs'
-      preLoaderRoute: typeof LoggsIndexRouteImport
+    '/log/': {
+      id: '/log/'
+      path: '/log'
+      fullPath: '/log'
+      preLoaderRoute: typeof LogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/departments/': {
@@ -209,7 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProjectsRouteRoute: ProjectsRouteRouteWithChildren,
   DepartmentsIndexRoute: DepartmentsIndexRoute,
-  LoggsIndexRoute: LoggsIndexRoute,
+  LogIndexRoute: LogIndexRoute,
   MilestonesIndexRoute: MilestonesIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
 }

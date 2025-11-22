@@ -1,0 +1,199 @@
+/* === MAIN LAYOUT === */
+.log-container {
+  padding: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.top-section {
+  display: flex;
+  gap: 40px;
+}
+
+/* LEFT CONTROL PANEL */
+.left-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.select-block label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.select-block select {
+  padding: 6px 10px;
+  width: 110px;
+  border: 1px solid #ccc;
+}
+
+/* PHASE BANDS */
+.phase-bands {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.phase {
+  padding: 8px 16px;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+}
+
+.phase1 { background: #7f1d1d; }
+.phase2 { background: #b91c1c; }
+.phase3 { background: #0284c7; }
+
+/* === TIMELINE === */
+.timeline {
+  margin-top: 40px;
+  position: relative;
+  height: 260px;
+}
+
+.timeline-line {
+  border-bottom: 2px solid #334155;
+  position: absolute;
+  top: 60px;
+  width: 100%;
+}
+
+.timeline-wrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+  white-space: nowrap;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.timeline-inner {
+  position: relative;
+  height: 260px;
+  width: 3000px; /* long enough for 25 items */
+}
+
+/* QG blocks */
+.qg {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qg2 { left: 80px; }
+.qg3 { right: 130px; }
+
+.qg-hitbox {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qg-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0284c7;
+  margin-top: 4px;
+}
+
+.qg-line {
+  border-left: 2px dashed #0284c7;
+  height: 160px;
+  margin-top: 4px;
+}
+
+/* Triangle */
+.qg-triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #0284c7;
+}
+
+/* === MILESTONES === */
+.milestone {
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.circle {
+  border-radius: 9999px;
+}
+
+.checked {
+  background: #d1fae5;
+  color: #059669;
+  border-color: #059669;
+  font-weight: bold;
+}
+
+/* milestone positions */
+.circle-wrapper {
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-20px);
+  cursor: pointer;
+  z-index: 30;
+}
+
+.square-wrapper {
+  position: absolute;
+  top: 42px;
+  right: 130px;
+  cursor: pointer;
+  z-index: 30;
+}
+
+/* V box */
+.v-box {
+  position: absolute;
+  top: 42px;
+  left: 85px;
+  z-index: 30;
+}
+
+.v-inner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid black;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* === CHECKED MILESTONES SECTION === */
+.checked-wrapper {
+}
+
+.checked-section {}
+
+.checked-title {
+  background: #0c4a6e;
+  color: white;
+  padding: 8px 24px;
+  font-weight: 600;
+}
+
+.checked-subtitle {
+  background: #e5e7eb;
+  padding: 8px 24px;
+  font-size: 14px;
+}
