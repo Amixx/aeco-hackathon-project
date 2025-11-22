@@ -45,15 +45,19 @@ function MilestonesComponent() {
 					</TableHeader>
 					<TableBody>
 						{milestones.map((milestone) => {
+							// find label by label_id
+							const label = db.labels.find((l) => l.id === milestone.label_id);
 							const dept = db.departments.find(
 								(d) => d.id === milestone.department_id,
 							);
+
 							return (
 								<TableRow key={milestone.id}>
 									<TableCell className="font-medium">
 										{milestone.execution_number}
 									</TableCell>
-									<TableCell>{milestone.label?.name}</TableCell>
+									{/* show label name, fallback to id if something is missing */}
+									<TableCell>{label?.name || milestone.label_id}</TableCell>
 									<TableCell>{milestone.name}</TableCell>
 									<TableCell>{milestone.description}</TableCell>
 									<TableCell>
