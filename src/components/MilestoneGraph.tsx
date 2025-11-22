@@ -29,6 +29,18 @@ interface MilestoneGraphProps {
 const DEPARTMENT_HEIGHT = 150;
 const MILESTONE_WIDTH = 200;
 
+const SimpleNode = ({ data }: { data: { label: React.ReactNode } }) => {
+	return (
+		<div className="w-full h-full pointer-events-none select-none">
+			{data.label}
+		</div>
+	);
+};
+
+const nodeTypes = {
+	simple: SimpleNode,
+};
+
 export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 	// Memoize the graph data generation to avoid re-randomizing on every render
 	const { initialNodes, initialEdges } = useMemo(() => {
@@ -60,10 +72,10 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 			// Add text label for the department
 			nodes.push({
 				id: `dept-label-${dept.id}`,
-				type: "input", // Using input type just for simple text node mostly
+				type: "simple", // Use custom simple node
 				position: {
 					x: 10,
-					y: index * DEPARTMENT_HEIGHT + DEPARTMENT_HEIGHT / 2 - 15, // Center vertically
+					y: DEPARTMENT_HEIGHT / 2 - 25, // Relative to parent group
 				},
 				data: { label: dept.name },
 				style: {
@@ -71,11 +83,16 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 					background: "transparent",
 					fontWeight: "bold",
 					width: 150,
+					height: 50,
 					pointerEvents: "none",
+					display: "flex",
+					alignItems: "center",
+					fontSize: "16px",
 				},
 				parentId: `dept-${dept.id}`,
 				extent: "parent",
 				draggable: false,
+				selectable: false,
 			});
 		});
 
@@ -132,10 +149,10 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 
 			nodes.push({
 				id: `label-line-${labelId}`,
-				type: "default",
+				type: "simple", // Use custom simple node
 				position: {
 					x: startX,
-					y: absoluteY - 30, // Adjusted so the bottom border (line) hits the exact Y center
+					y: absoluteY - 30,
 				},
 				style: {
 					width: lineWidth,
@@ -269,6 +286,7 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 				sourcePosition: Position.Right,
 				targetPosition: Position.Left,
 				draggable: false,
+				connectable: false,
 			};
 
 			nodes.push(node);
@@ -305,6 +323,9 @@ export function MilestoneGraph({ milestones }: MilestoneGraphProps) {
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				fitView
+				nodesConnectable={false}
+				nodesDraggable={false}
+				nodeTypes={nodeTypes}
 			>
 				<Background />
 				<Controls />
