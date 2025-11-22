@@ -1,37 +1,37 @@
 [
-  {
-    "id": "dept-1",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Architecture",
-    "description": "Responsible for design and planning."
-  },
-  {
-    "id": "dept-2",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Engineering",
-    "description": "Structural and MEP engineering."
-  },
-  {
-    "id": "dept-3",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Construction",
-    "description": "On-site execution and management."
-  },
-  {
-    "id": "dept-4",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Finance",
-    "description": "Budgeting and cost control."
-  },
-  {
-    "id": "dept-5",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Legal",
-    "description": "Contracts and compliance."
-  }
+	{
+		"id": "dept-1",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Architecture",
+		"description": "Responsible for design and planning."
+	},
+	{
+		"id": "dept-2",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Engineering",
+		"description": "Structural and MEP engineering."
+	},
+	{
+		"id": "dept-3",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Construction",
+		"description": "On-site execution and management."
+	},
+	{
+		"id": "dept-4",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Finance",
+		"description": "Budgeting and cost control."
+	},
+	{
+		"id": "dept-5",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Legal",
+		"description": "Contracts and compliance."
+	}
 ]

@@ -1,47 +1,47 @@
 [
-  {
-    "id": "user-1",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Alice Administrator",
-    "email": "alice@example.com",
-    "role": "admin",
-    "department_id": "dept-4"
-  },
-  {
-    "id": "user-2",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Bob Builder",
-    "email": "bob@example.com",
-    "role": "project_manager",
-    "department_id": "dept-3"
-  },
-  {
-    "id": "user-3",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Charlie Chief",
-    "email": "charlie@example.com",
-    "role": "executive",
-    "department_id": "dept-1"
-  },
-  {
-    "id": "user-4",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Diana Design",
-    "email": "diana@example.com",
-    "role": "project_manager",
-    "department_id": "dept-1"
-  },
-  {
-    "id": "user-5",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z",
-    "name": "Evan Engineer",
-    "email": "evan@example.com",
-    "role": "executive",
-    "department_id": "dept-2"
-  }
+	{
+		"id": "user-1",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Alice Administrator",
+		"email": "alice@example.com",
+		"role": "admin",
+		"department_id": "dept-4"
+	},
+	{
+		"id": "user-2",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Bob Builder",
+		"email": "bob@example.com",
+		"role": "project_manager",
+		"department_id": "dept-3"
+	},
+	{
+		"id": "user-3",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Charlie Chief",
+		"email": "charlie@example.com",
+		"role": "executive",
+		"department_id": "dept-1"
+	},
+	{
+		"id": "user-4",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Diana Design",
+		"email": "diana@example.com",
+		"role": "project_manager",
+		"department_id": "dept-1"
+	},
+	{
+		"id": "user-5",
+		"created_at": "2024-01-01T00:00:00Z",
+		"updated_at": "2024-01-01T00:00:00Z",
+		"name": "Evan Engineer",
+		"email": "evan@example.com",
+		"role": "executive",
+		"department_id": "dept-2"
+	}
 ]
