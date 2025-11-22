@@ -68,15 +68,12 @@ function ProjectsComponent() {
 			totalMilestones > 0 ? `${completedCount}/${totalMilestones}` : "-";
 
 		const lastCompletedPm =
-			completedPms.reduce<ProjectMilestone | null>(
-				(latest, current) => {
-					if (!latest) return current;
-					const latestDate = new Date(latest.completed_at!);
-					const currentDate = new Date(current.completed_at!);
-					return currentDate > latestDate ? current : latest;
-				},
-				null,
-			) ?? null;
+			completedPms.reduce<ProjectMilestone | null>((latest, current) => {
+				if (!latest) return current;
+				const latestDate = new Date(latest.completed_at!);
+				const currentDate = new Date(current.completed_at!);
+				return currentDate > latestDate ? current : latest;
+			}, null) ?? null;
 
 		const lastMilestone =
 			lastCompletedPm &&
