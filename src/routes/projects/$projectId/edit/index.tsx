@@ -4,7 +4,9 @@ import React from "react";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
+import "@/database/initSessionDb.ts";
 import {api, db} from "@/database/api.ts";
+import {saveDbToSession} from "@/database/sessionPersistence.ts";
 
 export const Route = createFileRoute("/projects/$projectId/edit/")({
     component: RouteComponent,
@@ -66,6 +68,7 @@ function RouteComponent() {
                 alert("Failed to update project.");
                 return;
             }
+            saveDbToSession(db);
             navigate({to: "/projects/$projectId", params: {projectId}});
         } finally {
             setSubmitting(false);
