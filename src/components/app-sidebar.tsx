@@ -1,19 +1,9 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import {
-	AudioWaveform,
-	Building2,
-	GalleryVerticalEnd,
-	Home,
-	Pointer,
-	ShieldCheck,
-	Tag,
-	User,
-} from "lucide-react";
+import { Building2, Home, Pointer, ShieldCheck, Tag, User } from "lucide-react";
 import type * as React from "react";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
 	Sidebar,
 	SidebarContent,
@@ -29,29 +19,21 @@ import {
 // This is sample data.
 const data = {
 	user: {
-		name: "Test User",
-		email: "user@example.com",
-		avatar: "/avatars/shadcn.jpg",
+		name: "Wolfmüller Manager",
+		email: "director@wm.de",
+		avatar: "/wolfmueller.png",
 	},
-	teams: [
-		{
-			name: "Finance",
-			logo: GalleryVerticalEnd,
-			plan: "Enterprise",
-		},
-		{
-			name: "Management",
-			logo: AudioWaveform,
-			plan: "Startup",
-		},
-	],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<TeamSwitcher teams={data.teams} />
+				<img
+					src="/logo_firmengruppe.png"
+					alt="company logo"
+					className="w-full h-18 object-contain dark:invert"
+				/>
 			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup className="group-data-[collapsible=icon]:hidden">
