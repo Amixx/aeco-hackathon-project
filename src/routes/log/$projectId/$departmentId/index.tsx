@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import CheckedMilestones from "@/components/generic/CheckedMilestones.tsx";
 import Timeline from "@/components/generic/Timeline.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { api } from "@/database/api.ts";
 
 export const Route = createFileRoute("/log/$projectId/$departmentId/")({
 	component: RouteComponent,
@@ -10,6 +12,11 @@ export const Route = createFileRoute("/log/$projectId/$departmentId/")({
 function RouteComponent() {
 	const [checkedList, setCheckedList] = useState<string[]>([]);
 
+	const project = api.getProjectById(projectId);
+	const milestonesFiltered =
+		project?.milestones?.filter(
+			(m) => m.definition.department_id === departmentId,
+		) ?? [];
 	return (
 		<div className="log-container">
 			{/* === TOP: PROJECT INFO + PHASE BARS === */}
@@ -24,7 +31,12 @@ function RouteComponent() {
 
 			{/* TIMELINE + CHECKED LIST */}
 			<div>
-				<Timeline setCheckedList={setCheckedList} />
+				<Timeline
+					setCheckedList={setCheckedList}
+					milestones={milestonesFiltered}
+					departmentId={departmentId}
+					projectId={projectId}
+				/>
 				<CheckedMilestones checkedList={checkedList} />
 			</div>
 		</div>

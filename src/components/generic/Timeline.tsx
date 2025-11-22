@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button.tsx";
+import { api } from "@/database/api.ts";
+import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
+import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
 
 export default function Timeline({
 	setCheckedList,
+	milestones,
+	gates,
+	departmentId,
+	projectId,
 }: {
 	setCheckedList: (items: string[]) => void;
+	milestones?: MilestoneDTO[];
+	gates?: QualityGateDTO[];
+	departmentId: string;
+	projectId: string;
 }) {
 	const qgRequirements: Record<number, number> = {
 		0: 0, // QG1 requires nothing
@@ -13,28 +25,30 @@ export default function Timeline({
 		4: 20, // QG5 requires M1–M20
 	};
 
-	const [milestonesChecked, setMilestonesChecked] = useState<boolean[]>([
-		true,
-		true,
-		true,
-		true,
-		true, // M1–M5
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true, // M6–M11
-		true,
-		true,
-		true, // M12–M14–M15
-		false,
-		false,
-		false,
-		false,
-		false, // M16–M20
-	]);
+	const checkedStuff = milestones?.map((x) => {
+		return {
+			id: x.definition.id,
+			checked:
+				Boolean(x.completed_at) && x.definition.department_id === departmentId,
+		};
+	});
+	const [milestonesChecked, setMilestonesChecked] = useState<
+		Record<string, boolean>[]
+	>(checkedStuff ?? []);
+
+	const saveMilestones = () => {
+		console.log("Saving milestones...");
+		const checkedList = Object.entries(milestonesChecked)
+			.filter(([_, value]) => value.checked)
+			.map(([_, value]) => value.id);
+
+		if (!projectId) return;
+		api.setProjectDepartmentMilestonesCompletion(
+			projectId,
+			departmentId,
+			checkedList,
+		);
+	};
 
 	// QG boxes 1–3 checked, 4–5 unchecked
 	const [qgBoxesChecked, setQGBoxesChecked] = useState<boolean[]>([
@@ -45,18 +59,12 @@ export default function Timeline({
 		false,
 	]);
 
-	const toggleMilestone = (index: number) => {
-		// First milestone can always be toggled
-		if (index > 0 && !milestonesChecked[index - 1]) {
-			console.log(
-				"Cannot check this milestone — previous milestone not completed",
-			);
-			return;
-		}
-
-		const updated = [...milestonesChecked];
-		updated[index] = !updated[index];
-		setMilestonesChecked(updated);
+	const toggleMilestone = (milestoneId: string) => {
+		const index = milestones?.findIndex((m) => m.milestone_id === milestoneId);
+		if (index === undefined || index === -1) return;
+		const newMilestones = [...(milestonesChecked ?? [])];
+		newMilestones[index].checked = !newMilestones[index].checked;
+		setMilestonesChecked(newMilestones);
 	};
 
 	const toggleQG = (index: number) => {
@@ -64,7 +72,7 @@ export default function Timeline({
 
 		// Check if all required milestones are done
 		const allPreviousChecked = milestonesChecked
-			.slice(0, requiredMilestones)
+			?.slice(0, requiredMilestones)
 			.every((x) => x === true);
 
 		if (!allPreviousChecked) {
@@ -88,7 +96,7 @@ export default function Timeline({
 		});
 
 		// Milestones
-		milestonesChecked.forEach((checked, i) => {
+		milestonesChecked?.forEach((checked, i) => {
 			if (checked) items.push(`M${i + 1}`);
 		});
 
@@ -185,285 +193,27 @@ export default function Timeline({
 
 				{/* === 20 MILESTONES IN SEQUENCE === */}
 				{/* M1 */}
-				<div
-					className="milestone-wrapper m-pos-1"
-					onClick={() => toggleMilestone(0)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[0] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[0] ? "✔" : "1"}
-					</div>
-				</div>
+				{milestones?.map((m, i) => {
+					const checked = milestonesChecked?.find(
+						(x) => x.id === m.milestone_id,
+					)?.checked;
 
-				{/* M2 */}
-				<div
-					className="milestone-wrapper m-pos-2"
-					onClick={() => toggleMilestone(1)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[1] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[1] ? "✔" : "2"}
-					</div>
-				</div>
-
-				{/* M3 */}
-				<div
-					className="milestone-wrapper m-pos-3"
-					onClick={() => toggleMilestone(2)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[2] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[2] ? "✔" : "3"}
-					</div>
-				</div>
-
-				{/* M4 */}
-				<div
-					className="milestone-wrapper m-pos-4"
-					onClick={() => toggleMilestone(3)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[3] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[3] ? "✔" : "4"}
-					</div>
-				</div>
-
-				{/* M5 */}
-				<div
-					className="milestone-wrapper m-pos-5"
-					onClick={() => toggleMilestone(4)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[4] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[4] ? "✔" : "5"}
-					</div>
-				</div>
-
-				{/* M6 */}
-				<div
-					className="milestone-wrapper m-pos-6"
-					onClick={() => toggleMilestone(5)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[5] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[5] ? "✔" : "6"}
-					</div>
-				</div>
-
-				{/* M7 */}
-				<div
-					className="milestone-wrapper m-pos-7"
-					onClick={() => toggleMilestone(6)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[6] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[6] ? "✔" : "7"}
-					</div>
-				</div>
-
-				{/* M8 */}
-				<div
-					className="milestone-wrapper m-pos-8"
-					onClick={() => toggleMilestone(7)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[7] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[7] ? "✔" : "8"}
-					</div>
-				</div>
-
-				{/* M9 */}
-				<div
-					className="milestone-wrapper m-pos-9"
-					onClick={() => toggleMilestone(8)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[8] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[8] ? "✔" : "9"}
-					</div>
-				</div>
-
-				{/* M10 */}
-				<div
-					className="milestone-wrapper m-pos-10"
-					onClick={() => toggleMilestone(9)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[9] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[9] ? "✔" : "10"}
-					</div>
-				</div>
-
-				{/* M11 */}
-				<div
-					className="milestone-wrapper m-pos-11"
-					onClick={() => toggleMilestone(10)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[10] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[10] ? "✔" : "11"}
-					</div>
-				</div>
-
-				{/* M12 */}
-				<div
-					className="milestone-wrapper m-pos-12"
-					onClick={() => toggleMilestone(11)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[11] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[11] ? "✔" : "12"}
-					</div>
-				</div>
-
-				{/* M13 */}
-				<div
-					className="milestone-wrapper m-pos-13"
-					onClick={() => toggleMilestone(12)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[12] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[12] ? "✔" : "13"}
-					</div>
-				</div>
-
-				{/* M14 */}
-				<div
-					className="milestone-wrapper m-pos-14"
-					onClick={() => toggleMilestone(13)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[13] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[13] ? "✔" : "14"}
-					</div>
-				</div>
-
-				{/* M15 */}
-				<div
-					className="milestone-wrapper m-pos-15"
-					onClick={() => toggleMilestone(14)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[14] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[14] ? "✔" : "15"}
-					</div>
-				</div>
-
-				{/* M16 */}
-				<div
-					className="milestone-wrapper m-pos-16"
-					onClick={() => toggleMilestone(15)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[15] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[15] ? "✔" : "16"}
-					</div>
-				</div>
-
-				{/* M17 */}
-				<div
-					className="milestone-wrapper m-pos-17"
-					onClick={() => toggleMilestone(16)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[16] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[16] ? "✔" : "17"}
-					</div>
-				</div>
-
-				{/* M18 */}
-				<div
-					className="milestone-wrapper m-pos-18"
-					onClick={() => toggleMilestone(17)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[17] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[17] ? "✔" : "18"}
-					</div>
-				</div>
-
-				{/* M19 */}
-				<div
-					className="milestone-wrapper m-pos-19"
-					onClick={() => toggleMilestone(18)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[18] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[18] ? "✔" : "19"}
-					</div>
-				</div>
-
-				{/* M20 */}
-				<div
-					className="milestone-wrapper m-pos-20"
-					onClick={() => toggleMilestone(19)}
-				>
-					<div
-						className={
-							"milestone circle " + (milestonesChecked[19] ? "checked" : "")
-						}
-					>
-						{milestonesChecked[19] ? "✔" : "20"}
-					</div>
-				</div>
+					return (
+						<div
+							key={i}
+							className={`milestone-wrapper m-pos-${i + 1}`}
+							onClick={() => toggleMilestone(m.milestone_id)}
+						>
+							<div className={"milestone circle " + (checked ? "checked" : "")}>
+								{checked ? "✔" : m.milestone_id}
+							</div>
+						</div>
+					);
+				})}
 			</div>
+			<Button className="max-w-20" onClick={saveMilestones}>
+				Save
+			</Button>
 		</div>
 	);
 }

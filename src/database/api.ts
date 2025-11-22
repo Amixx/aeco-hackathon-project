@@ -56,6 +56,8 @@ export const api = {
 				.filter((m) => Boolean(m))
 				.sort((a, b) => a!.execution_number - b!.execution_number);
 
+			const quality_gates = this.getProjectQualityGates(project.id);
+
 			let risk = 1;
 			const risks = db.projectQualityGates
 				.filter((pqg) => pqg.project_id === project.id)
@@ -64,7 +66,7 @@ export const api = {
 			if (risks.some((r) => r === 3)) risk = 3;
 			else if (risks.some((r) => r === 2)) risk = 2;
 
-			return { ...project, milestones, risk };
+			return { ...project, milestones, quality_gates, risk };
 		});
 
 		return projects;
@@ -102,42 +104,7 @@ export const api = {
 					(b.definition?.execution_number || 0),
 			);
 
-		// Find relevant quality gates
-		const milestoneIds = new Set(milestones.map((m) => m.milestone_id));
-		const relevantQGM = db.qualityGateMilestones.filter((qgm) =>
-			milestoneIds.has(qgm.milestone_id),
-		);
-		const gateIds = new Set(relevantQGM.map((qgm) => qgm.quality_gate_id));
-
-		const quality_gates = Array.from(gateIds)
-			.map((gateId) => {
-				const definition = this.getQualityGateById(gateId);
-				if (!definition) return null;
-
-				const projectGate = db.projectQualityGates.find(
-					(pqg) =>
-						pqg.project_id === projectId && pqg.quality_gate_id === gateId,
-				);
-
-				const gateMilestoneIds = definition.milestones.map((m) => m.id);
-				const completedCount = milestones.filter(
-					(pm) => gateMilestoneIds.includes(pm.milestone_id) && pm.completed_at,
-				).length;
-
-				let status: QualityGateStatus = "pending";
-				if (projectGate?.completed_at) {
-					status = "done";
-				} else if (completedCount > 0) {
-					status = "in_progress";
-				}
-
-				return {
-					...definition,
-					status,
-					risklevel: projectGate?.risklevel ?? null,
-				};
-			})
-			.filter((g) => g !== null);
+		const quality_gates = this.getProjectQualityGates(projectId);
 
 		return { ...project, milestones, quality_gates };
 	},
@@ -194,8 +161,10 @@ export const api = {
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
 
+		const quality_gates = this.getProjectQualityGates(newProject.id);
+
 		saveDbToSession(db);
-		return { ...newProject, milestones: attachedMilestones };
+		return { ...newProject, milestones: attachedMilestones, quality_gates };
 	},
 	editProject(project: ProjectDTO) {
 		// receives Project DTO and edits the corresponding entry on hand of id in db.projects
@@ -226,8 +195,10 @@ export const api = {
 			.filter((m): m is MilestoneDTO => Boolean(m))
 			.sort((a, b) => a.execution_number - b.execution_number);
 
+		const quality_gates = this.getProjectQualityGates(updated.id);
+
 		saveDbToSession(db);
-		return { ...updated, milestones: attachedMilestones };
+		return { ...updated, milestones: attachedMilestones, quality_gates };
 	},
 	deleteProject(projectId: string) {
 		// receives Project id and deletes the corresponding entry from db.projects
@@ -451,6 +422,95 @@ export const api = {
 		// We return the quality gate info, but context might need project info.
 		// The caller likely needs to refresh the project view.
 		return link;
+	},
+
+	/**
+	 * Set completion for all milestones in a department for a project.
+	 * Any milestone in the department present in checkedMilestoneIds will be marked completed (timestamped),
+	 * all others will be set to not completed.
+	 */
+	setProjectDepartmentMilestonesCompletion(
+		projectId: string,
+		departmentId: string,
+		checkedMilestoneIds: string[],
+	) {
+		const now = new Date().toISOString();
+		const checked = new Set(checkedMilestoneIds);
+
+		// Determine milestone definitions that belong to this department
+		const deptMilestoneIds = new Set(
+			db.milestones
+				.filter((m) => m.department_id === departmentId)
+				.map((m) => m.id),
+		);
+
+		// Find project-milestone links for this project that belong to the department
+		const toUpdate = db.projectMilestones.filter(
+			(pm) =>
+				pm.project_id === projectId && deptMilestoneIds.has(pm.milestone_id),
+		);
+
+		// Apply completion changes
+		toUpdate.forEach((pm) => {
+			pm.updated_at = now;
+			pm.completed_at = checked.has(pm.milestone_id) ? now : null;
+		});
+
+		// Persist changes
+		saveDbToSession(db);
+
+		// Return the updated links (for this department and project)
+		return toUpdate;
+	},
+
+	/**
+	 * Compute quality gates (with status) relevant to a specific project.
+	 */
+	getProjectQualityGates(projectId: string) {
+		// Collect this project's milestone ids
+		const projectMilestones = db.projectMilestones.filter(
+			(pm) => pm.project_id === projectId,
+		);
+		const milestoneIds = new Set(
+			projectMilestones.map((pm) => pm.milestone_id),
+		);
+
+		// Which gates are linked to any of these milestones?
+		const relevantQGM = db.qualityGateMilestones.filter((qgm) =>
+			milestoneIds.has(qgm.milestone_id),
+		);
+		const gateIds = Array.from(
+			new Set(relevantQGM.map((qgm) => qgm.quality_gate_id)),
+		);
+
+		// Build gates with computed status
+		const gates = gateIds
+			.map((gateId) => {
+				const definition = this.getQualityGateById(gateId);
+				if (!definition) return null;
+
+				const projectGate = db.projectQualityGates.find(
+					(pqg) =>
+						pqg.project_id === projectId && pqg.quality_gate_id === gateId,
+				);
+
+				const gateMilestoneIds = (definition.milestones ?? []).map((m) => m.id);
+				const completedCount = projectMilestones.filter(
+					(pm) => gateMilestoneIds.includes(pm.milestone_id) && pm.completed_at,
+				).length;
+
+				let status: QualityGateStatus = "pending";
+				if (projectGate?.completed_at) {
+					status = "done";
+				} else if (completedCount > 0) {
+					status = "in_progress";
+				}
+
+				return { ...definition, status };
+			})
+			.filter((g): g => Boolean(g));
+
+		return gates;
 	},
 	getAllMilestones() {
 		return db.milestones;
