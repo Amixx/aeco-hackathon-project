@@ -1,3 +1,4 @@
+import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	Table,
@@ -22,13 +23,11 @@ export const Route = createFileRoute("/projects/")({
 function getDurationLabel(created_at: string, closed_at?: string | null) {
 	const created = new Date(created_at);
 
-	// if project is closed, use closed_at as end date
-	// otherwise use "now"
 	let end: Date;
 	if (closed_at && closed_at !== "Null") {
 		end = new Date(closed_at);
 	} else {
-		end = new Date(); // current time
+		end = new Date();
 	}
 
 	const diffMs = end.getTime() - created.getTime();
@@ -39,23 +38,89 @@ function getDurationLabel(created_at: string, closed_at?: string | null) {
 }
 
 function ProjectsComponent() {
+	const [selectedMilestoneId, setSelectedMilestoneId] =
+		React.useState<string>("all");
+
 	const projects = api.getAllProjects();
 	const projectMilestones = api.getAllProjectMilestones();
 	const milestones = api.getAllMilestones();
 
-	// === KPI calculations ===
+	// ---- Build meta data per project (so we can reuse for KPIs + table) ----
+	const projectsWithMeta = projects.map((project) => {
+		const pmsForProject = projectMilestones.filter(
+			(pm) => pm.project_id === project.id,
+		);
 
-	// 1. Number of all projects (distinct by id)
-	const totalProjects = new Set(projects.map((p) => p.id)).size;
+		const distinctMilestoneIds = Array.from(
+			new Set(pmsForProject.map((pm) => pm.milestone_id)),
+		);
+		const totalMilestones = distinctMilestoneIds.length;
 
-	// 2. Number of completed projects (closed_at not null / "Null")
-	const completedProjects = new Set(
-		projects
-			.filter((p) => p.closed_at && p.closed_at !== "Null")
-			.map((p) => p.id),
-	).size;
+		const completedPms = pmsForProject.filter(
+			(pm) => pm.completed_at && pm.completed_at !== "",
+		);
+		const distinctCompletedIds = Array.from(
+			new Set(completedPms.map((pm) => pm.milestone_id)),
+		);
+		const completedCount = distinctCompletedIds.length;
 
-	// 3. Risk KPIs – leave counts empty for now
+		const checkedLabel =
+			totalMilestones > 0 ? `${completedCount}/${totalMilestones}` : "-";
+
+		const lastCompletedPm =
+			completedPms.reduce<ProjectMilestone | null>(
+				(latest, current) => {
+					if (!latest) return current;
+					const latestDate = new Date(latest.completed_at!);
+					const currentDate = new Date(current.completed_at!);
+					return currentDate > latestDate ? current : latest;
+				},
+				null,
+			) ?? null;
+
+		const lastMilestone =
+			lastCompletedPm &&
+			milestones.find((m) => m.id === lastCompletedPm.milestone_id);
+
+		const lastMilestoneLabel = lastMilestone
+			? `${lastMilestone.execution_number}. ${lastMilestone.name}`
+			: lastCompletedPm
+				? lastCompletedPm.milestone_id
+				: "-";
+
+		const durationLabel = getDurationLabel(
+			project.created_at,
+			project.closed_at,
+		);
+
+		return {
+			project,
+			pmsForProject,
+			totalMilestones,
+			completedCount,
+			checkedLabel,
+			lastCompletedPm,
+			lastMilestone,
+			lastMilestoneLabel,
+			durationLabel,
+		};
+	});
+
+	// ---- Apply filter: "projects end with milestone X" ----
+	const filteredProjects = projectsWithMeta.filter((meta) => {
+		if (selectedMilestoneId === "all") return true;
+		if (!meta.lastCompletedPm) return false;
+		return meta.lastCompletedPm.milestone_id === selectedMilestoneId;
+	});
+
+	// ---- KPI calculations based on FILTERED projects ----
+	const totalProjects = filteredProjects.length;
+
+	const completedProjects = filteredProjects.filter(
+		({ project }) => project.closed_at && project.closed_at !== "Null",
+	).length;
+
+	// risk KPIs – still empty for now
 	const highRiskProjects: string | number = "";
 	const mediumRiskProjects: string | number = "";
 	const lowRiskProjects: string | number = "";
@@ -65,6 +130,27 @@ function ProjectsComponent() {
 			<div className="flex items-center justify-between mb-6">
 				<h1 className="text-3xl font-bold tracking-tight">Projects</h1>
 				<ExcelImport />
+			</div>
+
+			{/* Filter */}
+			<div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+				<div>
+					<label className="block text-sm font-medium mb-1">
+						Filter projects by last completed milestone
+					</label>
+					<select
+						className="mt-1 block w-full md:w-80 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+						value={selectedMilestoneId}
+						onChange={(e) => setSelectedMilestoneId(e.target.value)}
+					>
+						<option value="all">All milestones</option>
+						{milestones.map((ms) => (
+							<option key={ms.id} value={ms.id}>
+								{ms.execution_number}. {ms.name}
+							</option>
+						))}
+					</select>
+				</div>
 			</div>
 
 			{/* Statistics Cards */}
@@ -80,7 +166,7 @@ function ProjectsComponent() {
 					<CardContent>
 						<div className="text-2xl font-bold">{totalProjects}</div>
 						<p className="text-xs text-muted-foreground">
-							Total projects in the portfolio
+							Total projects in the current view
 						</p>
 					</CardContent>
 				</Card>
@@ -96,7 +182,7 @@ function ProjectsComponent() {
 					<CardContent>
 						<div className="text-2xl font-bold">{completedProjects}</div>
 						<p className="text-xs text-muted-foreground">
-							Projects with a closed status
+							Closed projects in the current view
 						</p>
 					</CardContent>
 				</Card>
@@ -159,61 +245,13 @@ function ProjectsComponent() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{projects.map((project) => {
-							// all rows in project_milestones.json for this project
-							const pmsForProject = projectMilestones.filter(
-								(pm) => pm.project_id === project.id,
-							);
-
-							// DISTINCT milestone_ids for total milestones
-							const distinctMilestoneIds = Array.from(
-								new Set(pmsForProject.map((pm) => pm.milestone_id)),
-							);
-							const totalMilestones = distinctMilestoneIds.length;
-
-							// completed rows = completed_at not null/empty
-							const completedPms = pmsForProject.filter(
-								(pm) => pm.completed_at && pm.completed_at !== "",
-							);
-							const distinctCompletedIds = Array.from(
-								new Set(completedPms.map((pm) => pm.milestone_id)),
-							);
-							const completedCount = distinctCompletedIds.length;
-
-							const checkedLabel =
-								totalMilestones > 0
-									? `${completedCount}/${totalMilestones}`
-									: "-";
-
-							// latest completed_at row for this project
-							const lastCompletedPm =
-								completedPms.reduce<ProjectMilestone | null>(
-									(latest, current) => {
-										if (!latest) return current;
-										const latestDate = new Date(latest.completed_at!);
-										const currentDate = new Date(current.completed_at!);
-										return currentDate > latestDate ? current : latest;
-									},
-									null,
-								);
-
-							// find milestone details by milestone_id
-							const lastMilestone =
-								lastCompletedPm &&
-								milestones.find((m) => m.id === lastCompletedPm.milestone_id);
-
-							const lastMilestoneLabel = lastMilestone
-								? `${lastMilestone.execution_number}. ${lastMilestone.name}`
-								: lastCompletedPm
-									? lastCompletedPm.milestone_id
-									: "-";
-
-							const durationLabel = getDurationLabel(
-								project.created_at,
-								project.closed_at,
-							);
-
-							return (
+						{filteredProjects.map(
+							({
+								project,
+								checkedLabel,
+								lastMilestoneLabel,
+								durationLabel,
+							}) => (
 								<TableRow key={project.id}>
 									<TableCell className="font-medium">
 										<Link
@@ -250,8 +288,8 @@ function ProjectsComponent() {
 										</Button>
 									</TableCell>
 								</TableRow>
-							);
-						})}
+							),
+						)}
 					</TableBody>
 				</Table>
 			</div>
