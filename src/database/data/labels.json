@@ -1,16 +1,72 @@
 [
-	{ "id": "lbl-1", "name": "Concept", "department_id": "dept-1" },
-	{ "id": "lbl-2", "name": "Design", "department_id": "dept-1" },
-	{ "id": "lbl-3", "name": "Docs", "department_id": "dept-1" },
-	{ "id": "lbl-4", "name": "Structural", "department_id": "dept-2" },
-	{ "id": "lbl-5", "name": "Systems", "department_id": "dept-2" },
-	{ "id": "lbl-6", "name": "Check", "department_id": "dept-2" },
-	{ "id": "lbl-7", "name": "Mobilize", "department_id": "dept-3" },
-	{ "id": "lbl-8", "name": "Build", "department_id": "dept-3" },
-	{ "id": "lbl-9", "name": "Handover", "department_id": "dept-3" },
-	{ "id": "lbl-10", "name": "Budget", "department_id": "dept-4" },
-	{ "id": "lbl-11", "name": "Tender", "department_id": "dept-4" },
-	{ "id": "lbl-12", "name": "Close", "department_id": "dept-4" },
-	{ "id": "lbl-13", "name": "Permit", "department_id": "dept-5" },
-	{ "id": "lbl-14", "name": "Contract", "department_id": "dept-5" }
+    {
+        "id": "lbl-1",
+        "name": "Integrationsmanagement",
+        "description": "Dazu gehören die Prozesse und Vorgänge mit denen die verschiedenen Prozesse und Projektmanagementvorgänge innerhalb der Projektmanagementprozess Gruppen identifiziert, definiert, vereinheitlicht und Koordiniert werden.",
+        "department_id": "dept-2",
+        "color": "#3A7BD5"
+    },
+    {
+        "id": "lbl-2",
+        "name": "Inhalts- und Umfangmanagement",
+        "description": "Hierzu zählen die Prozesse, die notwendig sind um sicherzustellen, dass das Projekt alle erforderlichen Arbeiten, und zwar nur diese Arbeiten berücksichtige, um das Projekt erfolgreich abzuschließen.",
+        "department_id": "dept-5",
+        "color": "#8E44AD"
+    },
+    {
+        "id": "lbl-3",
+        "name": "Terminplanungsmanagement",
+        "description": "Umfasst die Prozesse, die für einen rechtzeitigen Abschluss des Projektes erforderlich sind.",
+        "department_id": "dept-3",
+        "color": "#E67E22"
+    },
+    {
+        "id": "lbl-4",
+        "name": "Kostenmanagement",
+        "description": "Dazu zählen Prozesse zur Planung, Schätzung, Budgetierung, Finanzierung, finanzielle Ausstattung, Steuerung und zum Management von Kosten, damit das Projekt unter Einhaltung genehmigter Budgets abgeschlossen werden kann.",
+        "department_id": "dept-3",
+        "color": "#27AE60"
+    },
+    {
+        "id": "lbl-5",
+        "name": "Qualitätsmanagement",
+        "description": "Die Prozesse zur Eingliederung der Qualitätsrichtlinien der Organisation in Bezug auf Anforderungen an Planung, Management und Steuerung der Projekt- und Produktqualität, um die Erwartungen der Stakeholder zu erfüllen.",
+        "department_id": "dept-6",
+        "color": "#C0392B"
+    },
+    {
+        "id": "lbl-6",
+        "name": "Ressourcenmanagement",
+        "description": "Hierzu gehören die Prozesse zur Identifikation, Beschaffung und zum Management der für einen erfolgreichen Abschluss des Projekts benötigten Ressourcen.",
+        "department_id": "dept-2",
+        "color": "#16A085"
+    },
+    {
+        "id": "lbl-7",
+        "name": "Kommunikationsmanagement",
+        "description": "Die Prozesse, die erforderlich sind, um sicherzustellen, dass Projektinformationen rechtzeitig und in angemessener Weise geplant, gesammelt, erstellt, verteilt, gespeichert, abgerufen, gemanagt, gesteuert, überwacht und letztendlich vernichtet werden.",
+        "department_id": "dept-2",
+        "color": "#2980B9"
+    },
+    {
+        "id": "lbl-8",
+        "name": "Risikomanagement",
+        "description": "Beinhaltet die Prozesse zur Durchführung der Risiko-Managementplanung, -Identifizierung, -Analyse, der Planung und Durchführung der Bewältigungsmaßnahmen sowie der Überwachung und Steuerung von Risiken eines Projekts.",
+        "department_id": "dept-3",
+        "color": "#D35400"
+    },
+    {
+        "id": "lbl-9",
+        "name": "Beschaffungsmanagement",
+        "description": "Das sind die Prozesse zum Kauf bzw. Erwerb von Produkten, Dienstleistungen oder Ergebnissen, die von außerhalb des Projektteams benötigt werden.",
+        "department_id": "dept-4",
+        "color": "#7D3C98"
+    },
+    {
+        "id": "lbl-10",
+        "name": "Management der Projektstakeholder",
+        "description": "Die erforderlichen Prozesse, um Personen, Gruppen oder Organisationen zu ermitteln, die Einfluss auf das Projekt haben oder davon betroffen sein könnten; um die Erwartungen der Stakeholder und deren Auswirkungen auf das Projekt zu analysieren; und um geeignete Managementstrategien zur effektiven Einbindung der Stakeholder in Projektentscheidungen und -umsetzung zu entwickeln.",
+        "department_id": "dept-1",
+        "color": "#1ABC9C"
+    }
 ]
