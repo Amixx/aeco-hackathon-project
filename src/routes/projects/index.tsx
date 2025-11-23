@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, AlertTriangle, CheckCircle } from "lucide-react";
+import { Activity, AlertTriangle, CheckCircle, Clock, Euro } from "lucide-react";
 import * as React from "react";
 import { ExcelExport } from "@/components/ExcelExport";
 import { ExcelImport } from "@/components/ExcelImport";
@@ -209,6 +209,26 @@ function ProjectsComponent() {
 		({ project }) => project.risk === 1,
 	).length;
 
+	// NEW: Volume
+	const totalVolume = filteredProjects.reduce((sum, { project }) => {
+		const size = (project as any)["project_size_Mio€"] || 0;
+		return sum + size;
+	}, 0);
+
+	// NEW: Average Duration
+	const totalDurationDays = filteredProjects.reduce((sum, { project }) => {
+		const created = new Date(project.created_at);
+		const end =
+			project.closed_at && project.closed_at !== "Null"
+				? new Date(project.closed_at)
+				: new Date();
+		const diffMs = end.getTime() - created.getTime();
+		const days = diffMs > 0 ? diffMs / (1000 * 60 * 60 * 24) : 0;
+		return sum + days;
+	}, 0);
+	const avgDuration =
+		totalProjects > 0 ? Math.round(totalDurationDays / totalProjects) : 0;
+
 	const exportData = filteredProjects.map(
 		({
 			project,
@@ -285,7 +305,7 @@ function ProjectsComponent() {
 			</div>
 
 			{/* Statistics Cards */}
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-6">
 				{/* Number of Projects */}
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -306,7 +326,7 @@ function ProjectsComponent() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Number of Completed Projects
+							Completed Projects
 						</CardTitle>
 						<CheckCircle className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
@@ -314,6 +334,36 @@ function ProjectsComponent() {
 						<div className="text-2xl font-bold">{completedProjects}</div>
 						<p className="text-xs text-muted-foreground">
 							Closed projects in the current view
+						</p>
+					</CardContent>
+				</Card>
+
+				{/* Total Volume */}
+				<Card>
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+						<CardTitle className="text-sm font-medium">
+							Total Project Volume
+						</CardTitle>
+						<Euro className="h-4 w-4 text-muted-foreground" />
+					</CardHeader>
+					<CardContent>
+						<div className="text-2xl font-bold">{totalVolume} M€</div>
+						<p className="text-xs text-muted-foreground">
+							Sum of project sizes
+						</p>
+					</CardContent>
+				</Card>
+
+				{/* Average Duration */}
+				<Card>
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+						<CardTitle className="text-sm font-medium">Avg. Duration</CardTitle>
+						<Clock className="h-4 w-4 text-muted-foreground" />
+					</CardHeader>
+					<CardContent>
+						<div className="text-2xl font-bold">{avgDuration} days</div>
+						<p className="text-xs text-muted-foreground">
+							Average time from start to end/now
 						</p>
 					</CardContent>
 				</Card>

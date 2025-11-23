@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Activity, CheckCircle, Clock, Layers } from "lucide-react";
+import { Activity, Calendar, CheckCircle, Clock, Euro, Layers } from "lucide-react";
 import { MilestoneGraph } from "@/components/MilestoneGraph";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/database/api.ts";
@@ -44,6 +44,14 @@ function ProjectDetailComponent() {
 				new Date(a.completed_at ?? "").getTime(),
 		)[0]?.completed_at;
 
+	const projectVolume = project["project_size_Mio€"] ?? 0;
+
+	const created = new Date(project.created_at);
+	const end = project.closed_at ? new Date(project.closed_at) : new Date();
+	const diffMs = end.getTime() - created.getTime();
+	const durationDays =
+		diffMs > 0 ? Math.floor(diffMs / (1000 * 60 * 60 * 24)) : 0;
+
 	return (
 		<div className="p-8 space-y-8">
 			{/* Project Header */}
@@ -67,7 +75,7 @@ function ProjectDetailComponent() {
 			</div>
 
 			{/* Statistics Cards */}
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
@@ -111,6 +119,30 @@ function ProjectDetailComponent() {
 								<span>Pending</span>
 							</div>
 						</div>
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+						<CardTitle className="text-sm font-medium">Project Volume</CardTitle>
+						<Euro className="h-4 w-4 text-muted-foreground" />
+					</CardHeader>
+					<CardContent>
+						<div className="text-2xl font-bold">{projectVolume} M€</div>
+						<p className="text-xs text-muted-foreground">Total project size</p>
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+						<CardTitle className="text-sm font-medium">Duration</CardTitle>
+						<Calendar className="h-4 w-4 text-muted-foreground" />
+					</CardHeader>
+					<CardContent>
+						<div className="text-2xl font-bold">{durationDays} days</div>
+						<p className="text-xs text-muted-foreground">
+							Time since project start
+						</p>
 					</CardContent>
 				</Card>
 
