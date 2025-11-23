@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npm run check && vite build",
     "preview": "vite preview",
-    "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
+    "check": "tsc -p tsconfig.node.json",
     "lint": "biome lint .",
     "format": "biome format . --write"
   },

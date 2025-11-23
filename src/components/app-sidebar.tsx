@@ -21,7 +21,7 @@ const data = {
 	user: {
 		name: "Wolfmüller Manager",
 		email: "director@wm.de",
-		avatar: "/wolfmueller.png",
+		avatar: `${import.meta.env.BASE_URL}wolfmueller.png`,
 	},
 };
 
@@ -30,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
 				<img
-					src="/wolff-muller-logo.svg"
+					src={`${import.meta.env.BASE_URL}wolff-muller-logo.svg`}
 					alt="company logo"
 					className="w-full h-32 object-contain dark:invert"
 				/>
