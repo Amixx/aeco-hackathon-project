@@ -275,7 +275,6 @@ function MilestoneGraphContent({
 	milestones,
 	qualityGates = [],
 	onMilestoneClick,
-	onQualityGateClick,
 }: MilestoneGraphProps) {
 	const [selectedDepartmentId, setSelectedDepartmentId] = useState<
 		string | null
