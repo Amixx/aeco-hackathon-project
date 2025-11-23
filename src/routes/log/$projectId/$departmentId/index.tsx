@@ -19,18 +19,17 @@ function RouteComponent() {
 			(m) => m.definition.department_id === departmentId,
 		) ?? [];
 	return (
-		<div className="p-8 w-[100%]">
+		<div className="p-8 w-[86%]">
 			{/* === HEADER === */}
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold">Log view</h1>
+				<h1 className="text-3xl font-bold mb-4">Log view</h1>
 				<p className="text-lg text-muted-foreground">
 					{project?.name}, Dept: {department?.name}
 				</p>
 			</div>
 
 			{/* === TOP: PROJECT INFO + PHASE BARS === */}
-			<div className="mb-10 space-y-4">
-				{/* PHASE BANDS */}
+			{/* <div className="mb-10 space-y-4">
 				<div className="flex flex-col gap-2">
 					<div className="bg-red-900 text-white px-4 py-2 font-semibold">
 						Acquisition 1
@@ -42,13 +41,14 @@ function RouteComponent() {
 						Category
 					</div>
 				</div>
-			</div>
+			</div> */}
 
 			{/* TIMELINE + CHECKED LIST */}
 			<div className="space-y-6">
 				<Timeline
 					setCheckedList={setCheckedList}
 					milestones={milestonesFiltered}
+					qualityGates={project?.quality_gates}
 					departmentId={departmentId}
 					projectId={projectId}
 				/>
