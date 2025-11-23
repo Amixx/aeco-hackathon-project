@@ -177,75 +177,60 @@ export default function Timeline({
 		setQGBoxesChecked(newQGs);
 	};
 
-	// --- Continuity Logic ---
-
-	// Helper type for the ordered list
-	type OrderedItem =
-		| { type: "milestone"; id: string; checked: boolean }
-		| { type: "qg"; index: number; checked: boolean };
+	// --- Sequential Continuity Logic ---
+	// Milestones and QGs must be checked in order (no skipping)
+	// You can uncheck anything, but checking requires all previous to be checked
 
 	const canToggle = (
 		type: "milestone" | "qg",
 		idOrIndex: string | number,
 		desiredState: boolean
 	): boolean => {
-		const items: OrderedItem[] = [];
-		const msStatusMap = new Map(milestonesChecked.map((m) => [m.id, m.checked]));
-
-		// Build ordered list of VISIBLE items
-		let msCursor = 0;
-		const sortedMilestones = milestones || []; // Assuming already sorted by execution_number
-
-		for (let qgIdx = 0; qgIdx <= 10; qgIdx++) {
-			const limit = qgRequirements[qgIdx];
-
-			// 1. Add milestones belonging to this QG interval (before the QG)
-			while (
-				msCursor < sortedMilestones.length &&
-				sortedMilestones[msCursor].definition.execution_number <= limit
-			) {
-				const m = sortedMilestones[msCursor];
-				items.push({
-					type: "milestone",
-					id: m.milestone_id,
-					checked: msStatusMap.get(m.milestone_id) ?? false,
-				});
-				msCursor++;
-			}
-
-			// 2. Add the QG itself
-			items.push({
-				type: "qg",
-				index: qgIdx,
-				checked: qgBoxesChecked[qgIdx],
-			});
+		// Allow unchecking anything
+		if (!desiredState) {
+			return true;
 		}
 
-		// Find the target item in the list
-		const targetIdx = items.findIndex((item) => {
-			if (type === "qg") {
-				return item.type === "qg" && item.index === idOrIndex;
-			}
-			return item.type === "milestone" && item.id === idOrIndex;
-		});
+		// For checking, enforce sequential order
+		if (type === "milestone") {
+			const milestoneId = idOrIndex as string;
+			const index = milestonesChecked.findIndex((m) => m.id === milestoneId);
+			if (index === -1) return true; // Safety check
 
-		if (targetIdx === -1) return true; // Should not happen
-
-		if (desiredState === true) {
-			// Checking: Previous item must be checked
-			if (targetIdx > 0) {
-				const prev = items[targetIdx - 1];
-				if (!prev.checked) return false;
+			// All previous milestones must be checked
+			for (let i = 0; i < index; i++) {
+				if (!milestonesChecked[i].checked) {
+					console.log(`Cannot check M${index + 1} - M${i + 1} is not checked`);
+					return false;
+				}
 			}
+			return true;
 		} else {
-			// Unchecking: Next item must be unchecked
-			if (targetIdx < items.length - 1) {
-				const next = items[targetIdx + 1];
-				if (next.checked) return false;
-			}
-		}
+			// type === "qg"
+			const qgIndex = idOrIndex as number;
 
-		return true;
+			// All previous QGs must be checked
+			for (let i = 0; i < qgIndex; i++) {
+				if (!qgBoxesChecked[i]) {
+					console.log(`Cannot check QG${qgIndex} - QG${i} is not checked`);
+					return false;
+				}
+			}
+
+			// All required milestones for this QG must be checked
+			const requiredCount = qgRequirements[qgIndex];
+			if (requiredCount > 0) {
+				for (let i = 0; i < requiredCount; i++) {
+					if (i < milestonesChecked.length && !milestonesChecked[i].checked) {
+						console.log(
+							`Cannot check QG${qgIndex} - M${i + 1} is not checked`
+						);
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 	};
 
 	useEffect(() => {
