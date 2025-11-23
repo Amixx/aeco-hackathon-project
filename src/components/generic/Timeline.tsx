@@ -117,6 +117,9 @@ export default function Timeline({
 		qgBoxesChecked.forEach((checked, index) => {
 			api.setProjectQualityGateCompletion(projectId, `qg-${index}`, checked);
 		});
+
+		setShowSavedPopup(true);
+		setTimeout(() => setShowSavedPopup(false), 3000);
 	};
 
 	// QG boxes
@@ -127,6 +130,8 @@ export default function Timeline({
 	// Track if we have initialized state for this project to prevent overwriting local state
 	// on parent re-renders (which happen when setCheckedList is called).
 	const loadedProjectIdRef = useRef<string | null>(null);
+
+	const [showSavedPopup, setShowSavedPopup] = useState(false);
 
 	useEffect(() => {
 		if (qualityGates && projectId !== loadedProjectIdRef.current) {
@@ -539,6 +544,11 @@ export default function Timeline({
 			<Button className="max-w-20 self-start ml-4" onClick={saveMilestones}>
 				Save
 			</Button>
+			{showSavedPopup && (
+				<div className="fixed bottom-8 right-8 bg-green-600 text-white px-6 py-3 rounded-md shadow-lg z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
+					Changes saved successfully!
+				</div>
+			)}
 		</div>
 	);
 }
