@@ -22,9 +22,9 @@ function RouteComponent() {
 		<div className="p-8 w-[86%]">
 			{/* === HEADER === */}
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold mb-4">Log view</h1>
+				<h1 className="text-3xl font-bold mb-4">{project?.name}</h1>
 				<p className="text-lg text-muted-foreground">
-					{project?.name}, Dept: {department?.name}
+					{department?.name}
 				</p>
 			</div>
 
