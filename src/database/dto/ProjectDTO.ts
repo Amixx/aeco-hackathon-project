@@ -10,6 +10,7 @@ export type ProjectDTO = {
 	description: string;
 	milestone_count: number; // Count of total milestones (e.g., 20)
 	closed_at: string | null; // timestamp, null = not closed
+	"project_size_Mio€"?: number;
 	milestones?: MilestoneDTO[]; // Related milestones for this project
 	quality_gates?: QualityGateDTO[]; // Related quality gates for this project
 };

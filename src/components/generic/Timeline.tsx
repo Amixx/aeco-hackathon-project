@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
-import { api } from "@/database/api.ts";
+import { api, db } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
 import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
 import type { UserDTO } from "@/database/dto/UserDTO.ts";
@@ -181,31 +181,68 @@ export default function Timeline({
 					label && self.findIndex((l) => l?.id === label.id) === index,
 			) ?? [];
 
-	// --- Sequential Continuity Logic ---
-	// Milestones and QGs must be checked in order (no skipping)
-	// You can uncheck anything, but checking requires all previous to be checked
+	// --- Sequential Continuity Logic by execution_number ---
+	// Milestones must be checked in order by execution_number (no skipping)
+	// QGs must be checked in order after their required milestones
 
 	const canToggle = (
 		type: "milestone" | "qg",
 		idOrIndex: string | number,
 		desiredState: boolean,
 	): boolean => {
-		// Allow unchecking anything
-		if (!desiredState) {
-			return true;
-		}
-
-		// For checking, enforce sequential order
 		if (type === "milestone") {
 			const milestoneId = idOrIndex as string;
-			const index = milestonesChecked.findIndex((m) => m.id === milestoneId);
-			if (index === -1) return true; // Safety check
+			const targetMilestone = milestones?.find(
+				(m) => m.milestone_id === milestoneId
+			);
+			if (!targetMilestone) return true;
 
-			// All previous milestones must be checked
-			for (let i = 0; i < index; i++) {
-				if (!milestonesChecked[i].checked) {
-					console.log(`Cannot check M${index + 1} - M${i + 1} is not checked`);
-					return false;
+			const targetExecNum = targetMilestone.definition.execution_number;
+			const allMilestonesInDept = milestones || [];
+
+			if (desiredState === true) {
+				// CHECKING: All milestones with lower execution_number must be checked
+				for (const ms of allMilestonesInDept) {
+					const execNum = ms.definition.execution_number;
+					if (execNum < targetExecNum) {
+						const isChecked = milestonesChecked.find(
+							(m) => m.id === ms.milestone_id
+						)?.checked;
+						if (!isChecked) {
+							console.log(
+								`Cannot check M${targetExecNum} - M${execNum} is not checked`
+							);
+							return false;
+						}
+					}
+				}
+			} else {
+				// UNCHECKING: All milestones with higher execution_number must be unchecked
+				for (const ms of allMilestonesInDept) {
+					const execNum = ms.definition.execution_number;
+					if (execNum > targetExecNum) {
+						const isChecked = milestonesChecked.find(
+							(m) => m.id === ms.milestone_id
+						)?.checked;
+						if (isChecked) {
+							console.log(
+								`Cannot uncheck M${targetExecNum} - M${execNum} is still checked`
+							);
+							return false;
+						}
+					}
+				}
+				// Also check if any QG that depends on this milestone is checked
+				for (let qgIdx = 0; qgIdx < qgBoxesChecked.length; qgIdx++) {
+					if (qgBoxesChecked[qgIdx]) {
+						const requiredCount = qgRequirements[qgIdx];
+						if (targetExecNum <= requiredCount) {
+							console.log(
+								`Cannot uncheck M${targetExecNum} - QG${qgIdx} depends on it`
+							);
+							return false;
+						}
+					}
 				}
 			}
 			return true;
@@ -213,20 +250,41 @@ export default function Timeline({
 			// type === "qg"
 			const qgIndex = idOrIndex as number;
 
-			// All previous QGs must be checked
-			for (let i = 0; i < qgIndex; i++) {
-				if (!qgBoxesChecked[i]) {
-					console.log(`Cannot check QG${qgIndex} - QG${i} is not checked`);
-					return false;
+			if (desiredState === true) {
+				// CHECKING: All previous QGs must be checked
+				for (let i = 0; i < qgIndex; i++) {
+					if (!qgBoxesChecked[i]) {
+						console.log(`Cannot check QG${qgIndex} - QG${i} is not checked`);
+						return false;
+					}
 				}
-			}
 
-			// All required milestones for this QG must be checked
-			const requiredCount = qgRequirements[qgIndex];
-			if (requiredCount > 0) {
-				for (let i = 0; i < requiredCount; i++) {
-					if (i < milestonesChecked.length && !milestonesChecked[i].checked) {
-						console.log(`Cannot check QG${qgIndex} - M${i + 1} is not checked`);
+				// All required milestones must be checked
+				const requiredCount = qgRequirements[qgIndex];
+				if (requiredCount > 0) {
+					const allMilestonesInDept = milestones || [];
+					for (const ms of allMilestonesInDept) {
+						const execNum = ms.definition.execution_number;
+						if (execNum <= requiredCount) {
+							const isChecked = milestonesChecked.find(
+								(m) => m.id === ms.milestone_id
+							)?.checked;
+							if (!isChecked) {
+								console.log(
+									`Cannot check QG${qgIndex} - M${execNum} is not checked`
+								);
+								return false;
+							}
+						}
+					}
+				}
+			} else {
+				// UNCHECKING: All later QGs must be unchecked
+				for (let i = qgIndex + 1; i < qgBoxesChecked.length; i++) {
+					if (qgBoxesChecked[i]) {
+						console.log(
+							`Cannot uncheck QG${qgIndex} - QG${i} is still checked`
+						);
 						return false;
 					}
 				}
@@ -423,10 +481,27 @@ export default function Timeline({
 						// Use milestoneNum for position to ensure they align with QGs
 						const leftPos = getMilestoneX(milestoneNum);
 
+						// Get globally next milestone from ALL project milestones (not filtered)
+						const allProjectMilestones = api.getProjectById(projectId)
+							?.milestones || [];
+						const currentMilestoneInAll = allProjectMilestones.find(
+							(ms) => ms.milestone_id === m.milestone_id
+						);
+						const currentIndexInAll = allProjectMilestones.indexOf(
+							currentMilestoneInAll!
+						);
+						const nextGlobalMilestone =
+							allProjectMilestones[currentIndexInAll + 1];
+						const nextDeptName = nextGlobalMilestone
+							? db.departments.find(
+								(d) => d.id === nextGlobalMilestone.definition.department_id
+							)?.name
+							: null;
+
 						return (
 							<div
 								key={m.milestone_id}
-								className={`milestone-wrapper`}
+								className={`milestone-wrapper group`}
 								style={{ left: `${leftPos}px` }}
 								onClick={() => toggleMilestone(m.milestone_id)}
 							>
@@ -440,12 +515,28 @@ export default function Timeline({
 								>
 									{checked ? "✔" : milestoneNum}
 								</div>
+								<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 min-w-max">
+									<div className="font-semibold mb-1">
+										{m.definition.name}
+									</div>
+									{m.definition.description && (
+										<div className="mb-1">{m.definition.description}</div>
+									)}
+									{m.responsible_person && (
+										<div className="mb-1">
+											Resp: {m.responsible_person.name}
+										</div>
+									)}
+									{nextDeptName && (
+										<div className="text-blue-300">Next: {nextDeptName}</div>
+									)}
+								</div>
 							</div>
 						);
 					})}
 				</div>
 			</div>
-			<Button className="max-w-20 self-end mr-4" onClick={saveMilestones}>
+			<Button className="max-w-20 self-start ml-4" onClick={saveMilestones}>
 				Save
 			</Button>
 		</div>

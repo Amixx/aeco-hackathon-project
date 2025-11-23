@@ -687,7 +687,7 @@ function MilestoneGraphContent({
 
 		if (rfInstance) {
 			const totalWidth = visibleDepartments.length * DEPARTMENT_WIDTH;
-			const newCenteredX = totalWidth < 800 ? (800 - totalWidth) / 2 : 0;
+			const newCenteredX = totalWidth < 800 ? (800 - totalWidth) / 2 : 40;
 			window.requestAnimationFrame(() => {
 				rfInstance.setViewport(
 					{ x: newCenteredX, y: 50, zoom: 0.75 },

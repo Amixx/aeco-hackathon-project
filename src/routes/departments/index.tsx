@@ -22,7 +22,6 @@ function DepartmentsComponent() {
 	const exportData = departments.map((dept) => ({
 		Name: dept.name,
 		Description: dept.description,
-		ID: dept.id,
 	}));
 
 	return (
@@ -42,7 +41,6 @@ function DepartmentsComponent() {
 						<TableRow>
 							<TableHead>Name</TableHead>
 							<TableHead className="w-[400px]">Description</TableHead>
-							<TableHead>ID</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -50,9 +48,6 @@ function DepartmentsComponent() {
 							<TableRow key={dept.id}>
 								<TableCell className="font-medium">{dept.name}</TableCell>
 								<TableCell>{dept.description}</TableCell>
-								<TableCell className="text-muted-foreground text-xs">
-									{dept.id}
-								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

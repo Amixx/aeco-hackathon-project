@@ -19,11 +19,13 @@ export const Route = createFileRoute("/labels/")({
 function LabelsComponent() {
 	const labels = db.labels;
 
-	const exportData = labels.map((label) => ({
-		Name: label.name,
-		"Department ID": label.department_id,
-		ID: label.id,
-	}));
+	const exportData = labels.map((label) => {
+		const dept = db.departments.find((d) => d.id === label.department_id);
+		return {
+			Name: label.name,
+			Department: dept?.name || label.department_id,
+		};
+	});
 
 	return (
 		<div className="p-8 w-full min-w-0">
@@ -41,20 +43,21 @@ function LabelsComponent() {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Name</TableHead>
-							<TableHead>Department ID</TableHead>
-							<TableHead>ID</TableHead>
+							<TableHead>Department</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{labels.map((label) => (
-							<TableRow key={label.id}>
-								<TableCell className="font-medium">{label.name}</TableCell>
-								<TableCell>{label.department_id}</TableCell>
-								<TableCell className="text-muted-foreground text-xs">
-									{label.id}
-								</TableCell>
-							</TableRow>
-						))}
+						{labels.map((label) => {
+							const dept = db.departments.find(
+								(d) => d.id === label.department_id,
+							);
+							return (
+								<TableRow key={label.id}>
+									<TableCell className="font-medium">{label.name}</TableCell>
+									<TableCell>{dept?.name || label.department_id}</TableCell>
+								</TableRow>
+							);
+						})}
 					</TableBody>
 				</Table>
 			</div>

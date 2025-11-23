@@ -22,9 +22,6 @@ function QualityGatesComponent() {
 	const exportData = qualityGates.map((gate) => ({
 		Name: gate.name,
 		Description: gate.description,
-		Status: gate.status.replace("_", " "),
-		"Execution Number": gate.execution_number,
-		ID: gate.id,
 	}));
 
 	return (
@@ -44,9 +41,6 @@ function QualityGatesComponent() {
 						<TableRow>
 							<TableHead>Name</TableHead>
 							<TableHead>Description</TableHead>
-							<TableHead>Status</TableHead>
-							<TableHead>Execution Number</TableHead>
-							<TableHead>ID</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -54,13 +48,6 @@ function QualityGatesComponent() {
 							<TableRow key={gate.id}>
 								<TableCell className="font-medium">{gate.name}</TableCell>
 								<TableCell>{gate.description}</TableCell>
-								<TableCell className="capitalize">
-									{gate.status.replace("_", " ")}
-								</TableCell>
-								<TableCell>{gate.execution_number}</TableCell>
-								<TableCell className="text-muted-foreground text-xs">
-									{gate.id}
-								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
