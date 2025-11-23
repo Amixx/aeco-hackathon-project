@@ -29,11 +29,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<img
-					src={`${import.meta.env.BASE_URL}wolff-muller-logo.svg`}
-					alt="company logo"
-					className="w-full h-32 object-contain dark:invert"
-				/>
+				<div className="flex items-center gap-2 transition-[width,height] ease-linear group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
+					<img
+						src={`${import.meta.env.BASE_URL}wolff-muller-logo.svg`}
+						alt="company logo"
+						className="h-14 w-auto object-contain transition-all group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 dark:invert"
+					/>
+					<img
+						src={`${import.meta.env.BASE_URL}node-navigator-logo.svg`}
+						alt="node navigator logo"
+						className="h-10 w-auto object-contain transition-all group-data-[collapsible=icon]:hidden dark:invert"
+					/>
+				</div>
 			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup className="group-data-[collapsible=icon]:hidden">
