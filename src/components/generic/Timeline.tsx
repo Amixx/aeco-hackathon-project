@@ -297,9 +297,9 @@ export default function Timeline({
 		<div className="flex flex-col gap-4">
 			{/* Legend Section */}
 			{uniqueLabels.length > 0 && (
-				<div className="flex flex-wrap gap-4 p-4 bg-card rounded-lg border shadow-sm">
-					<div className="font-semibold text-sm w-full mb-2">
-						Milestone Categories:
+				<div className="flex flex-wrap gap-3 p-3 bg-card rounded-lg border shadow-sm">
+					<div className="font-semibold text-sm w-full mb-1">
+						Label Categories:
 					</div>
 					{uniqueLabels.map((label) => (
 						<div key={label.id} className="flex items-center gap-2">
