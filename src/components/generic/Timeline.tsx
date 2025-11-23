@@ -411,7 +411,7 @@ export default function Timeline({
 					})}
 
 					{/* === MILESTONES === */}
-					{milestones?.map((m, i) => {
+					{milestones?.map((m) => {
 						// Use execution number for position
 						const milestoneNum = m.definition.execution_number;
 
