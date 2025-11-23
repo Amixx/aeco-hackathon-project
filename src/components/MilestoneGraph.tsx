@@ -14,7 +14,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
