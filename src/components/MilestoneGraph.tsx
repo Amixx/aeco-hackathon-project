@@ -180,6 +180,92 @@ function StickyHeader({
 	);
 }
 
+function GraphLegend() {
+	const departments = db.departments;
+	const labels = db.labels;
+	const qualityGates = db.qualityGates;
+	const qualityGateMilestones = db.qualityGateMilestones;
+
+	return (
+		<div className="flex flex-col gap-10 p-6 border-t bg-background mt-8">
+			{/* Departments & Labels Section */}
+			<div className="space-y-6">
+				<h3 className="font-bold text-lg border-b pb-2">
+					Departments & Tracks
+				</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{departments.map((dept) => {
+						const deptLabels = labels.filter(
+							(l) => l.department_id === dept.id,
+						);
+						return (
+							<div key={dept.id} className="space-y-3 break-inside-avoid">
+								<div>
+									<div className="font-bold text-base">{dept.name}</div>
+									<div className="text-sm text-muted-foreground">
+										{dept.description}
+									</div>
+								</div>
+
+								{deptLabels.length > 0 && (
+									<div className="pl-4 border-l-2 border-muted space-y-2">
+										{deptLabels.map((label) => (
+											<div key={label.id} className="flex items-start gap-2">
+												<div
+													className="w-3 h-3 rounded-full mt-1 shrink-0"
+													style={{ backgroundColor: label.color }}
+												/>
+												<div>
+													<div className="text-sm font-medium leading-none">
+														{label.name}
+													</div>
+													{label.description && (
+														<div className="text-xs text-muted-foreground mt-0.5">
+															{label.description}
+														</div>
+													)}
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						);
+					})}
+				</div>
+			</div>
+
+			{/* Quality Gates Section */}
+			<div className="space-y-6">
+				<h3 className="font-bold text-lg border-b pb-2">Quality Gates</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+					{qualityGates.map((gate) => {
+						const milestoneCount = qualityGateMilestones.filter(
+							(qgm) => qgm.quality_gate_id === gate.id,
+						).length;
+
+						return (
+							<div key={gate.id} className="border rounded-lg p-4 shadow-sm flex flex-col justify-between">
+								<div>
+									<div className="font-bold text-sm">{gate.name}</div>
+									{gate.description && (
+										<div className="text-xs text-muted-foreground mt-1 mb-2">
+											{gate.description}
+										</div>
+									)}
+								</div>
+								<div className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded w-fit">
+									{milestoneCount} Milestones
+								</div>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+	);
+}
+
 function MilestoneGraphContent({
 	projectId,
 	milestones,
@@ -648,6 +734,9 @@ function MilestoneGraphContent({
 					<Controls />
 				</ReactFlow>
 			</div>
+
+			{/* Legend */}
+			<GraphLegend />
 		</div>
 	);
 }
