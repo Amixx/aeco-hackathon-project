@@ -26,15 +26,11 @@ function MilestonesComponent() {
 		const dept = db.departments.find((d) => d.id === milestone.department_id);
 		return {
 			"#": milestone.execution_number,
-			Label: label?.name || milestone.label_id,
+			Label: label?.name || "-",
 			Name: milestone.name,
 			Description: milestone.description,
-			"Quality Gate":
-				milestone.previous_quality_gate > 0
-					? milestone.previous_quality_gate
-					: "-",
 			Recurring: milestone.recurring ? "Yes" : "No",
-			Department: dept?.name || milestone.department_id,
+			Department: dept?.name || "-",
 		};
 	});
 
@@ -59,7 +55,6 @@ function MilestonesComponent() {
 							<TableHead>Label</TableHead>
 							<TableHead>Name</TableHead>
 							<TableHead className="w-[300px]">Description</TableHead>
-							<TableHead>Quality Gate</TableHead>
 							<TableHead>Recurring</TableHead>
 							<TableHead>Department</TableHead>
 						</TableRow>
@@ -78,16 +73,11 @@ function MilestonesComponent() {
 										{milestone.execution_number}
 									</TableCell>
 									{/* show label name, fallback to id if something is missing */}
-									<TableCell>{label?.name || milestone.label_id}</TableCell>
+									<TableCell>{label?.name || "-"}</TableCell>
 									<TableCell>{milestone.name}</TableCell>
 									<TableCell>{milestone.description}</TableCell>
-									<TableCell>
-										{milestone.previous_quality_gate > 0
-											? milestone.previous_quality_gate
-											: "-"}
-									</TableCell>
 									<TableCell>{milestone.recurring ? "Yes" : "No"}</TableCell>
-									<TableCell>{dept?.name || milestone.department_id}</TableCell>
+									<TableCell>{dept?.name || "-"}</TableCell>
 								</TableRow>
 							);
 						})}

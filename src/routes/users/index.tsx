@@ -25,7 +25,7 @@ function UsersComponent() {
 			Name: user.name,
 			Email: user.email,
 			Role: user.role.replace("_", " "),
-			Department: dept?.name || user.department_id,
+			Department: dept?.name || "-",
 		};
 	});
 
@@ -62,7 +62,7 @@ function UsersComponent() {
 									<TableCell className="capitalize">
 										{user.role.replace("_", " ")}
 									</TableCell>
-									<TableCell>{dept?.name || user.department_id}</TableCell>
+									<TableCell>{dept?.name || "-"}</TableCell>
 								</TableRow>
 							);
 						})}
