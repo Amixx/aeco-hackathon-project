@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
-import type { UserDTO } from "@/database/dto/UserDTO.ts";
-import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
-
 import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
-import type { QualityGateStatus } from "@/database/dto/UtilDTO.ts";
+import type { UserDTO } from "@/database/dto/UserDTO.ts";
+import type {
+	ProjectMilestone,
+	QualityGateStatus,
+} from "@/database/dto/UtilDTO.ts";
 
 export type EnrichedProjectMilestone = ProjectMilestone & {
 	definition: MilestoneDTO;
@@ -114,17 +115,13 @@ export default function Timeline({
 
 		// Save QGs
 		qgBoxesChecked.forEach((checked, index) => {
-			api.setProjectQualityGateCompletion(
-				projectId,
-				`qg-${index}`,
-				checked
-			);
+			api.setProjectQualityGateCompletion(projectId, `qg-${index}`, checked);
 		});
 	};
 
 	// QG boxes
 	const [qgBoxesChecked, setQGBoxesChecked] = useState<boolean[]>(
-		Array(11).fill(false)
+		Array(11).fill(false),
 	);
 
 	// Track if we have initialized state for this project to prevent overwriting local state
@@ -184,7 +181,7 @@ export default function Timeline({
 	const canToggle = (
 		type: "milestone" | "qg",
 		idOrIndex: string | number,
-		desiredState: boolean
+		desiredState: boolean,
 	): boolean => {
 		// Allow unchecking anything
 		if (!desiredState) {
@@ -222,9 +219,7 @@ export default function Timeline({
 			if (requiredCount > 0) {
 				for (let i = 0; i < requiredCount; i++) {
 					if (i < milestonesChecked.length && !milestonesChecked[i].checked) {
-						console.log(
-							`Cannot check QG${qgIndex} - M${i + 1} is not checked`
-						);
+						console.log(`Cannot check QG${qgIndex} - M${i + 1} is not checked`);
 						return false;
 					}
 				}
@@ -271,7 +266,8 @@ export default function Timeline({
 		if (targetQGIndex === -1) return 0;
 
 		// Determine range of milestones in this interval
-		const mLow = targetQGIndex === 0 ? 1 : qgRequirements[targetQGIndex - 1] + 1;
+		const mLow =
+			targetQGIndex === 0 ? 1 : qgRequirements[targetQGIndex - 1] + 1;
 		const mHigh = qgRequirements[targetQGIndex];
 		const count = mHigh - mLow + 1;
 
@@ -338,7 +334,9 @@ export default function Timeline({
 									className={`qg-triangle`}
 									style={{
 										left: `${leftPos}px`,
-										borderBottomColor: qgBoxesChecked[i] ? "#22c55e" : "#ef4444",
+										borderBottomColor: qgBoxesChecked[i]
+											? "#22c55e"
+											: "#ef4444",
 									}}
 								/>
 								{/* Label */}
@@ -379,7 +377,7 @@ export default function Timeline({
 					})}
 
 					{/* === MILESTONES === */}
-					{milestones?.map((m, i) => {
+					{milestones?.map((m) => {
 						// Use execution number for position
 						const milestoneNum = m.definition.execution_number;
 
