@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { api, db } from "@/database/api.ts";
 import type { MilestoneDTO } from "@/database/dto/MilestoneDTO.ts";
-import type { UserDTO } from "@/database/dto/UserDTO.ts";
-import type { ProjectMilestone } from "@/database/dto/UtilDTO.ts";
-
 import type { QualityGateDTO } from "@/database/dto/QualityGateDTO.ts";
-import type { QualityGateStatus } from "@/database/dto/UtilDTO.ts";
+import type { UserDTO } from "@/database/dto/UserDTO.ts";
+import type {
+	ProjectMilestone,
+	QualityGateStatus,
+} from "@/database/dto/UtilDTO.ts";
 
 export type EnrichedProjectMilestone = ProjectMilestone & {
 	definition: MilestoneDTO;
@@ -114,17 +115,13 @@ export default function Timeline({
 
 		// Save QGs
 		qgBoxesChecked.forEach((checked, index) => {
-			api.setProjectQualityGateCompletion(
-				projectId,
-				`qg-${index}`,
-				checked
-			);
+			api.setProjectQualityGateCompletion(projectId, `qg-${index}`, checked);
 		});
 	};
 
 	// QG boxes
 	const [qgBoxesChecked, setQGBoxesChecked] = useState<boolean[]>(
-		Array(11).fill(false)
+		Array(11).fill(false),
 	);
 
 	// Track if we have initialized state for this project to prevent overwriting local state
@@ -176,6 +173,13 @@ export default function Timeline({
 		newQGs[index] = desiredState;
 		setQGBoxesChecked(newQGs);
 	};
+	const uniqueLabels =
+		milestones
+			?.map((m) => m.definition.label)
+			.filter(
+				(label, index, self) =>
+					label && self.findIndex((l) => l?.id === label.id) === index,
+			) ?? [];
 
 	// --- Sequential Continuity Logic by execution_number ---
 	// Milestones must be checked in order by execution_number (no skipping)
@@ -184,7 +188,7 @@ export default function Timeline({
 	const canToggle = (
 		type: "milestone" | "qg",
 		idOrIndex: string | number,
-		desiredState: boolean
+		desiredState: boolean,
 	): boolean => {
 		if (type === "milestone") {
 			const milestoneId = idOrIndex as string;
@@ -327,7 +331,8 @@ export default function Timeline({
 		if (targetQGIndex === -1) return 0;
 
 		// Determine range of milestones in this interval
-		const mLow = targetQGIndex === 0 ? 1 : qgRequirements[targetQGIndex - 1] + 1;
+		const mLow =
+			targetQGIndex === 0 ? 1 : qgRequirements[targetQGIndex - 1] + 1;
 		const mHigh = qgRequirements[targetQGIndex];
 		const count = mHigh - mLow + 1;
 
@@ -348,6 +353,33 @@ export default function Timeline({
 
 	return (
 		<div className="flex flex-col gap-4">
+			{/* Legend Section */}
+			{uniqueLabels.length > 0 && (
+				<div className="flex flex-wrap gap-3 p-3 bg-card rounded-lg border shadow-sm">
+					<div className="font-semibold text-sm w-full mb-1">
+						Label Categories:
+					</div>
+					{uniqueLabels.map((label) => (
+						<div key={label.id} className="flex items-center gap-2">
+							<div
+								className="w-4 h-4 rounded-full border-2"
+								style={{
+									borderColor: label.color || "#ccc",
+									backgroundColor: `${label.color}20`,
+								}}
+							/>
+							<div className="flex flex-col">
+								<span className="text-sm font-medium">{label.name}</span>
+								{label.description && (
+									<span className="text-xs text-muted-foreground">
+										{label.description}
+									</span>
+								)}
+							</div>
+						</div>
+					))}
+				</div>
+			)}
 			<div className="timeline-wrapper">
 				<div className="timeline-inner" style={{ width: `${totalWidth}px` }}>
 					{/* Horizontal line */}
@@ -394,7 +426,9 @@ export default function Timeline({
 									className={`qg-triangle`}
 									style={{
 										left: `${leftPos}px`,
-										borderBottomColor: qgBoxesChecked[i] ? "#22c55e" : "#ef4444",
+										borderBottomColor: qgBoxesChecked[i]
+											? "#22c55e"
+											: "#ef4444",
 									}}
 								/>
 								{/* Label */}
@@ -435,7 +469,7 @@ export default function Timeline({
 					})}
 
 					{/* === MILESTONES === */}
-					{milestones?.map((m, i) => {
+					{milestones?.map((m) => {
 						// Use execution number for position
 						const milestoneNum = m.definition.execution_number;
 
@@ -460,8 +494,8 @@ export default function Timeline({
 							allProjectMilestones[currentIndexInAll + 1];
 						const nextDeptName = nextGlobalMilestone
 							? db.departments.find(
-									(d) => d.id === nextGlobalMilestone.definition.department_id
-							  )?.name
+								(d) => d.id === nextGlobalMilestone.definition.department_id
+							)?.name
 							: null;
 
 						return (

@@ -14,7 +14,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -55,63 +55,16 @@ const SimpleNode = ({ data }: { data: { label: React.ReactNode } }) => {
 	);
 };
 
-const TrackLineNode = ({
-	data,
-}: {
-	data: { label: string; color: string };
-}) => {
-	const [showLabel, setShowLabel] = useState(false);
-	const [cursorY, setCursorY] = useState(0);
-	const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-	const handleMouseEnter = () => {
-		hoverTimerRef.current = setTimeout(() => {
-			setShowLabel(true);
-		}, 1000);
-	};
-
-	const handleMouseMove = (e: React.MouseEvent) => {
-		const rect = e.currentTarget.getBoundingClientRect();
-		setCursorY(e.clientY - rect.top);
-	};
-
-	const handleMouseLeave = () => {
-		if (hoverTimerRef.current) {
-			clearTimeout(hoverTimerRef.current);
-			hoverTimerRef.current = null;
-		}
-		setShowLabel(false);
-	};
-
-	return (
-		<div
-			className="w-full h-full pointer-events-auto relative group"
-			onMouseEnter={handleMouseEnter}
-			onMouseMove={handleMouseMove}
-			onMouseLeave={handleMouseLeave}
-		>
-			{showLabel && (
-				<div
-					className="absolute z-50 px-2 py-1 rounded text-xs font-bold uppercase shadow-md whitespace-nowrap"
-					style={{
-						top: cursorY,
-						left: "50%",
-						transform: "translate(-50%, -120%)",
-						backgroundColor: "white",
-						border: `1px solid ${data.color}`,
-						color: data.color,
-					}}
-				>
-					{data.label}
-				</div>
-			)}
-		</div>
-	);
-};
-
 const nodeTypes = {
 	simple: SimpleNode,
-	trackLine: TrackLineNode,
+	trackLine: () => {
+		return (
+			<div
+				className="w-full h-full pointer-events-auto relative group"
+			>
+			</div>
+		);
+	},
 };
 
 interface StickyHeaderProps {
@@ -194,7 +147,7 @@ function StickyHeader({
 											}}
 										>
 											<div
-												className="text-[10px] font-bold uppercase text-center"
+												className="text-xs font-bold uppercase text-center"
 												style={{
 													color: info.color,
 													backgroundColor: `${info.color}20`,
@@ -222,6 +175,92 @@ function StickyHeader({
 						</div>
 					);
 				})}
+			</div>
+		</div>
+	);
+}
+
+function GraphLegend() {
+	const departments = db.departments;
+	const labels = db.labels;
+	const qualityGates = db.qualityGates;
+	const qualityGateMilestones = db.qualityGateMilestones;
+
+	return (
+		<div className="flex flex-col gap-10 p-6 border-t bg-background mt-8">
+			{/* Departments & Labels Section */}
+			<div className="space-y-6">
+				<h3 className="font-bold text-lg border-b pb-2">
+					Departments & Tracks
+				</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{departments.map((dept) => {
+						const deptLabels = labels.filter(
+							(l) => l.department_id === dept.id,
+						);
+						return (
+							<div key={dept.id} className="space-y-3 break-inside-avoid">
+								<div>
+									<div className="font-bold text-base">{dept.name}</div>
+									<div className="text-sm text-muted-foreground">
+										{dept.description}
+									</div>
+								</div>
+
+								{deptLabels.length > 0 && (
+									<div className="pl-4 border-l-2 border-muted space-y-2">
+										{deptLabels.map((label) => (
+											<div key={label.id} className="flex items-start gap-2">
+												<div
+													className="w-3 h-3 rounded-full mt-1 shrink-0"
+													style={{ backgroundColor: label.color }}
+												/>
+												<div>
+													<div className="text-sm font-medium leading-none">
+														{label.name}
+													</div>
+													{label.description && (
+														<div className="text-xs text-muted-foreground mt-0.5">
+															{label.description}
+														</div>
+													)}
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						);
+					})}
+				</div>
+			</div>
+
+			{/* Quality Gates Section */}
+			<div className="space-y-6">
+				<h3 className="font-bold text-lg border-b pb-2">Quality Gates</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+					{qualityGates.map((gate) => {
+						const milestoneCount = qualityGateMilestones.filter(
+							(qgm) => qgm.quality_gate_id === gate.id,
+						).length;
+
+						return (
+							<div key={gate.id} className="border rounded-lg p-4 shadow-sm flex flex-col justify-between">
+								<div>
+									<div className="font-bold text-sm">{gate.name}</div>
+									{gate.description && (
+										<div className="text-xs text-muted-foreground mt-1 mb-2">
+											{gate.description}
+										</div>
+									)}
+								</div>
+								<div className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded w-fit">
+									{milestoneCount} Milestones
+								</div>
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		</div>
 	);
@@ -539,19 +578,19 @@ function MilestoneGraphContent({
 				},
 				data: {
 					label: (
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<div className="w-full h-full flex items-center relative group cursor-help pointer-events-auto">
-									{/* The Line */}
-									<div
-										className="absolute w-full h-1 rounded"
-										style={{
-											backgroundColor: gateLineColor,
-										}}
-									/>
+						<div className="w-full h-full flex items-center relative group">
+							{/* The Line */}
+							<div
+								className="absolute w-full h-1 rounded"
+								style={{
+									backgroundColor: gateLineColor,
+								}}
+							/>
+							<Tooltip>
+								<TooltipTrigger asChild>
 									{/* The Badge */}
 									<div
-										className="relative z-10 px-3 py-1 text-xs font-bold shadow-sm flex items-center justify-center"
+										className="relative z-10 px-3 py-1 text-xs font-bold shadow-sm flex items-center justify-center cursor-help pointer-events-auto"
 										style={{
 											backgroundColor: gateBadgeBg,
 											border: gateBadgeBorder,
@@ -561,37 +600,37 @@ function MilestoneGraphContent({
 									>
 										{gate.name}
 									</div>
-								</div>
-							</TooltipTrigger>
-							<TooltipContent>
-								<div className="font-bold text-sm mb-1">{gate.name}</div>
-								{gate.description && (
-									<div className="text-xs mb-2 text-muted-foreground max-w-[300px]">
-										{gate.description}
+								</TooltipTrigger>
+								<TooltipContent>
+									<div className="font-bold text-sm mb-1">{gate.name}</div>
+									{gate.description && (
+										<div className="text-xs mb-2 text-muted-foreground max-w-[300px]">
+											{gate.description}
+										</div>
+									)}
+									<div className="text-xs mb-2">
+										Status:{" "}
+										<span
+											className={cn(
+												"font-bold uppercase",
+												isDone ? "text-green-500" : "text-red-500",
+											)}
+										>
+											{status.replace("_", " ")}
+										</span>
 									</div>
-								)}
-								<div className="text-xs mb-2">
-									Status:{" "}
-									<span
-										className={cn(
-											"font-bold uppercase",
-											isDone ? "text-green-500" : "text-red-500",
-										)}
-									>
-										{status.replace("_", " ")}
-									</span>
-								</div>
-								<div className="text-xs text-muted-foreground">
-									Linked Milestones: {linkedMilestones.length}
-								</div>
-								{!isDone && (
-									<div className="text-xs text-red-500 mt-2 font-medium">
-										Complete all {linkedMilestones.length} linked milestones to
-										unlock.
+									<div className="text-xs text-muted-foreground">
+										Linked Milestones: {linkedMilestones.length}
 									</div>
-								)}
-							</TooltipContent>
-						</Tooltip>
+									{!isDone && (
+										<div className="text-xs text-red-500 mt-2 font-medium">
+											Complete all {linkedMilestones.length} linked milestones to
+											unlock.
+										</div>
+									)}
+								</TooltipContent>
+							</Tooltip>
+						</div>
 					),
 				},
 				draggable: false,
@@ -640,7 +679,7 @@ function MilestoneGraphContent({
 						<Button variant="outline">
 							{selectedDepartmentId
 								? allDepartments.find((d) => d.id === selectedDepartmentId)
-										?.name || "Unknown Department"
+									?.name || "Unknown Department"
 								: "All Departments"}
 							<ChevronDown className="ml-2 h-4 w-4" />
 						</Button>
@@ -663,7 +702,7 @@ function MilestoneGraphContent({
 			<div
 				className="relative"
 				style={{
-					height: 600,
+					height: "calc(100vh - 70px)",
 					border: "1px solid #eee",
 					borderRadius: 8,
 					resize: "vertical",
@@ -695,6 +734,9 @@ function MilestoneGraphContent({
 					<Controls />
 				</ReactFlow>
 			</div>
+
+			{/* Legend */}
+			<GraphLegend />
 		</div>
 	);
 }
