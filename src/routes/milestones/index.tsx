@@ -80,7 +80,21 @@ function MilestonesComponent() {
 									{/* show label name, fallback to id if something is missing */}
 									<TableCell>{label?.name || milestone.label_id}</TableCell>
 									<TableCell>{milestone.name}</TableCell>
-									<TableCell>{milestone.description}</TableCell>
+									<TableCell>
+										<div>{milestone.description}</div>
+										{milestone.hyperlink && (
+											<div className="mt-1">
+												<a
+													href={milestone.hyperlink}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="underline text-blue-600"
+												>
+													Documentation
+												</a>
+											</div>
+										)}
+									</TableCell>
 									<TableCell>
 										{milestone.previous_quality_gate > 0
 											? milestone.previous_quality_gate

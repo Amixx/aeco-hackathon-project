@@ -42,7 +42,12 @@ interface MilestoneGraphProps {
 	projectId: string;
 	milestones: ProjectMilestoneWithDetails[];
 	qualityGates?: ProjectQualityGateWithDetails[];
+
+	// NEW: optional click callbacks
+	onMilestoneClick?: (milestone: ProjectMilestoneWithDetails) => void;
+	onQualityGateClick?: (gate: ProjectQualityGateWithDetails) => void;
 }
+
 
 const DEPARTMENT_WIDTH = 250;
 const MILESTONE_HEIGHT = 60;
@@ -265,11 +270,12 @@ function GraphLegend() {
 		</div>
 	);
 }
-
 function MilestoneGraphContent({
 	projectId,
 	milestones,
 	qualityGates = [],
+	onMilestoneClick,
+	onQualityGateClick,
 }: MilestoneGraphProps) {
 	const [selectedDepartmentId, setSelectedDepartmentId] = useState<
 		string | null
@@ -448,9 +454,10 @@ function MilestoneGraphContent({
 								<TooltipTrigger asChild>
 									<div
 										className={cn(
-											"flex items-center justify-center w-full h-full text-sm font-bold cursor-help",
+											"flex items-center justify-center w-full h-full text-sm font-bold cursor-pointer",
 											isDisabled && "text-muted-foreground",
 										)}
+										onClick={() => onMilestoneClick?.(milestone)}
 									>
 										{milestone.definition?.execution_number}
 									</div>
@@ -464,9 +471,11 @@ function MilestoneGraphContent({
 											</span>
 										)}
 									</div>
+
 									<div className="text-xs text-muted-foreground mb-2">
 										{milestone.definition?.description}
 									</div>
+
 									{isDisabled ? (
 										<div className="text-xs text-muted-foreground font-medium">
 											Disabled
@@ -489,7 +498,20 @@ function MilestoneGraphContent({
 									<div className="text-xs text-gray-400 mt-1">
 										Label: {label}
 									</div>
+									{milestone.definition?.hyperlink && (
+										<div className="text-xs mt-1">
+											<a
+												href={milestone.definition.hyperlink}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="underline"
+											>
+												Documentation
+											</a>
+										</div>
+									)}
 								</TooltipContent>
+
 							</Tooltip>
 						),
 					},
@@ -603,11 +625,13 @@ function MilestoneGraphContent({
 								</TooltipTrigger>
 								<TooltipContent>
 									<div className="font-bold text-sm mb-1">{gate.name}</div>
+
 									{gate.description && (
 										<div className="text-xs mb-2 text-muted-foreground max-w-[300px]">
 											{gate.description}
 										</div>
 									)}
+
 									<div className="text-xs mb-2">
 										Status:{" "}
 										<span
@@ -628,7 +652,20 @@ function MilestoneGraphContent({
 											unlock.
 										</div>
 									)}
+									{gate.hyperlink && (
+										<div className="text-xs mt-1">
+											<a
+												href={gate.hyperlink}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="underline"
+											>
+												Documentation
+											</a>
+										</div>
+									)}
 								</TooltipContent>
+
 							</Tooltip>
 						</div>
 					),

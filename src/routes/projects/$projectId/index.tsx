@@ -44,6 +44,32 @@ function ProjectDetailComponent() {
 				new Date(a.completed_at ?? "").getTime(),
 		)[0]?.completed_at;
 
+	// ---------- hyperlink helpers ----------
+	const openHyperlink = (rawUrl?: string | null) => {
+		if (!rawUrl) return;
+		try {
+			const hasProtocol = /^https?:\/\//i.test(rawUrl);
+			const url = hasProtocol ? rawUrl : `https://${rawUrl}`;
+			window.open(url, "_blank", "noopener,noreferrer");
+		} catch {
+			// ignore bad URLs, but don't crash the app
+		}
+	};
+
+	const handleMilestoneClick = (milestone: any) => {
+		// for milestones we usually have the original definition nested
+		const hyperlink =
+			milestone?.definition?.hyperlink ?? milestone?.hyperlink ?? null;
+		openHyperlink(hyperlink);
+	};
+
+	const handleQualityGateClick = (qualityGate: any) => {
+		// quality gates normally have hyperlink directly on them
+		const hyperlink =
+			qualityGate?.hyperlink ?? qualityGate?.definition?.hyperlink ?? null;
+		openHyperlink(hyperlink);
+	};
+
 	return (
 		<div className="p-8 space-y-8">
 			{/* Project Header */}
@@ -151,6 +177,9 @@ function ProjectDetailComponent() {
 					projectId={project.id}
 					milestones={project.milestones}
 					qualityGates={project.quality_gates}
+					// 🆕 click handlers
+					onMilestoneClick={handleMilestoneClick}
+					onQualityGateClick={handleQualityGateClick}
 				/>
 			</div>
 		</div>

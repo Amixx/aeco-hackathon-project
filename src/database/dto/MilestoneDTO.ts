@@ -17,4 +17,5 @@ export type MilestoneDTO = {
 	department?: DepartmentDTO; // Owning department
 	label?: LabelDTO;
 	projects?: ProjectDTO[]; // Projects containing this milestone
+	hyperlink?: string | null;
 };

@@ -9,6 +9,8 @@ export type QualityGateDTO = {
 	description?: string;
 	execution_number?: number;
 	label_id?: string;
-	status: QualityGateStatus;
+	status?: QualityGateStatus;
 	milestones?: MilestoneDTO[]; // Related milestones for this quality gate
+	hyperlink?: string | null;
+
 };

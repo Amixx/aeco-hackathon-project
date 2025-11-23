@@ -10,7 +10,8 @@
     "description": "Kunden- und Projektdaten in CRM-System erfasst",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-2",
@@ -23,7 +24,8 @@
     "description": "Kunden- Chancen- und Risikoanalyse",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-3",
@@ -36,7 +38,8 @@
     "description": "Vertragsmodelle geprüft",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-4",
@@ -49,7 +52,8 @@
     "description": "Projekt in Systemen angelegt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-5",
@@ -62,7 +66,8 @@
     "description": "Kostensteuerung festgelegt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-6",
@@ -75,7 +80,8 @@
     "description": "Projektsteuerung Initiiert (techn. und kauf.)",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-7",
@@ -88,7 +94,8 @@
     "description": "Inhalt und Umfang Planung Leistung definiert (1+1/Lessons Learned projektspezifisch vorbereitet)",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-8",
@@ -101,7 +108,8 @@
     "description": "Startgespräch Angebotsbearbeitung durchgeführt inkl. Wissenstransfer (1+1/Lessons Learned)",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-9",
@@ -114,7 +122,8 @@
     "description": "Beschaffungsübersicht und -strategie festgelegt",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-10",
@@ -127,7 +136,8 @@
     "description": "Budgetplanung erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-12",
@@ -140,7 +150,8 @@
     "description": "BIM und Lean Strategie intern definiert",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-13",
@@ -153,7 +164,8 @@
     "description": "Kommunikationsmatrix und Konzept festgelegt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-14",
@@ -166,7 +178,8 @@
     "description": "Termin- und Bauablaufplanung erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-15",
@@ -179,7 +192,8 @@
     "description": "Baustellen- und Logistikkonzept erstellt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-16",
@@ -192,7 +206,8 @@
     "description": "Rechtl. Prüfung Angebot durchgeführt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-17",
@@ -205,7 +220,8 @@
     "description": "Kostenermittlung und Schnittstellenliste erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-18",
@@ -218,7 +234,8 @@
     "description": "Chancen und Risiken ausgearbeitet und Maßnahmen festgelegt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-19",
@@ -231,7 +248,8 @@
     "description": "Cost / Cash Flow Forecast erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-20",
@@ -244,7 +262,8 @@
     "description": "BIM (BAP) und Lean Abwicklungsplan erstellt und überprüft",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-21",
@@ -257,7 +276,8 @@
     "description": "Techn. Alternativvorschläge erstellt",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-22",
@@ -270,7 +290,8 @@
     "description": "Schlussgespräch Angebotsbearbeitung mit Geschäftsführung durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-23",
@@ -283,7 +304,8 @@
     "description": "Vertragssoll gemeinschaftlich mit Kunden final definiert",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-24",
@@ -296,7 +318,8 @@
     "description": "Angebot nach finaler Kundenabstimmung aktualisiert",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-25",
@@ -309,7 +332,8 @@
     "description": "Planungsterminplan erstellt und Bauablaufplanung angepasst",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-26",
@@ -322,7 +346,8 @@
     "description": "Schlussgespräch Nachbearbeitung Angebot mit Geschäftsführung durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-27",
@@ -335,7 +360,8 @@
     "description": "Vertrag unterzeichnet",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-28",
@@ -348,7 +374,8 @@
     "description": "Baustellen Management Plan (BMP) initiiert Projekt Management Handbuch (PMH) erstellt und Projektübergabe durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-29",
@@ -361,7 +388,8 @@
     "description": "Kundenfeedback eingeholt und Kundenbetreuung geplant",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-30",
@@ -374,7 +402,8 @@
     "description": "Projekt Management Plan (PMP) vorbereitet",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-30-b",
@@ -387,7 +416,8 @@
     "description": "Baupartner kritischer Schlüsselgewerke eingebunden",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-31",
@@ -400,7 +430,8 @@
     "description": "Chancen und Risiken analysieren und Maßnahmen geplant",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-32",
@@ -413,7 +444,8 @@
     "description": "Vergabeterminplan erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-33",
@@ -426,7 +458,8 @@
     "description": "Projektteam und Aufgabenverteilung im Projekt Management Plan (PMP) festgelegt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-34",
@@ -439,7 +472,8 @@
     "description": "Interne Audits initiiert",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-35",
@@ -452,7 +486,8 @@
     "description": "Genehmigungen eingeholt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-36",
@@ -465,7 +500,8 @@
     "description": "Nachtrags- und Änderungsmanagement festgelegt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-37",
@@ -478,7 +514,8 @@
     "description": "Maßnahmen erfüllt und Report Projektgespräch durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-38",
@@ -491,7 +528,8 @@
     "description": "Bauvorbereitungen umgesetzt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-39",
@@ -504,7 +542,8 @@
     "description": "Ausführungsplanung für Baubeginn erstellt und geprüft",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-40",
@@ -517,7 +556,8 @@
     "description": "Projektorganisation aufgesetzt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-41",
@@ -530,7 +570,8 @@
     "description": "Termin- und BE-Planung detailliert",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-42",
@@ -543,7 +584,8 @@
     "description": "Planerverträge finalisiert und abgestimmt",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-43",
@@ -556,7 +598,8 @@
     "description": "Alle Leistungen für Baubeginn vergeben",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-44",
@@ -569,7 +612,8 @@
     "description": "Informationstechnik festgelegt und bereitgestellt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-45",
@@ -582,7 +626,8 @@
     "description": "(BIM) Informationen erstellt (as-planned)",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-46",
@@ -595,7 +640,8 @@
     "description": "Baufeld übergeben und Baufreigabe erteilt",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-47",
@@ -608,7 +654,8 @@
     "description": "Zyklisches (techn. und kauf.) Projektcontrolling initiiert",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-48",
@@ -621,7 +668,8 @@
     "description": "Vorbemusterung (Rohbau) durchgeführt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-49",
@@ -634,7 +682,8 @@
     "description": "Kontinuierlich Chancen und Risiken im Projekt analysiert",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-50",
@@ -647,7 +696,8 @@
     "description": "Abbruch abgeschlossen",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-51",
@@ -660,7 +710,8 @@
     "description": "Kontinuierliche Fortschreibung Termin- und BE-Planung initiiert",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-52",
@@ -673,7 +724,8 @@
     "description": "Kontrollen initiiert",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-53",
@@ -686,7 +738,8 @@
     "description": "Baugrube erstellt",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-54",
@@ -699,7 +752,8 @@
     "description": "Rohbau abgeschlossen",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-55",
@@ -712,7 +766,8 @@
     "description": "Lean Execution Plan angewendet",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-56",
@@ -725,7 +780,8 @@
     "description": "Kundenfeedback eingeholt und Kundenbetreuung geplant",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-57",
@@ -738,7 +794,8 @@
     "description": "Ausführungsplanung und Werkplanung erstellt",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-58",
@@ -751,7 +808,8 @@
     "description": "Baupartner vollständig beauftragt",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-59",
@@ -764,7 +822,8 @@
     "description": "Projektänderungen an Baupartner weitergegeben und beauftragt",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-60",
@@ -777,7 +836,8 @@
     "description": "Zwischenabnahmen durchgeführt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-61",
@@ -790,7 +850,8 @@
     "description": "Bemusterungen abgeschlossen und alle Projektänderungen vom Kunden beauftragt",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-62",
@@ -803,7 +864,8 @@
     "description": "Ausbau und Technik abgeschlossen",
     "department_id": "dept-5",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-63",
@@ -816,7 +878,8 @@
     "description": "Funktionskontrollen und integrale Tests mit Kunden / Behörden erfolgreich durchgeführt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-64",
@@ -829,7 +892,8 @@
     "description": "Behördliche Abnahme erfolgt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-65",
@@ -842,7 +906,8 @@
     "description": "Zwischenabnahme mit Baupartner erfolgt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-66",
@@ -855,7 +920,8 @@
     "description": "Vorabnahme mit Kunden erfolgreich abgeschlossen",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-67",
@@ -868,7 +934,8 @@
     "description": "Mängel aus Schlussabnahme beseitigt",
     "department_id": "dept-6",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-68",
@@ -881,7 +948,8 @@
     "description": "Bestandsdokumentation erstellt und BIM-Daten aus der CDE gesichert",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-69",
@@ -894,7 +962,8 @@
     "description": "Projektabschlussgespräch durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-70",
@@ -907,7 +976,8 @@
     "description": "Übergabe der Revisionsunterlagen / Wartungspläne an Kunden erfolgt",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-71",
@@ -920,7 +990,8 @@
     "description": "Nachkalkulation erstellt",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-72",
@@ -933,7 +1004,8 @@
     "description": "Projekt in SAP abgeschlossen und Gewährleistungsphase nachbetrachtet",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-73",
@@ -946,7 +1018,8 @@
     "description": "Baupartner bewertet und Schlussrechnung freigegeben",
     "department_id": "dept-4",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-74",
@@ -959,7 +1032,8 @@
     "description": "Lessons-Learned bei Projektabschluss durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-75",
@@ -972,7 +1046,8 @@
     "description": "Baustelle aufgelöst und geräumt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-76",
@@ -985,7 +1060,8 @@
     "description": "Schlussabnahme mit Kunden erfolgt",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-77",
@@ -998,7 +1074,8 @@
     "description": "Schlussrechnung durch Kunden beglichen",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-77-b",
@@ -1011,7 +1088,8 @@
     "description": "Bürgschaften aufgelöst",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-78",
@@ -1024,7 +1102,8 @@
     "description": "Schlussgespräch mit Kunden durchgeführt und Feedback eingeholt",
     "department_id": "dept-1",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-79",
@@ -1037,7 +1116,8 @@
     "description": "Verjährungsfristen für Mängelansprüche abgelaufen",
     "department_id": "dept-3",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-80",
@@ -1050,7 +1130,8 @@
     "description": "Endarchivierung des Projektes nach Ablauf der Archivierungsfristen durchgeführt",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   },
   {
     "id": "ms-81",
@@ -1063,6 +1144,7 @@
     "description": "Projektabschluss",
     "department_id": "dept-2",
     "previous_quality_gate": 0,
-    "recurring": false
+    "recurring": false,
+    "hyperlink": "https://www.example.com"
   }
 ]
