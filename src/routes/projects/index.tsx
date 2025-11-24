@@ -1,5 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, AlertTriangle, CheckCircle, Clock, Euro } from "lucide-react";
+import {
+	Activity,
+	AlertTriangle,
+	CheckCircle,
+	Clock,
+	Euro,
+} from "lucide-react";
 import * as React from "react";
 import { ExcelExport } from "@/components/ExcelExport";
 import { ExcelImport } from "@/components/ExcelImport";

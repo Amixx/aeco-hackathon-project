@@ -198,7 +198,7 @@ export default function Timeline({
 		if (type === "milestone") {
 			const milestoneId = idOrIndex as string;
 			const targetMilestone = milestones?.find(
-				(m) => m.milestone_id === milestoneId
+				(m) => m.milestone_id === milestoneId,
 			);
 			if (!targetMilestone) return true;
 
@@ -211,11 +211,11 @@ export default function Timeline({
 					const execNum = ms.definition.execution_number;
 					if (execNum < targetExecNum) {
 						const isChecked = milestonesChecked.find(
-							(m) => m.id === ms.milestone_id
+							(m) => m.id === ms.milestone_id,
 						)?.checked;
 						if (!isChecked) {
 							console.log(
-								`Cannot check M${targetExecNum} - M${execNum} is not checked`
+								`Cannot check M${targetExecNum} - M${execNum} is not checked`,
 							);
 							return false;
 						}
@@ -227,11 +227,11 @@ export default function Timeline({
 					const execNum = ms.definition.execution_number;
 					if (execNum > targetExecNum) {
 						const isChecked = milestonesChecked.find(
-							(m) => m.id === ms.milestone_id
+							(m) => m.id === ms.milestone_id,
 						)?.checked;
 						if (isChecked) {
 							console.log(
-								`Cannot uncheck M${targetExecNum} - M${execNum} is still checked`
+								`Cannot uncheck M${targetExecNum} - M${execNum} is still checked`,
 							);
 							return false;
 						}
@@ -243,7 +243,7 @@ export default function Timeline({
 						const requiredCount = qgRequirements[qgIdx];
 						if (targetExecNum <= requiredCount) {
 							console.log(
-								`Cannot uncheck M${targetExecNum} - QG${qgIdx} depends on it`
+								`Cannot uncheck M${targetExecNum} - QG${qgIdx} depends on it`,
 							);
 							return false;
 						}
@@ -272,11 +272,11 @@ export default function Timeline({
 						const execNum = ms.definition.execution_number;
 						if (execNum <= requiredCount) {
 							const isChecked = milestonesChecked.find(
-								(m) => m.id === ms.milestone_id
+								(m) => m.id === ms.milestone_id,
 							)?.checked;
 							if (!isChecked) {
 								console.log(
-									`Cannot check QG${qgIndex} - M${execNum} is not checked`
+									`Cannot check QG${qgIndex} - M${execNum} is not checked`,
 								);
 								return false;
 							}
@@ -288,7 +288,7 @@ export default function Timeline({
 				for (let i = qgIndex + 1; i < qgBoxesChecked.length; i++) {
 					if (qgBoxesChecked[i]) {
 						console.log(
-							`Cannot uncheck QG${qgIndex} - QG${i} is still checked`
+							`Cannot uncheck QG${qgIndex} - QG${i} is still checked`,
 						);
 						return false;
 					}
@@ -487,20 +487,20 @@ export default function Timeline({
 						const leftPos = getMilestoneX(milestoneNum);
 
 						// Get globally next milestone from ALL project milestones (not filtered)
-						const allProjectMilestones = api.getProjectById(projectId)
-							?.milestones || [];
+						const allProjectMilestones =
+							api.getProjectById(projectId)?.milestones || [];
 						const currentMilestoneInAll = allProjectMilestones.find(
-							(ms) => ms.milestone_id === m.milestone_id
+							(ms) => ms.milestone_id === m.milestone_id,
 						);
 						const currentIndexInAll = allProjectMilestones.indexOf(
-							currentMilestoneInAll!
+							currentMilestoneInAll!,
 						);
 						const nextGlobalMilestone =
 							allProjectMilestones[currentIndexInAll + 1];
 						const nextDeptName = nextGlobalMilestone
 							? db.departments.find(
-								(d) => d.id === nextGlobalMilestone.definition.department_id
-							)?.name
+									(d) => d.id === nextGlobalMilestone.definition.department_id,
+								)?.name
 							: null;
 
 						return (
@@ -521,9 +521,7 @@ export default function Timeline({
 									{checked ? "✔" : milestoneNum}
 								</div>
 								<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 min-w-max">
-									<div className="font-semibold mb-1">
-										{m.definition.name}
-									</div>
+									<div className="font-semibold mb-1">{m.definition.name}</div>
 									{m.definition.description && (
 										<div className="mb-1">{m.definition.description}</div>
 									)}

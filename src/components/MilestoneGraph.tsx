@@ -48,7 +48,6 @@ interface MilestoneGraphProps {
 	onQualityGateClick?: (gate: ProjectQualityGateWithDetails) => void;
 }
 
-
 const DEPARTMENT_WIDTH = 250;
 const MILESTONE_HEIGHT = 60;
 
@@ -64,10 +63,7 @@ const nodeTypes = {
 	simple: SimpleNode,
 	trackLine: () => {
 		return (
-			<div
-				className="w-full h-full pointer-events-auto relative group"
-			>
-			</div>
+			<div className="w-full h-full pointer-events-auto relative group"></div>
 		);
 	},
 };
@@ -250,7 +246,10 @@ function GraphLegend() {
 						).length;
 
 						return (
-							<div key={gate.id} className="border rounded-lg p-4 shadow-sm flex flex-col justify-between">
+							<div
+								key={gate.id}
+								className="border rounded-lg p-4 shadow-sm flex flex-col justify-between"
+							>
 								<div>
 									<div className="font-bold text-sm">{gate.name}</div>
 									{gate.description && (
@@ -510,7 +509,6 @@ function MilestoneGraphContent({
 										</div>
 									)}
 								</TooltipContent>
-
 							</Tooltip>
 						),
 					},
@@ -647,8 +645,8 @@ function MilestoneGraphContent({
 									</div>
 									{!isDone && (
 										<div className="text-xs text-red-500 mt-2 font-medium">
-											Complete all {linkedMilestones.length} linked milestones to
-											unlock.
+											Complete all {linkedMilestones.length} linked milestones
+											to unlock.
 										</div>
 									)}
 									{gate.hyperlink && (
@@ -664,7 +662,6 @@ function MilestoneGraphContent({
 										</div>
 									)}
 								</TooltipContent>
-
 							</Tooltip>
 						</div>
 					),
@@ -715,7 +712,7 @@ function MilestoneGraphContent({
 						<Button variant="outline">
 							{selectedDepartmentId
 								? allDepartments.find((d) => d.id === selectedDepartmentId)
-									?.name || "Unknown Department"
+										?.name || "Unknown Department"
 								: "All Departments"}
 							<ChevronDown className="ml-2 h-4 w-4" />
 						</Button>

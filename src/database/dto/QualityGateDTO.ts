@@ -12,5 +12,4 @@ export type QualityGateDTO = {
 	status?: QualityGateStatus;
 	milestones?: MilestoneDTO[]; // Related milestones for this quality gate
 	hyperlink?: string | null;
-
 };

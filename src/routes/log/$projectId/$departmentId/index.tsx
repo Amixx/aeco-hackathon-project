@@ -23,9 +23,7 @@ function RouteComponent() {
 			{/* === HEADER === */}
 			<div className="mb-8">
 				<h1 className="text-3xl font-bold mb-4">{project?.name}</h1>
-				<p className="text-lg text-muted-foreground">
-					{department?.name}
-				</p>
+				<p className="text-lg text-muted-foreground">{department?.name}</p>
 			</div>
 
 			{/* === TOP: PROJECT INFO + PHASE BARS === */}
